@@ -1,0 +1,64 @@
+import { AdminShell } from "@/components/admin/admin-shell";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { getDemoPhotographers } from "@/lib/data";
+
+export const metadata = { title: "Photographers", robots: { index: false } };
+
+export default function AdminPhotographersPage() {
+  const photographers = getDemoPhotographers();
+
+  return (
+    <AdminShell title="Photographers">
+      <div className="overflow-x-auto rounded-2xl border border-border bg-white">
+        <table className="w-full min-w-[760px] text-left text-sm">
+          <thead className="border-b border-border bg-muted/50 text-xs uppercase text-muted-foreground">
+            <tr>
+              <th className="px-4 py-3">Photographer</th>
+              <th className="px-4 py-3">Location</th>
+              <th className="px-4 py-3">Plan</th>
+              <th className="px-4 py-3">Status</th>
+              <th className="px-4 py-3">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {photographers.map((p) => (
+              <tr key={p.id} className="border-b border-border">
+                <td className="px-4 py-4">
+                  <p className="font-medium">{p.name}</p>
+                  <p className="text-xs text-muted-foreground">
+                    ★ {p.rating} · {p.yearsOfExperience} yrs
+                  </p>
+                </td>
+                <td className="px-4 py-4">{p.location}</td>
+                <td className="px-4 py-4">
+                  <Badge variant="outline">{p.subscriptionPlan}</Badge>
+                </td>
+                <td className="px-4 py-4">
+                  <div className="flex flex-wrap gap-1">
+                    <Badge variant="success">{p.status}</Badge>
+                    {p.verified && <Badge>Verified</Badge>}
+                    {p.featured && <Badge variant="gold">Featured</Badge>}
+                  </div>
+                </td>
+                <td className="px-4 py-4">
+                  <div className="flex flex-wrap gap-2">
+                    <Button size="sm" variant="outline">
+                      Edit
+                    </Button>
+                    <Button size="sm" variant="secondary">
+                      Feature
+                    </Button>
+                    <Button size="sm" variant="ghost">
+                      Suspend
+                    </Button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </AdminShell>
+  );
+}

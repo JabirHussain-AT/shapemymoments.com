@@ -1,0 +1,100 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #faf8f5;
+  --color-foreground: #1c1917;
+  --color-muted: #f3efe9;
+  --color-muted-foreground: #78716c;
+  --color-card: #ffffff;
+  --color-card-foreground: #1c1917;
+  --color-border: #e7e0d6;
+  --color-primary: #5b3a8f;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #f3e8ff;
+  --color-secondary-foreground: #4c1d95;
+  --color-accent: #d4a574;
+  --color-accent-foreground: #1c1917;
+  --color-pink: #e8b4bc;
+  --color-pink-soft: #f8e8eb;
+  --color-gold: #c9a227;
+  --color-gold-soft: #f7f0dc;
+  --color-success: #166534;
+  --color-danger: #b91c1c;
+  --color-whatsapp: #25d366;
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1.25rem;
+  --radius-xl: 1.75rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 10% -10%, rgba(91, 58, 143, 0.08), transparent),
+      radial-gradient(ellipse 60% 40% at 90% 0%, rgba(232, 180, 188, 0.12), transparent),
+      radial-gradient(ellipse 50% 30% at 50% 100%, rgba(201, 162, 39, 0.06), transparent);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-primary) 25%, white);
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .container-page {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .section-padding {
+    @apply py-16 sm:py-20 lg:py-24;
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, #5b3a8f 0%, #7c4db8 45%, #c9a227 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .glass {
+    @apply border border-white/50 bg-white/70 backdrop-blur-xl;
+  }
+
+  .premium-shadow {
+    box-shadow:
+      0 1px 2px rgba(28, 25, 23, 0.04),
+      0 12px 32px rgba(91, 58, 143, 0.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
