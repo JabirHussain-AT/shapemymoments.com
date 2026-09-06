@@ -6,7 +6,7 @@ import { absoluteUrl } from "@/lib/utils";
 export const metadata: Metadata = {
   title: "About Us",
   description:
-    "ShapeMyMoments exists because people spend too much time worrying about events instead of enjoying them. Mission: make celebrations effortless.",
+    "ShapeMyMoment exists because people spend too much time worrying about events instead of enjoying them. Mission: make celebrations effortless.",
   alternates: { canonical: absoluteUrl("/about") },
 };
 
@@ -15,14 +15,14 @@ export default function AboutPage() {
     <div className="section-padding pt-10">
       <div className="container-page max-w-3xl">
         <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-primary">
-          About ShapeMyMoments
+          About ShapeMyMoment
         </p>
         <h1 className="text-3xl font-bold tracking-tight sm:text-5xl">
           Make celebrations effortless.
         </h1>
         <div className="mt-8 space-y-5 text-base leading-relaxed text-muted-foreground sm:text-lg">
           <p>
-            ShapeMyMoments exists because people spend too much time worrying
+            ShapeMyMoment exists because people spend too much time worrying
             about events instead of enjoying them.
           </p>
           <p>

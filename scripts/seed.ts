@@ -144,8 +144,8 @@ async function seed() {
     User.deleteMany({
       email: {
         $in: [
-          "admin@shapemymoments.com",
-          "demo@shapemymoments.com",
+          "admin@shapemymoment.com",
+          "demo@shapemymoment.com",
         ],
       },
     }),
@@ -162,14 +162,14 @@ async function seed() {
   await User.create([
     {
       name: "Admin",
-      email: "admin@shapemymoments.com",
+      email: "admin@shapemymoment.com",
       passwordHash: adminHash,
       role: "ADMIN",
       phone: "9876543210",
     },
     {
       name: "Demo Customer",
-      email: "demo@shapemymoments.com",
+      email: "demo@shapemymoment.com",
       passwordHash: demoHash,
       role: "CUSTOMER",
       phone: "9876500000",
@@ -264,7 +264,7 @@ async function seed() {
       tagline: "You enjoy the moment. We handle everything else.",
     },
     contact: {
-      email: "hello@shapemymoments.com",
+      email: "hello@shapemymoment.com",
       phone: "+91 98765 43210",
       whatsapp: "919876543210",
       address: "Kalpetta, Wayanad, Kerala",
@@ -289,8 +289,8 @@ async function seed() {
   console.log(`- ${DEMO_PACKAGES.length} packages`);
   console.log(`- ${DEMO_REVIEWS.length} reviews`);
   console.log(`- ${DEMO_EVENT_TYPES.length} event types`);
-  console.log("- Admin: admin@shapemymoments.com / admin12345");
-  console.log("- Customer: demo@shapemymoments.com / demo12345");
+  console.log("- Admin: admin@shapemymoment.com / admin12345");
+  console.log("- Customer: demo@shapemymoment.com / demo12345");
 
   await mongoose.disconnect();
 }

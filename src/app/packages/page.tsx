@@ -9,7 +9,7 @@ import { absoluteUrl, formatCurrency } from "@/lib/utils";
 import { FadeIn } from "@/components/animations/motion";
 
 export const metadata: Metadata = {
-  title: "ShapeMyMoments Event Packages — Plan Your Perfect Celebration",
+  title: "ShapeMyMoment Event Packages — Plan Your Perfect Celebration",
   description:
     "Explore customizable event packages for birthdays, weddings, corporate events and more. Starting prices configurable — every package can be tailored.",
   alternates: { canonical: absoluteUrl("/packages") },

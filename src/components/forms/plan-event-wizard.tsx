@@ -325,7 +325,7 @@ export function PlanEventWizard() {
               <div>
                 <h2 className="text-2xl font-bold">What would you like us to handle?</h2>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  Select everything you want ShapeMyMoments to arrange.
+                  Select everything you want ShapeMyMoment to arrange.
                 </p>
                 <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
                   {EVENT_SERVICES.map((service) => {
@@ -493,7 +493,7 @@ export function PlanEventWizard() {
                   <Loader2 className="h-4 w-4 animate-spin" /> Submitting…
                 </>
               ) : (
-                <>Let ShapeMyMoments Plan It</>
+                <>Let ShapeMyMoment Plan It</>
               )}
             </Button>
           )}

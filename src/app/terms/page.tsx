@@ -13,20 +13,20 @@ export default function TermsPage() {
         <h1 className="text-3xl font-bold tracking-tight">Terms & Conditions</h1>
         <div className="mt-6 space-y-4 text-muted-foreground leading-relaxed">
           <p>
-            By using ShapeMyMoments websites and services, you agree to these
+            By using ShapeMyMoment websites and services, you agree to these
             terms. Event packages, quotations and photographer bookings are
             subject to availability and written confirmation.
           </p>
           <p>
             Custom event plans are proposals until accepted. Photographers listed
             on the platform remain responsible for the quality of their own
-            services; ShapeMyMoments coordinates introductions and may manage
+            services; ShapeMyMoment coordinates introductions and may manage
             bookings as part of an event package.
           </p>
           <p>
             Accounts must provide accurate information. Misuse, fraud or abuse
             may result in suspension. For questions, contact
-            hello@shapemymoments.com.
+            hello@shapemymoment.com.
           </p>
         </div>
       </div>

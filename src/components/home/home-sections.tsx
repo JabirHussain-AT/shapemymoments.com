@@ -14,7 +14,7 @@ import {
   Users,
   Wallet,
 } from "lucide-react";
-import { FadeIn, StaggerContainer, StaggerItem } from "@/components/animations/motion";
+import { FadeIn, HoverLift, SoftBlobs, SparkleField, StaggerContainer, StaggerItem } from "@/components/animations/motion";
 import { SectionHeading } from "@/components/ui/section";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -65,8 +65,9 @@ export function WhatWeDo() {
         <StaggerContainer className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {steps.map((step, i) => (
             <StaggerItem key={step.title}>
-              <div className="group h-full rounded-2xl border border-border bg-white/80 p-6 premium-shadow transition hover:-translate-y-1 hover:border-primary/25">
-                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-secondary text-primary transition group-hover:scale-105">
+              <HoverLift>
+              <div className="group h-full rounded-2xl border border-border bg-white/80 p-6 premium-shadow transition hover:border-primary/25">
+                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-secondary text-primary transition group-hover:scale-110 group-hover:rotate-3">
                   <step.icon className="h-5 w-5" />
                 </div>
                 <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
@@ -77,6 +78,7 @@ export function WhatWeDo() {
                   {step.text}
                 </p>
               </div>
+              </HoverLift>
             </StaggerItem>
           ))}
         </StaggerContainer>
@@ -96,7 +98,7 @@ export function EventTypesGrid({
         <SectionHeading
           eyebrow="Celebrate anything"
           title="Events we bring to life"
-          description="From intimate proposals to grand weddings — ShapeMyMoments is your event partner."
+          description="From intimate proposals to grand weddings — ShapeMyMoment is your event partner."
         />
         <StaggerContainer className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
           {types.map((type) => (
@@ -138,8 +140,8 @@ export function TrustSection() {
     <section className="section-padding">
       <div className="container-page">
         <SectionHeading
-          eyebrow="Why ShapeMyMoments"
-          title="Why people choose ShapeMyMoments"
+          eyebrow="Why ShapeMyMoment"
+          title="Why people choose ShapeMyMoment"
           description="We're not another vendor directory — we're the team that carries your celebration from idea to memory."
         />
         <StaggerContainer className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -171,6 +173,7 @@ export function FeaturedPackages({ packages }: { packages: DemoPackage[] }) {
         <div className="grid gap-6 lg:grid-cols-3">
           {packages.slice(0, 3).map((pkg, i) => (
             <FadeIn key={pkg.id} delay={i * 0.08}>
+              <HoverLift>
               <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-white premium-shadow">
                 <div className="relative aspect-[16/10]">
                   <Image
@@ -207,6 +210,7 @@ export function FeaturedPackages({ packages }: { packages: DemoPackage[] }) {
                   </div>
                 </div>
               </article>
+              </HoverLift>
             </FadeIn>
           ))}
         </div>
@@ -291,7 +295,7 @@ export function ReviewsSection({ reviews }: { reviews: DemoReview[] }) {
         <SectionHeading
           eyebrow="Reviews"
           title="Moments people loved"
-          description="Real celebrations planned and managed by ShapeMyMoments."
+          description="Real celebrations planned and managed by ShapeMyMoment."
         />
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {reviews.slice(0, 6).map((review, i) => (
@@ -338,6 +342,8 @@ export function FinalCta() {
       <div className="container-page">
         <FadeIn>
           <div className="relative overflow-hidden rounded-[1.75rem] bg-primary px-6 py-14 text-center text-primary-foreground sm:px-12">
+            <SoftBlobs />
+            <SparkleField />
             <div className="pointer-events-none absolute -left-10 top-0 h-40 w-40 rounded-full bg-pink/30 blur-3xl" />
             <div className="pointer-events-none absolute -right-10 bottom-0 h-40 w-40 rounded-full bg-gold/25 blur-3xl" />
             <h2 className="relative text-3xl font-bold tracking-tight sm:text-4xl text-balance">
@@ -350,7 +356,7 @@ export function FinalCta() {
               <Link href="/plan-event">
                 <Button
                   size="lg"
-                  className="bg-white text-primary hover:bg-white/90"
+                  className="btn-shimmer bg-white text-primary hover:bg-white/90"
                 >
                   Plan My Event <ArrowRight className="h-4 w-4" />
                 </Button>

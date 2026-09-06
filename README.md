@@ -1,10 +1,10 @@
-# ShapeMyMoments
+# ShapeMyMoment
 
-End-to-end event planning and management platform for **shapemymoments.com**.
+End-to-end event planning and management platform for **shapemymoment.com**.
 
 > **You enjoy the moment. We handle everything else.**
 
-ShapeMyMoments is a custom event planning partner — not a simple vendor directory. Customers describe their celebration; the team plans, sources, arranges, coordinates and manages everything from idea to celebration.
+ShapeMyMoment is a custom event planning partner — not a simple vendor directory. Customers describe their celebration; the team plans, sources, arranges, coordinates and manages everything from idea to celebration.
 
 ## Tech stack
 
@@ -44,7 +44,7 @@ Open [http://localhost:3000](http://localhost:3000).
 Copy `.env.example` to `.env.local`:
 
 ```env
-MONGODB_URI=mongodb://localhost:27017/shapemymoments
+MONGODB_URI=mongodb://localhost:27017/ShapeMyMoment
 AUTH_SECRET=change-me-to-a-long-random-secret-in-production
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 NEXT_PUBLIC_WHATSAPP_NUMBER=919876543210
@@ -74,8 +74,8 @@ Seed creates:
 
 | Role     | Email                         | Password    |
 |----------|-------------------------------|-------------|
-| Admin    | admin@shapemymoments.com      | admin12345  |
-| Customer | demo@shapemymoments.com       | demo12345   |
+| Admin    | admin@shapemymoment.com      | admin12345  |
+| Customer | demo@shapemymoment.com       | demo12345   |
 
 These work even without MongoDB (hardcoded session login). After seeding, the same credentials exist in the database.
 
@@ -116,8 +116,8 @@ scripts/
 
 ## Core customer journey
 
-Homepage → **Plan My Event** → multi-step form → success + request ID → admin reviews → quotation → customer confirms → ShapeMyMoments manages the event.
+Homepage → **Plan My Event** → multi-step form → success + request ID → admin reviews → quotation → customer confirms → ShapeMyMoment manages the event.
 
 ## License
 
-Proprietary — ShapeMyMoments.
+Proprietary — ShapeMyMoment.

@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
 
       // Demo admin / accounts without DB
       if (
-        data.email === "admin@shapemymoments.com" &&
+        data.email === "admin@shapemymoment.com" &&
         data.password === "admin12345"
       ) {
         const token = await createSessionToken({
@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
       }
 
       if (
-        data.email === "demo@shapemymoments.com" &&
+        data.email === "demo@shapemymoment.com" &&
         data.password === "demo12345"
       ) {
         const token = await createSessionToken({

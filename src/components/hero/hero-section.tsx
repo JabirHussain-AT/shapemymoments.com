@@ -6,7 +6,10 @@ import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Camera, PartyPopper, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ConfettiBurst, FloatingElements } from "@/components/animations/motion";
+import {
+  CelebrationAmbient,
+  ConfettiBurst,
+} from "@/components/animations/motion";
 
 const collage = [
   {
@@ -39,7 +42,7 @@ export function HeroSection() {
   return (
     <section className="relative overflow-hidden section-padding pt-10 sm:pt-14">
       <ConfettiBurst trigger={confetti} />
-      <FloatingElements />
+      <CelebrationAmbient />
       <div className="container-page relative grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
         <div>
           <motion.p
@@ -111,20 +114,24 @@ export function HeroSection() {
           className="relative"
         >
           <div className="grid grid-cols-3 grid-rows-2 gap-3 sm:gap-4">
-            {collage.map((item) => (
-              <div
+            {collage.map((item, i) => (
+              <motion.div
                 key={item.src}
+                initial={reduce ? false : { opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 + i * 0.1, duration: 0.55 }}
+                whileHover={reduce ? undefined : { scale: 1.02 }}
                 className={`relative overflow-hidden rounded-2xl premium-shadow ${item.className} min-h-[140px] sm:min-h-[180px]`}
               >
                 <Image
                   src={item.src}
                   alt={item.alt}
                   fill
-                  className="object-cover"
+                  className="object-cover transition duration-700"
                   sizes="(max-width: 768px) 50vw, 28vw"
                   priority
                 />
-              </div>
+              </motion.div>
             ))}
           </div>
 

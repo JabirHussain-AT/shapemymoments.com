@@ -10,11 +10,11 @@ export default function PrivacyPage() {
   return (
     <LegalPage
       title="Privacy Policy"
-      body={`ShapeMyMoments ("we", "us") respects your privacy. We collect information you provide when planning events, contacting us, creating accounts, or requesting photographers — including name, email, phone, event details and messages.
+      body={`ShapeMyMoment ("we", "us") respects your privacy. We collect information you provide when planning events, contacting us, creating accounts, or requesting photographers — including name, email, phone, event details and messages.
 
 We use this information to respond to requests, deliver services, improve the platform and communicate updates. We do not sell personal data. Access to customer information is restricted to authorized team members.
 
-You may request access, correction or deletion of your data by contacting hello@shapemymoments.com. This policy may be updated as our services evolve.`}
+You may request access, correction or deletion of your data by contacting hello@shapemymoment.com. This policy may be updated as our services evolve.`}
     />
   );
 }

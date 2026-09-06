@@ -60,7 +60,7 @@ export default function PhotographerDashboardPage() {
         <div className="container-page flex h-16 items-center justify-between">
           <div>
             <Link href="/" className="font-bold">
-              ShapeMyMoments
+              ShapeMyMoment
             </Link>
             <span className="ml-2 text-xs text-muted-foreground">
               Photographer Dashboard

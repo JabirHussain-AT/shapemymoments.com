@@ -19,9 +19,9 @@ import { absoluteUrl } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title:
-    "ShapeMyMoments — You Enjoy the Moment. We Handle Everything Else.",
+    "ShapeMyMoment — You Enjoy the Moment. We Handle Everything Else.",
   description:
-    "From planning to the final detail, ShapeMyMoments brings your entire event together — so you can stop worrying and start enjoying.",
+    "From planning to the final detail, ShapeMyMoment brings your entire event together — so you can stop worrying and start enjoying.",
   alternates: { canonical: absoluteUrl("/") },
 };
 

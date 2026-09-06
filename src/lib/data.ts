@@ -159,9 +159,9 @@ export function getFeaturedPhotographers(limit = 4) {
 }
 
 export const SITE_DEFAULTS = {
-  name: "ShapeMyMoments",
+  name: "ShapeMyMoment",
   tagline: "You enjoy the moment. We handle everything else.",
-  email: "hello@shapemymoments.com",
+  email: "hello@shapemymoment.com",
   phone: "+91 98765 43210",
   address: "Kalpetta, Wayanad, Kerala",
   hero: {

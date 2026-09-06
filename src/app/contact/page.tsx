@@ -5,7 +5,7 @@ import { absoluteUrl } from "@/lib/utils";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Contact ShapeMyMoments for custom event planning, photographer bookings and partnerships.",
+    "Contact ShapeMyMoment for custom event planning, photographer bookings and partnerships.",
   alternates: { canonical: absoluteUrl("/contact") },
 };
 

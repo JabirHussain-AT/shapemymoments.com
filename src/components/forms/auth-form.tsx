@@ -139,8 +139,8 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
       {mode === "login" && (
         <div className="mt-6 rounded-xl bg-muted p-3 text-xs text-muted-foreground">
           <p className="font-semibold text-foreground">Demo accounts</p>
-          <p className="mt-1">Admin: admin@shapemymoments.com / admin12345</p>
-          <p>Customer: demo@shapemymoments.com / demo12345</p>
+          <p className="mt-1">Admin: admin@shapemymoment.com / admin12345</p>
+          <p>Customer: demo@shapemymoment.com / demo12345</p>
         </div>
       )}
     </form>

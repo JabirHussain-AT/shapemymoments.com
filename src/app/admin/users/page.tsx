@@ -4,8 +4,8 @@ import { Badge } from "@/components/ui/badge";
 export const metadata = { title: "Users", robots: { index: false } };
 
 const demoUsers = [
-  { name: "Admin", email: "admin@shapemymoments.com", role: "ADMIN" },
-  { name: "Demo Customer", email: "demo@shapemymoments.com", role: "CUSTOMER" },
+  { name: "Admin", email: "admin@shapemymoment.com", role: "ADMIN" },
+  { name: "Demo Customer", email: "demo@shapemymoment.com", role: "CUSTOMER" },
   { name: "Ananya Rao", email: "ananya@example.com", role: "PHOTOGRAPHER" },
 ];
 

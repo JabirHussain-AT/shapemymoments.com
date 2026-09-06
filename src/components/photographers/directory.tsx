@@ -8,6 +8,7 @@ import { Input, Select, Label } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/ui/section";
+import { HoverLift } from "@/components/animations/motion";
 import { formatCurrency } from "@/lib/utils";
 import { getDemoPhotographers, type DemoPhotographer } from "@/lib/data";
 import { EVENT_TYPES } from "@/types";
@@ -161,7 +162,9 @@ export function PhotographerDirectory({
         ) : (
           <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
             {results.map((p) => (
-              <PhotographerCard key={p.id} photographer={p} />
+              <HoverLift key={p.id}>
+                <PhotographerCard photographer={p} />
+              </HoverLift>
             ))}
           </div>
         )}

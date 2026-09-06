@@ -19,10 +19,10 @@ export default function RefundPage() {
           </p>
           <p>
             Photographer bookings follow the photographer&apos;s package terms
-            unless included under a ShapeMyMoments-managed event agreement.
+            unless included under a ShapeMyMoment-managed event agreement.
           </p>
           <p>
-            Contact hello@shapemymoments.com with your request ID for assistance.
+            Contact hello@shapemymoment.com with your request ID for assistance.
           </p>
         </div>
       </div>

@@ -138,7 +138,7 @@ export default function CustomerDashboardPage() {
             >
               <h2 className="text-lg font-semibold">Profile</h2>
               <p className="mt-2 text-sm text-muted-foreground">
-                Demo Customer · demo@shapemymoments.com
+                Demo Customer · demo@shapemymoment.com
               </p>
             </section>
 

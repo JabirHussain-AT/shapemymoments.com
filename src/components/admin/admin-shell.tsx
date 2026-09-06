@@ -63,7 +63,7 @@ export function AdminShell({
         <aside className="hidden w-64 shrink-0 border-r border-border bg-[#1c1917] text-white lg:block">
           <div className="border-b border-white/10 px-5 py-5">
             <Link href="/" className="font-bold">
-              Shape<span className="text-pink">My</span>Moments
+              Shape<span className="text-pink">My</span>Moment
             </Link>
             <p className="mt-1 text-xs text-white/50">Admin Panel</p>
           </div>

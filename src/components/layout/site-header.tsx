@@ -66,13 +66,13 @@ export function SiteHeader() {
           <Link
             href="/"
             className="group flex items-center gap-2 font-bold tracking-tight"
-            aria-label="ShapeMyMoments home"
+            aria-label="ShapeMyMoment home"
           >
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm transition group-hover:scale-105">
               <Sparkles className="h-4 w-4" />
             </span>
             <span className="text-lg sm:text-xl">
-              Shape<span className="text-primary">My</span>Moments
+              Shape<span className="text-primary">My</span>Moment
             </span>
           </Link>
 

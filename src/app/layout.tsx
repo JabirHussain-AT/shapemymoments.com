@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
   title: {
     default:
-      "ShapeMyMoments — You Enjoy the Moment. We Handle Everything Else.",
-    template: "%s | ShapeMyMoments",
+      "ShapeMyMoment — You Enjoy the Moment. We Handle Everything Else.",
+    template: "%s | ShapeMyMoment",
   },
   description:
     "End-to-end event planning and management. Tell us your vision — we plan, arrange, coordinate and manage birthdays, weddings, corporate events and more.",
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     "birthday party planner",
     "wedding planner",
     "photographers",
-    "ShapeMyMoments",
+    "ShapeMyMoment",
     "Kalpetta",
     "Wayanad",
   ],
@@ -36,14 +36,14 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_IN",
     url: absoluteUrl("/"),
-    siteName: "ShapeMyMoments",
-    title: "ShapeMyMoments — You Enjoy the Moment. We Handle Everything Else.",
+    siteName: "ShapeMyMoment",
+    title: "ShapeMyMoment — You Enjoy the Moment. We Handle Everything Else.",
     description:
       "Custom event planning & management. From idea to celebration — we handle everything else.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "ShapeMyMoments",
+    title: "ShapeMyMoment",
     description: "You enjoy the moment. We handle everything else.",
   },
   robots: { index: true, follow: true },
@@ -52,11 +52,11 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
-  name: "ShapeMyMoments",
+  name: "ShapeMyMoment",
   url: absoluteUrl("/"),
   description:
     "End-to-end event planning and management company. Custom packages for birthdays, weddings, corporate events and more.",
-  email: "hello@shapemymoments.com",
+  email: "hello@shapemymoment.com",
   telephone: "+91-98765-43210",
   address: {
     "@type": "PostalAddress",

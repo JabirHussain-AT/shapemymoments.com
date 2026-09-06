@@ -4,12 +4,12 @@ import { getDemoPhotographers } from "@/lib/data";
 import { absoluteUrl } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "ShapeMyMoments Photographers — Find the Perfect Photographer",
+  title: "ShapeMyMoment Photographers — Find the Perfect Photographer",
   description:
     "Browse verified event photographers. Filter by location, event type, price and rating — or include photography in your full event plan.",
   alternates: { canonical: absoluteUrl("/photographers") },
   openGraph: {
-    title: "Find Photographers | ShapeMyMoments",
+    title: "Find Photographers | ShapeMyMoment",
     description: "Discover trusted photographers for your celebration.",
   },
 };
@@ -29,7 +29,7 @@ export default function PhotographersPage() {
           </h1>
           <p className="mt-3 text-muted-foreground">
             Browse portfolios, compare packages and request the right creative —
-            or let ShapeMyMoments include photography in your full event plan.
+            or let ShapeMyMoment include photography in your full event plan.
           </p>
         </div>
         <PhotographerDirectory initial={[...photographers]} />

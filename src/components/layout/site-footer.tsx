@@ -57,7 +57,7 @@ export function SiteFooter() {
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-white">
               <Sparkles className="h-4 w-4" />
             </span>
-            ShapeMyMoments
+            Shape<span className="text-white/90">My</span>Moment
           </Link>
           <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/65">
             You enjoy the moment. We handle everything else.
@@ -98,8 +98,8 @@ export function SiteFooter() {
       </div>
 
       <div className="container-page flex flex-col gap-2 border-t border-white/10 py-6 text-xs text-white/45 sm:flex-row sm:items-center sm:justify-between">
-        <p>© {new Date().getFullYear()} ShapeMyMoments. All rights reserved.</p>
-        <p>shapemymoments.com</p>
+        <p>© {new Date().getFullYear()} ShapeMyMoment. All rights reserved.</p>
+        <p>shapemymoment.com</p>
       </div>
     </footer>
   );

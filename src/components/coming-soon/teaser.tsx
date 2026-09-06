@@ -7,6 +7,14 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input, Label } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import {
+  FadeIn,
+  HoverLift,
+  SoftBlobs,
+  SparkleField,
+  StaggerContainer,
+  StaggerItem,
+} from "@/components/animations/motion";
 
 const storeCategories = [
   {
@@ -74,65 +82,74 @@ export function ComingSoonTeaser({
   };
 
   return (
-    <div className="section-padding pt-10">
-      <div className="container-page">
-        <div className="mx-auto max-w-2xl text-center">
-          <Badge variant="gold" className="mb-4">
-            Coming Soon
-          </Badge>
-          <h1 className="text-3xl font-bold tracking-tight sm:text-5xl text-balance">
-            {title}
-          </h1>
-          <p className="mt-4 text-muted-foreground sm:text-lg">{description}</p>
-        </div>
-
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {categories.map((cat) => (
-            <article
-              key={cat.name}
-              className="group relative overflow-hidden rounded-2xl border border-border bg-white"
-            >
-              <div className="relative aspect-[4/5]">
-                <Image
-                  src={cat.image}
-                  alt={cat.name}
-                  fill
-                  className="object-cover transition duration-500 group-hover:scale-105"
-                  sizes="(max-width:768px) 50vw, 25vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-4">
-                  <Badge className="mb-2 bg-white/90 text-foreground">Coming Soon</Badge>
-                  <h3 className="text-lg font-semibold text-white">{cat.name}</h3>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
-
-        <form
-          onSubmit={notify}
-          className="mx-auto mt-14 max-w-md rounded-2xl border border-border bg-white p-6 text-center premium-shadow"
-        >
-          <Bell className="mx-auto h-8 w-8 text-primary" />
-          <h2 className="mt-3 text-xl font-bold">Notify Me</h2>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Be first to know when we launch.
-          </p>
-          <div className="mt-4 text-left">
-            <Label htmlFor="notify-email">Email</Label>
-            <Input
-              id="notify-email"
-              type="email"
-              placeholder="you@email.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+    <div className="relative section-padding pt-10">
+      <SoftBlobs className="opacity-60" />
+      <SparkleField className="opacity-40" />
+      <div className="container-page relative">
+        <FadeIn>
+          <div className="mx-auto max-w-2xl text-center">
+            <Badge variant="gold" className="mb-4 pulse-soft">
+              Coming Soon
+            </Badge>
+            <h1 className="text-3xl font-bold tracking-tight sm:text-5xl text-balance">
+              {title}
+            </h1>
+            <p className="mt-4 text-muted-foreground sm:text-lg">{description}</p>
           </div>
-          <Button type="submit" className="mt-4 w-full" disabled={loading}>
-            {loading ? "Saving…" : "Notify Me"}
-          </Button>
-        </form>
+        </FadeIn>
+
+        <StaggerContainer className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {categories.map((cat) => (
+            <StaggerItem key={cat.name}>
+              <HoverLift>
+                <article className="group relative overflow-hidden rounded-2xl border border-border bg-white">
+                  <div className="relative aspect-[4/5]">
+                    <Image
+                      src={cat.image}
+                      alt={cat.name}
+                      fill
+                      className="object-cover transition duration-500 group-hover:scale-105"
+                      sizes="(max-width:768px) 50vw, 25vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+                    <div className="absolute inset-x-0 bottom-0 p-4">
+                      <Badge className="mb-2 bg-white/90 text-foreground">
+                        Coming Soon
+                      </Badge>
+                      <h3 className="text-lg font-semibold text-white">{cat.name}</h3>
+                    </div>
+                  </div>
+                </article>
+              </HoverLift>
+            </StaggerItem>
+          ))}
+        </StaggerContainer>
+
+        <FadeIn delay={0.15}>
+          <form
+            onSubmit={notify}
+            className="mx-auto mt-14 max-w-md rounded-2xl border border-border bg-white p-6 text-center premium-shadow"
+          >
+            <Bell className="mx-auto h-8 w-8 text-primary float-slow" />
+            <h2 className="mt-3 text-xl font-bold">Notify Me</h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Be first to know when we launch.
+            </p>
+            <div className="mt-4 text-left">
+              <Label htmlFor="notify-email">Email</Label>
+              <Input
+                id="notify-email"
+                type="email"
+                placeholder="you@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <Button type="submit" className="mt-4 w-full" disabled={loading}>
+              {loading ? "Saving…" : "Notify Me"}
+            </Button>
+          </form>
+        </FadeIn>
       </div>
     </div>
   );

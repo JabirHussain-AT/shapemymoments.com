@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: p.bio,
     alternates: { canonical: absoluteUrl(`/photographers/${slug}`) },
     openGraph: {
-      title: `${p.name} | ShapeMyMoments`,
+      title: `${p.name} | ShapeMyMoment`,
       description: p.bio,
       images: [p.coverImage],
     },

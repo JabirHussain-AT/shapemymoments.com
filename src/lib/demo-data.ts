@@ -744,7 +744,7 @@ export const DEMO_REVIEWS = [
       "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80",
     rating: 5,
     review:
-      "ShapeMyMoments handled our anniversary from décor to photography. We actually enjoyed the evening instead of managing vendors.",
+      "ShapeMyMoment handled our anniversary from décor to photography. We actually enjoyed the evening instead of managing vendors.",
     eventType: "Anniversary" as const,
     photographerId: "ph-ananya-rao",
     packageId: "pkg-intimate-romance",
@@ -861,7 +861,7 @@ export const DEMO_REVIEWS = [
     name: "Divya Krishnan",
     rating: 5,
     review:
-      "From first call to final celebration, ShapeMyMoments made everything effortless.",
+      "From first call to final celebration, ShapeMyMoment made everything effortless.",
     eventType: "Custom Event" as const,
     packageId: "pkg-signature",
     status: "APPROVED" as const,
@@ -872,7 +872,7 @@ export const DEMO_REVIEWS = [
 
 export const DEMO_FAQS = [
   {
-    question: "What does ShapeMyMoments actually handle?",
+    question: "What does ShapeMyMoment actually handle?",
     answer:
       "We plan, source, arrange, coordinate and manage your event end-to-end — décor, vendors, photography, catering coordination and on-day execution based on your brief and budget.",
   },

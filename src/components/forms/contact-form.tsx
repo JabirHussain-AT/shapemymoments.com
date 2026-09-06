@@ -102,8 +102,8 @@ export function ContactForm() {
           <ul className="mt-5 space-y-4 text-sm">
             <li className="flex items-start gap-3">
               <Mail className="mt-0.5 h-4 w-4 text-primary" />
-              <a href="mailto:hello@shapemymoments.com" className="hover:underline">
-                hello@shapemymoments.com
+              <a href="mailto:hello@shapemymoment.com" className="hover:underline">
+                hello@shapemymoment.com
               </a>
             </li>
             <li className="flex items-start gap-3">
