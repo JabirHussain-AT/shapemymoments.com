@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import {
   Camera,
@@ -322,9 +323,11 @@ export default function CreativeDashboardPage() {
                   key={idx}
                   className="group relative overflow-hidden rounded-xl border border-border bg-background p-2"
                 >
-                  <img
+                  <Image
                     src={item.url}
-                    alt={item.caption}
+                    alt={item.caption || "Portfolio item"}
+                    width={400}
+                    height={300}
                     className="h-32 w-full rounded-lg object-cover"
                   />
                   <div className="mt-2 flex items-center justify-between">

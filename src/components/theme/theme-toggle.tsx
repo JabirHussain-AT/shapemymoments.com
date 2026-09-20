@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Moon, Sun, Monitor } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
 import { useTheme } from "./theme-provider";
 
 export function ThemeToggle({ className = "" }: { className?: string }) {
@@ -12,16 +12,14 @@ export function ThemeToggle({ className = "" }: { className?: string }) {
     setMounted(true);
   }, []);
 
-  let theme = "light";
   let resolvedTheme: "light" | "dark" = "light";
   let toggleTheme = () => {};
 
   try {
     const context = useTheme();
-    theme = context.theme;
     resolvedTheme = context.resolvedTheme;
     toggleTheme = context.toggleTheme;
-  } catch (e) {
+  } catch {
     // Fallback if rendered without provider
   }
 

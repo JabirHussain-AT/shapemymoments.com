@@ -8,20 +8,17 @@ import {
   BadgeCheck,
   CheckCircle2,
   ChevronRight,
-  Clock,
   Globe,
   Instagram,
   Plus,
   ShieldCheck,
   Sparkles,
   Trash2,
-  Upload,
-  UserCheck,
   Youtube,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { Input, Textarea, Select, Label, FieldError } from "@/components/ui/input";
+import { Input, Textarea, Select, Label } from "@/components/ui/input";
 import { CREATIVE_CATEGORIES, type CreativeCategory } from "@/types";
 import { ConfettiBurst } from "@/components/animations/motion";
 
@@ -65,16 +62,6 @@ export default function CreativeRegisterPage() {
   ]);
 
   // Packages / Services
-  const [packages, setPackages] = useState<
-    { name: string; price: string; description: string }[]
-  >([
-    {
-      name: "Standard Package",
-      price: "15000",
-      description: "Complete service coverage with gallery delivery.",
-    },
-  ]);
-
   // Social Links
   const [instagram, setInstagram] = useState("");
   const [website, setWebsite] = useState("");
@@ -93,17 +80,6 @@ export default function CreativeRegisterPage() {
 
   const removePortfolioItem = (index: number) => {
     setPortfolio(portfolio.filter((_, i) => i !== index));
-  };
-
-  const addPackageItem = () => {
-    setPackages([
-      ...packages,
-      { name: "Premium Package", price: "25000", description: "Full day signature service." },
-    ]);
-  };
-
-  const removePackageItem = (index: number) => {
-    setPackages(packages.filter((_, i) => i !== index));
   };
 
   const handleVerificationRequest = () => {
@@ -129,9 +105,9 @@ export default function CreativeRegisterPage() {
     setConfetti(true);
     toast.success("Profile published successfully to South India's Creative Network!");
     
-    const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+    const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, "-") || "ananya-rao";
     setTimeout(() => {
-      router.push(`/creatives/ananya-rao`);
+      router.push(`/creatives/${slug}`);
     }, 1200);
   };
 

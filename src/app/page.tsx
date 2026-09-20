@@ -5,7 +5,6 @@ import {
   EventTypesGrid,
   TrustSection,
   FeaturedPackages,
-  FeaturedPhotographers,
   ReviewsSection,
   FinalCta,
 } from "@/components/home/home-sections";
@@ -14,7 +13,6 @@ import {
   getDemoEventTypes,
   getDemoPackages,
   getDemoReviews,
-  getFeaturedPhotographers,
   getDemoCreatives,
 } from "@/lib/data";
 import { absoluteUrl } from "@/lib/utils";
@@ -32,7 +30,6 @@ export const metadata: Metadata = {
 export default function HomePage() {
   const eventTypes = getDemoEventTypes();
   const packages = getDemoPackages();
-  const photographers = getFeaturedPhotographers(4);
   const creatives = getDemoCreatives();
   const reviews = getDemoReviews({ featured: true });
 

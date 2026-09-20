@@ -56,7 +56,7 @@ export function CreativeShowcase({ creatives }: { creatives: DemoCreative[] }) {
   const [selectedLocation, setSelectedLocation] = useState("All");
 
   const filtered = useMemo(() => {
-    let result = creatives.filter((c) => {
+    const result = creatives.filter((c) => {
       const catStr = c.category as string;
       const matchCat =
         activeTab === "All" ||

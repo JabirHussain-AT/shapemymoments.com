@@ -99,8 +99,12 @@ export function getDemoCreatives(filters?: {
   return list;
 }
 
-export function getDemoCreative(slug: string) {
-  return DEMO_CREATIVES.find((c: any) => c.slug === slug || c.id === slug) || null;
+export function getDemoCreative(slug: string): DemoCreative | null {
+  return (
+    DEMO_CREATIVES.find(
+      (c: DemoCreative) => c.slug === slug || c.id === slug
+    ) || null
+  );
 }
 
 export function getDemoPhotographers(filters?: {
@@ -113,7 +117,7 @@ export function getDemoPhotographers(filters?: {
   availability?: string;
   sort?: string;
 }): DemoPhotographer[] {
-  let list = (DEMO_PHOTOGRAPHERS as any[]).filter((p) => p.status === "APPROVED");
+  let list = (DEMO_PHOTOGRAPHERS as DemoPhotographer[]).filter((p) => p.status === "APPROVED");
 
   if (filters?.q) {
     const q = filters.q.toLowerCase();
@@ -171,7 +175,7 @@ export function getDemoPhotographers(filters?: {
 }
 
 export function getDemoPhotographer(slug: string): DemoPhotographer | null {
-  return (DEMO_PHOTOGRAPHERS.find((p) => p.slug === slug) as any) || null;
+  return (DEMO_PHOTOGRAPHERS.find((p) => p.slug === slug) as DemoPhotographer) || null;
 }
 
 export function getDemoPackages() {

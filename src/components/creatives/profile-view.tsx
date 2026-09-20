@@ -2,13 +2,11 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import {
   BadgeCheck,
   Heart,
   MapPin,
   Star,
-  Clock,
   Instagram,
   Globe,
   Youtube,
@@ -133,9 +131,9 @@ export function CreativeProfileView({
 
                 {/* Social & External Links */}
                 <div className="mt-3 flex items-center gap-3 text-xs text-muted-foreground">
-                  {(c.socialLinks as any)?.instagram && (
+                  {(c.socialLinks as { instagram?: string; website?: string; youtube?: string } | undefined)?.instagram && (
                     <a
-                      href={(c.socialLinks as any).instagram}
+                      href={(c.socialLinks as { instagram?: string; website?: string; youtube?: string }).instagram}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-1 font-semibold text-pink-600 hover:underline"
@@ -143,9 +141,9 @@ export function CreativeProfileView({
                       <Instagram className="h-3.5 w-3.5" /> Instagram
                     </a>
                   )}
-                  {(c.socialLinks as any)?.website && (
+                  {(c.socialLinks as { instagram?: string; website?: string; youtube?: string } | undefined)?.website && (
                     <a
-                      href={(c.socialLinks as any).website}
+                      href={(c.socialLinks as { instagram?: string; website?: string; youtube?: string }).website}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-1 font-semibold text-blue-600 hover:underline"
@@ -153,9 +151,9 @@ export function CreativeProfileView({
                       <Globe className="h-3.5 w-3.5" /> Portfolio Site
                     </a>
                   )}
-                  {(c.socialLinks as any)?.youtube && (
+                  {(c.socialLinks as { instagram?: string; website?: string; youtube?: string } | undefined)?.youtube && (
                     <a
-                      href={(c.socialLinks as any).youtube}
+                      href={(c.socialLinks as { instagram?: string; website?: string; youtube?: string }).youtube}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-1 font-semibold text-red-600 hover:underline"
@@ -268,7 +266,7 @@ export function CreativeProfileView({
           </div>
 
           <div className="mt-6 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {c.portfolio.map((item: any, idx: number) => (
+            {c.portfolio.map((item: { url: string; caption?: string; eventType?: string }, idx: number) => (
               <div
                 key={idx}
                 onClick={() => setSelectedImage(item.url)}
@@ -295,7 +293,7 @@ export function CreativeProfileView({
           <div className="mt-12">
             <h2 className="text-2xl font-bold tracking-tight">Services &amp; Packages</h2>
             <div className="mt-6 grid gap-6 md:grid-cols-2">
-              {c.packages.map((pkg: any, i: number) => (
+              {c.packages.map((pkg: { name: string; price: number; description: string; includes?: string[] }, i: number) => (
                 <div
                   key={i}
                   className="flex flex-col justify-between rounded-2xl border border-border bg-background p-6 shadow-xs"

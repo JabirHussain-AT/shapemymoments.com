@@ -1,11 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { Briefcase, MapPin, Sparkles, Send, CheckCircle2, MessageCircle, ArrowRight } from "lucide-react";
+import { Briefcase, MapPin, Sparkles, CheckCircle2, MessageCircle, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { getWhatsAppUrl } from "@/lib/utils";
-import { toast } from "sonner";
 
 const OPEN_POSITIONS = [
   {
@@ -51,8 +49,6 @@ const OPEN_POSITIONS = [
 ];
 
 export function HiringSection() {
-  const [selectedJob, setSelectedJob] = useState<string | null>(null);
-
   const applyViaWhatsApp = (jobTitle: string) => {
     const text = `Hi ShapeMyMoment Careers Team! I would like to apply for the "${jobTitle}" position. Here is a link to my CV/Portfolio:`;
     window.open(getWhatsAppUrl(text), "_blank");
