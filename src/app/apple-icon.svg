@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 180 180" fill="none">
+  <defs>
+    <linearGradient id="appleGrad" x1="0" y1="0" x2="180" y2="180" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#5B3A8F"/>
+      <stop offset="0.5" stop-color="#7C4DB8"/>
+      <stop offset="1" stop-color="#C9A227"/>
+    </linearGradient>
+    <linearGradient id="applePopper" x1="33.75" y1="146.25" x2="99" y2="81" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFD700"/>
+      <stop offset="1" stop-color="#FFA500"/>
+    </linearGradient>
+    <linearGradient id="appleSparkle" x1="108" y1="27" x2="153" y2="72" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#FFE066"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="180" height="180" rx="42" fill="url(#appleGrad)"/>
+
+  {/* Popper Cone */}
+  <path d="M33.75 146.25L74.25 96.75L96.75 119.25L47.25 159.75C39.375 159.75 33.75 154.125 33.75 146.25Z" fill="url(#applePopper)" stroke="white" stroke-width="5.4"/>
+
+  {/* Confetti Rays */}
+  <path d="M90 90Q108 72 139.5 63M99 103.5Q121.5 94.5 153 108M76.5 81Q94.5 54 108 27" stroke="white" stroke-width="8" stroke-linecap="round" opacity="0.85"/>
+
+  {/* Star Burst */}
+  <path d="M130.5 27L136.35 43.65L153 49.5L136.35 55.35L130.5 72L124.65 55.35L108 49.5L124.65 43.65Z" fill="url(#appleSparkle)"/>
+
+  {/* Happy Face */}
+  <path d="M63 69.75C67.5 64.35 76.5 64.35 81 69.75" stroke="white" stroke-width="8" stroke-linecap="round"/>
+  <path d="M99 60.75C103.5 55.35 112.5 55.35 117 60.75" stroke="white" stroke-width="8" stroke-linecap="round"/>
+  <path d="M69.75 94.5C69.75 108 81 114.75 96.75 114.75C112.5 114.75 123.75 108 123.75 94.5" stroke="white" stroke-width="10" stroke-linecap="round" fill="none"/>
+  <circle cx="63" cy="96.75" r="4.5" fill="#FF85A1"/>
+  <circle cx="130.5" cy="96.75" r="4.5" fill="#FF85A1"/>
+</svg>

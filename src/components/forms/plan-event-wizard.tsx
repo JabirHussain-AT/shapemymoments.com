@@ -105,7 +105,6 @@ export function PlanEventWizard() {
       if (!form.location || form.location.length < 2) e.location = "Location is required";
       if (!form.expectedGuests || Number(form.expectedGuests) < 1)
         e.expectedGuests = "Enter guest count";
-      if (form.budget === "" || Number(form.budget) < 0) e.budget = "Enter budget";
       if (!form.duration) e.duration = "Duration is required";
     }
     if (step === 2 && form.services.length === 0)
@@ -140,7 +139,7 @@ export function PlanEventWizard() {
           eventDate: form.eventDate,
           location: form.location,
           expectedGuests: Number(form.expectedGuests),
-          budget: Number(form.budget),
+          budget: form.budget ? Number(form.budget) : 0,
           duration: form.duration,
           services: form.services,
           vision: form.vision,
@@ -176,7 +175,7 @@ export function PlanEventWizard() {
       ["Date", form.eventDate],
       ["Location", form.location],
       ["Guests", form.expectedGuests],
-      ["Budget", form.budget ? formatCurrency(Number(form.budget)) : "—"],
+      ["Budget", form.budget ? formatCurrency(Number(form.budget)) : "Custom / Flexible Quote"],
       ["Duration", form.duration],
       ["Services", form.services.join(", ")],
       ["Theme", form.theme || "—"],
@@ -290,16 +289,18 @@ export function PlanEventWizard() {
                     <FieldError>{errors.expectedGuests}</FieldError>
                   </div>
                   <div>
-                    <Label htmlFor="budget">Budget (₹)</Label>
+                    <Label htmlFor="budget">Estimated Budget (₹) (Optional / Custom)</Label>
                     <Input
                       id="budget"
                       type="number"
                       min={0}
-                      placeholder="50000"
+                      placeholder="Custom amount or leave blank"
                       value={form.budget}
                       onChange={(e) => update("budget", e.target.value)}
                     />
-                    <FieldError>{errors.budget}</FieldError>
+                    <p className="mt-1 text-[11px] text-muted-foreground font-semibold">
+                      ✨ No fixed budget required — we design custom offer packages!
+                    </p>
                   </div>
                   <div className="sm:col-span-2">
                     <Label htmlFor="duration">Event duration</Label>

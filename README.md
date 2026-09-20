@@ -47,7 +47,7 @@ Copy `.env.example` to `.env.local`:
 MONGODB_URI=mongodb://localhost:27017/ShapeMyMoment
 AUTH_SECRET=change-me-to-a-long-random-secret-in-production
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
-NEXT_PUBLIC_WHATSAPP_NUMBER=919876543210
+NEXT_PUBLIC_WHATSAPP_NUMBER=918089909386
 ```
 
 The site works with **demo data** even if MongoDB is not running. Forms and APIs return demo-mode success responses when the database is unavailable.

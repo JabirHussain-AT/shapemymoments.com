@@ -217,7 +217,10 @@ export function PhotographerCard({
         </p>
         <div className="mt-3 flex items-center justify-between">
           <div>
-            <p className="text-sm font-semibold">From {formatCurrency(p.startingPrice)}</p>
+            <p className="text-xs text-muted-foreground/70">
+              <span className="line-through">{formatCurrency(p.startingPrice)}</span>{" "}
+              <span className="font-bold text-emerald-600">Custom Offer</span>
+            </p>
             <Badge
               variant={p.availability === "Available" ? "success" : "warning"}
               className="mt-1"

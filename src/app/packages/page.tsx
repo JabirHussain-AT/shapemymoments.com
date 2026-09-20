@@ -54,11 +54,28 @@ export default function PackagesPage() {
                   )}
                 </div>
                 <div className="p-6">
-                  <h2 className="text-xl font-bold">{pkg.name}</h2>
-                  <p className="mt-2 text-2xl font-bold text-primary">
-                    Starting from {formatCurrency(pkg.startingPrice)}
-                    {pkg.startingPrice >= 60000 ? "+" : ""}
-                  </p>
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <h2 className="text-xl font-bold">{pkg.name}</h2>
+                    <span className="rounded-full bg-amber-500/15 px-3 py-1 text-xs font-bold text-amber-800">
+                      🎁 Offer Package
+                    </span>
+                  </div>
+
+                  <div className="mt-3">
+                    <p className="text-xs text-muted-foreground">
+                      Predefined Price:{" "}
+                      <span className="line-through font-semibold text-muted-foreground/70">
+                        {formatCurrency(pkg.startingPrice)}
+                      </span>{" "}
+                      <span className="rounded-xs bg-red-100 px-1 py-0.5 text-[10px] font-bold text-red-600">
+                        Disabled
+                      </span>
+                    </p>
+                    <p className="mt-1 text-xl font-extrabold text-emerald-600">
+                      Custom Offer Package (Tailored to Your Budget)
+                    </p>
+                  </div>
+
                   <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                     {pkg.description}
                   </p>

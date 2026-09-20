@@ -108,8 +108,8 @@ export function ContactForm() {
             </li>
             <li className="flex items-start gap-3">
               <Phone className="mt-0.5 h-4 w-4 text-primary" />
-              <a href="tel:+919876543210" className="hover:underline">
-                +91 98765 43210
+              <a href="tel:+918089909386" className="hover:underline">
+                +91 80899 09386
               </a>
             </li>
             <li className="flex items-start gap-3">

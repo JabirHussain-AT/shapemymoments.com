@@ -48,10 +48,10 @@ export function HeroSection() {
           <motion.p
             initial={reduce ? false : { opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-white/70 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-primary"
+            className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.16em] text-primary"
           >
             <Sparkles className="h-3.5 w-3.5" />
-            You enjoy the moment. We handle everything else.
+            South India&apos;s Fast Growing Creative &amp; Event Network
           </motion.p>
 
           <motion.h1
@@ -60,9 +60,9 @@ export function HeroSection() {
             transition={{ delay: 0.08 }}
             className="text-4xl font-extrabold leading-[1.08] tracking-tight text-foreground sm:text-5xl lg:text-6xl text-balance"
           >
-            Your Moment.
+            South India&apos;s Growing
             <br />
-            <span className="gradient-text">Our Responsibility.</span>
+            <span className="gradient-text">Event &amp; Creative Platform.</span>
           </motion.h1>
 
           <motion.p
@@ -71,10 +71,31 @@ export function HeroSection() {
             transition={{ delay: 0.16 }}
             className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg"
           >
-            From the first idea to the final celebration, we plan, arrange and
-            coordinate everything — so you can be fully present for the moments
-            that matter.
+            Book verified Photographers, Artisanal Hampers, Henna Designers &amp; Makeup Artists — or let ShapeMyMoment plan your entire event seamlessly.
           </motion.p>
+
+          {/* Creative Category Pills */}
+          <motion.div
+            initial={reduce ? false : { opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="mt-6 flex flex-wrap gap-2 text-xs font-semibold"
+          >
+            {[
+              { label: "📸 Photographers", href: "#creatives-section" },
+              { label: "🎁 Hampers", href: "#creatives-section" },
+              { label: "✨ Henna Designers", href: "#creatives-section" },
+              { label: "💄 Makeup Artists", href: "#creatives-section" },
+            ].map((cat) => (
+              <a
+                key={cat.label}
+                href={cat.href}
+                className="rounded-xl border border-border bg-white/80 px-3 py-1.5 text-foreground shadow-xs transition hover:border-primary hover:bg-primary/5 hover:text-primary"
+              >
+                {cat.label}
+              </a>
+            ))}
+          </motion.div>
 
           <motion.div
             initial={reduce ? false : { opacity: 0, y: 18 }}
@@ -83,14 +104,14 @@ export function HeroSection() {
             className="mt-8 flex flex-col gap-3 sm:flex-row"
           >
             <Link href="/plan-event" onClick={celebrate}>
-              <Button size="lg" className="w-full sm:w-auto">
+              <Button size="lg" className="w-full sm:w-auto shadow-md">
                 Plan My Event
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
-            <Link href="/photographers">
+            <Link href="/creatives/register">
               <Button size="lg" variant="outline" className="w-full sm:w-auto">
-                Meet Our Photographers
+                Join as Creative / Vendor
               </Button>
             </Link>
           </motion.div>

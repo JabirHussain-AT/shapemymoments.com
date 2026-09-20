@@ -39,6 +39,23 @@ export default async function PlanEventSuccessPage({
               <p className="mt-1 font-mono text-lg font-bold text-primary">{id}</p>
             </div>
           )}
+          <div className="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-emerald-900">
+            <p className="text-xs font-bold uppercase tracking-wider text-emerald-700">
+              Want faster response? Chat on WhatsApp now
+            </p>
+            <p className="mt-1 text-sm font-semibold">
+              Contact Concierge: <span className="underline">+91 80899 09386</span>
+            </p>
+            <a
+              href={`https://wa.me/918089909386?text=Hi!%20I%20just%20submitted%20an%20event%20plan%20request%20(${id || "New"}).`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-3 inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-xs font-bold text-white shadow-xs hover:bg-emerald-700"
+            >
+              💬 Connect on WhatsApp Immediately
+            </a>
+          </div>
+
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
             <Link href="/">
               <Button variant="outline" className="w-full sm:w-auto">

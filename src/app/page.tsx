@@ -9,19 +9,23 @@ import {
   ReviewsSection,
   FinalCta,
 } from "@/components/home/home-sections";
+import { CreativeShowcase } from "@/components/home/creative-showcase";
 import {
   getDemoEventTypes,
   getDemoPackages,
   getDemoReviews,
   getFeaturedPhotographers,
+  getDemoCreatives,
 } from "@/lib/data";
 import { absoluteUrl } from "@/lib/utils";
 
+import { HiringSection } from "@/components/home/hiring-section";
+
 export const metadata: Metadata = {
   title:
-    "ShapeMyMoment — You Enjoy the Moment. We Handle Everything Else.",
+    "ShapeMyMoment — South India's Growing Event & Creative Network",
   description:
-    "From planning to the final detail, ShapeMyMoment brings your entire event together — so you can stop worrying and start enjoying.",
+    "Discover South India's top Photographers, Artisanal Gift Hampers, Henna Designers & Makeup Artists. Plan your event seamlessly.",
   alternates: { canonical: absoluteUrl("/") },
 };
 
@@ -29,13 +33,15 @@ export default function HomePage() {
   const eventTypes = getDemoEventTypes();
   const packages = getDemoPackages();
   const photographers = getFeaturedPhotographers(4);
+  const creatives = getDemoCreatives();
   const reviews = getDemoReviews({ featured: true });
 
   return (
     <>
       <HeroSection />
+      <CreativeShowcase creatives={[...creatives]} />
       <WhatWeDo />
-      <section className="pb-4">
+      <section className="pb-4 pt-10">
         <div className="container-page text-center">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
             You bring the idea. We bring it to life.
@@ -50,8 +56,8 @@ export default function HomePage() {
       <EventTypesGrid types={[...eventTypes]} />
       <TrustSection />
       <FeaturedPackages packages={[...packages]} />
-      <FeaturedPhotographers photographers={[...photographers]} />
       <ReviewsSection reviews={[...reviews]} />
+      <HiringSection />
       <FinalCta />
     </>
   );

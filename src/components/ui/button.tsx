@@ -14,7 +14,7 @@ const variants = {
   secondary:
     "bg-secondary text-secondary-foreground hover:bg-[#ead9ff]",
   outline:
-    "border border-border bg-white/80 text-foreground hover:bg-muted",
+    "border border-border bg-background text-foreground hover:bg-muted dark:bg-card dark:border-border dark:hover:bg-muted",
   ghost: "text-foreground hover:bg-muted",
   accent:
     "bg-accent text-accent-foreground hover:brightness-95 shadow-sm",

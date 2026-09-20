@@ -37,7 +37,7 @@ export function absoluteUrl(path = "") {
 }
 
 export function getWhatsAppUrl(message?: string) {
-  const number = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "919876543210";
+  const number = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "918089909386";
   const text = message ? `?text=${encodeURIComponent(message)}` : "";
   return `https://wa.me/${number}${text}`;
 }

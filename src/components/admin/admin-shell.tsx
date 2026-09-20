@@ -19,6 +19,8 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { Logo } from "@/components/layout/logo";
+import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { toast } from "sonner";
 
 const adminNav = [
@@ -58,14 +60,11 @@ export function AdminShell({
   };
 
   return (
-    <div className="min-h-screen bg-[#f4f1ec]">
+    <div className="min-h-screen bg-background text-foreground">
       <div className="flex min-h-screen">
-        <aside className="hidden w-64 shrink-0 border-r border-border bg-[#1c1917] text-white lg:block">
+        <aside className="hidden w-64 shrink-0 border-r border-border bg-[#15111d] text-white lg:block">
           <div className="border-b border-white/10 px-5 py-5">
-            <Link href="/" className="font-bold">
-              Shape<span className="text-pink">My</span>Moment
-            </Link>
-            <p className="mt-1 text-xs text-white/50">Admin Panel</p>
+            <Logo variant="admin" />
           </div>
           <nav className="space-y-1 p-3">
             {adminNav.map((item) => {
@@ -80,7 +79,7 @@ export function AdminShell({
                   className={cn(
                     "flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm transition",
                     active
-                      ? "bg-primary text-white"
+                      ? "bg-primary text-white font-semibold shadow-xs"
                       : "text-white/70 hover:bg-white/5 hover:text-white"
                   )}
                 >
@@ -102,16 +101,19 @@ export function AdminShell({
         </aside>
 
         <div className="flex min-w-0 flex-1 flex-col">
-          <header className="sticky top-0 z-20 flex items-center justify-between border-b border-border bg-white/90 px-4 py-4 backdrop-blur sm:px-6">
+          <header className="sticky top-0 z-20 flex items-center justify-between border-b border-border bg-background/90 px-4 py-4 backdrop-blur sm:px-6">
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground lg:hidden">
                 Admin
               </p>
               <h1 className="text-xl font-bold">{title}</h1>
             </div>
-            <Link href="/" className="text-sm font-medium text-primary">
-              View site
-            </Link>
+            <div className="flex items-center gap-3">
+              <ThemeToggle />
+              <Link href="/" className="text-sm font-semibold text-primary hover:underline">
+                View site →
+              </Link>
+            </div>
           </header>
 
           <div className="flex gap-2 overflow-x-auto border-b border-border bg-white px-4 py-2 lg:hidden">

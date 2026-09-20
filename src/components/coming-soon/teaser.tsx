@@ -149,6 +149,20 @@ export function ComingSoonTeaser({
               {loading ? "Saving…" : "Notify Me"}
             </Button>
           </form>
+
+          <div className="mx-auto mt-6 max-w-md text-center">
+            <p className="text-xs font-semibold text-muted-foreground">
+              Have custom supply or hamper requests right now?
+            </p>
+            <a
+              href="https://wa.me/918089909386?text=Hi!%20I%20have%20an%20enquiry%20regarding%20store%20items%20or%20party%20supplies."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-2 inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-300 bg-emerald-50 px-4 py-2 text-xs font-bold text-emerald-800 shadow-xs hover:bg-emerald-600 hover:text-white transition"
+            >
+              💬 Inquire via WhatsApp (+91 80899 09386)
+            </a>
+          </div>
         </FadeIn>
       </div>
     </div>

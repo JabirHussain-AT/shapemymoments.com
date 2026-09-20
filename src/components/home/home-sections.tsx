@@ -185,11 +185,28 @@ export function FeaturedPackages({ packages }: { packages: DemoPackage[] }) {
                   />
                 </div>
                 <div className="flex flex-1 flex-col p-6">
-                  <Badge variant={i === 2 ? "gold" : "default"}>{pkg.name}</Badge>
-                  <p className="mt-3 text-2xl font-bold">
-                    Starting from {formatCurrency(pkg.startingPrice)}
-                    {i === 2 ? "+" : ""}
-                  </p>
+                  <div className="flex items-center justify-between gap-2">
+                    <Badge variant={i === 2 ? "gold" : "default"}>{pkg.name}</Badge>
+                    <span className="rounded-full bg-amber-500/15 px-2.5 py-0.5 text-[11px] font-bold text-amber-700">
+                      🎁 Offer Package
+                    </span>
+                  </div>
+
+                  <div className="mt-3">
+                    <p className="text-xs text-muted-foreground">
+                      Predefined Price:{" "}
+                      <span className="line-through font-semibold text-muted-foreground/70">
+                        {formatCurrency(pkg.startingPrice)}
+                      </span>{" "}
+                      <span className="rounded-xs bg-red-100 px-1 py-0.5 text-[10px] font-bold text-red-600">
+                        Disabled
+                      </span>
+                    </p>
+                    <p className="mt-1 text-lg font-extrabold text-emerald-600">
+                      Custom Offer Package (Your Budget)
+                    </p>
+                  </div>
+
                   <p className="mt-2 text-sm text-muted-foreground line-clamp-3">
                     {pkg.description}
                   </p>

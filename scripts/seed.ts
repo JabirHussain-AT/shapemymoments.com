@@ -265,8 +265,8 @@ async function seed() {
     },
     contact: {
       email: "hello@shapemymoment.com",
-      phone: "+91 98765 43210",
-      whatsapp: "919876543210",
+      phone: "+91 80899 09386",
+      whatsapp: "918089909386",
       address: "Kalpetta, Wayanad, Kerala",
       city: "Kalpetta",
     },

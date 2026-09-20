@@ -4,19 +4,21 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Menu, X, Sparkles } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { Logo } from "@/components/layout/logo";
+import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { ConfettiBurst } from "@/components/animations/motion";
 
 const navLinks = [
   { href: "/", label: "Home" },
-  { href: "/plan-event", label: "Plan Your Event" },
+  { href: "/plan-event", label: "Plan Event" },
+  { href: "/#creatives-section", label: "Creatives" },
   { href: "/packages", label: "Packages" },
-  { href: "/photographers", label: "Photographers" },
-  { href: "/rentals", label: "Rentals" },
+  { href: "/#hiring-section", label: "Careers" },
   { href: "/store", label: "Store" },
-  { href: "/about", label: "About Us" },
+  { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -58,25 +60,14 @@ export function SiteHeader() {
         className={cn(
           "sticky top-0 z-50 transition-all duration-300",
           scrolled
-            ? "border-b border-border/70 bg-background/85 backdrop-blur-xl shadow-sm"
+            ? "border-b border-border/70 bg-background/85 backdrop-blur-xl shadow-xs"
             : "bg-transparent"
         )}
       >
-        <div className="container-page flex h-16 items-center justify-between gap-4 lg:h-[4.25rem]">
-          <Link
-            href="/"
-            className="group flex items-center gap-2 font-bold tracking-tight"
-            aria-label="ShapeMyMoment home"
-          >
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm transition group-hover:scale-105">
-              <Sparkles className="h-4 w-4" />
-            </span>
-            <span className="text-lg sm:text-xl">
-              Shape<span className="text-primary">My</span>Moment
-            </span>
-          </Link>
+        <div className="container-page flex h-16 items-center justify-between gap-3 lg:h-[4.25rem]">
+          <Logo />
 
-          <nav className="hidden items-center gap-1 xl:flex" aria-label="Main">
+          <nav className="hidden items-center gap-1 xl:flex" aria-label="Main navigation">
             {navLinks.map((link) => {
               const active =
                 link.href === "/"
@@ -87,7 +78,7 @@ export function SiteHeader() {
                   key={link.href}
                   href={link.href}
                   className={cn(
-                    "rounded-lg px-3 py-2 text-sm font-medium transition",
+                    "rounded-lg px-2.5 py-1.5 text-xs font-semibold transition",
                     active
                       ? "bg-secondary text-primary"
                       : "text-muted-foreground hover:bg-muted hover:text-foreground"
@@ -100,25 +91,35 @@ export function SiteHeader() {
           </nav>
 
           <div className="hidden items-center gap-2 md:flex">
-            <Link href="/photographers">
-              <Button variant="outline" size="sm">
-                Find a Photographer
+            <ThemeToggle />
+            <Link href="/creatives/register">
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-9 px-3 text-xs font-semibold border-border bg-card text-foreground hover:bg-primary hover:text-white dark:bg-[#181420] dark:border-[#2e263a] dark:text-foreground dark:hover:bg-primary dark:hover:text-white shadow-xs"
+              >
+                Join Network
               </Button>
             </Link>
             <Link href="/plan-event" onClick={celebrate}>
-              <Button size="sm">Plan My Event</Button>
+              <Button size="sm" className="h-9 px-3 text-xs font-semibold shadow-xs">
+                Plan Event
+              </Button>
             </Link>
           </div>
 
-          <button
-            type="button"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-white/80 xl:hidden"
-            aria-label={open ? "Close menu" : "Open menu"}
-            aria-expanded={open}
-            onClick={() => setOpen((v) => !v)}
-          >
-            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
+          <div className="flex items-center gap-2 xl:hidden">
+            <ThemeToggle />
+            <button
+              type="button"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-border bg-background text-foreground transition hover:bg-muted"
+              aria-label={open ? "Close menu" : "Open menu"}
+              aria-expanded={open}
+              onClick={() => setOpen((v) => !v)}
+            >
+              {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
         </div>
 
         <AnimatePresence>
@@ -130,7 +131,7 @@ export function SiteHeader() {
               transition={{ duration: reduce ? 0 : 0.28 }}
               className="overflow-hidden border-t border-border bg-background/95 backdrop-blur-xl xl:hidden"
             >
-              <nav className="container-page flex flex-col gap-1 py-4" aria-label="Mobile">
+              <nav className="container-page flex flex-col gap-1 py-4" aria-label="Mobile navigation">
                 {navLinks.map((link, i) => (
                   <motion.div
                     key={link.href}

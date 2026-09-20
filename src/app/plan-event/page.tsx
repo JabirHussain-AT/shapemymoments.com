@@ -23,7 +23,7 @@ export default function PlanEventPage() {
       <div className="container-page relative">
         <div className="mx-auto mb-10 max-w-3xl text-center">
           <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-primary">
-            Custom event planning
+            Custom event planning &amp; WhatsApp Concierge
           </p>
           <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
             Plan Your Event
@@ -31,6 +31,32 @@ export default function PlanEventPage() {
           <p className="mt-3 text-muted-foreground">
             Tell us what you want — ShapeMyMoment takes care of the rest.
           </p>
+
+          {/* Direct WhatsApp Callout Banner */}
+          <div className="mt-6 inline-flex flex-wrap items-center justify-center gap-3 rounded-2xl border border-emerald-300 bg-emerald-50 px-5 py-3 text-emerald-900 shadow-xs">
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-600 text-white font-bold">
+              💬
+            </span>
+            <div className="text-left text-xs sm:text-sm">
+              <p className="font-extrabold">Instant WhatsApp Planning &amp; Hotline:</p>
+              <a
+                href="https://wa.me/918089909386?text=Hi%20ShapeMyMoment!%20I%20want%20to%20plan%20an%20event."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-bold text-emerald-700 underline hover:text-emerald-800"
+              >
+                +91 80899 09386
+              </a>
+            </div>
+            <a
+              href="https://wa.me/918089909386?text=Hi%20ShapeMyMoment!%20I%20want%20to%20plan%20an%20event."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ml-auto rounded-xl bg-emerald-600 px-4 py-2 text-xs font-bold text-white shadow-xs transition hover:bg-emerald-700"
+            >
+              Chat on WhatsApp
+            </a>
+          </div>
         </div>
         <Suspense
           fallback={

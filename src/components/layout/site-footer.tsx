@@ -1,14 +1,17 @@
 import Link from "next/link";
-import { Instagram, Facebook, Youtube, Sparkles } from "lucide-react";
+import { Instagram, Facebook, Youtube } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Logo } from "@/components/layout/logo";
+import { ThemeToggle } from "@/components/theme/theme-toggle";
 
 const footerLinks = [
   {
-    title: "Plan",
+    title: "Network",
     links: [
       { href: "/plan-event", label: "Plan Your Event" },
+      { href: "/creatives/register", label: "Join as Creative" },
+      { href: "/#creatives-section", label: "Creative Showcase" },
       { href: "/packages", label: "Packages" },
-      { href: "/photographers", label: "Photographers" },
     ],
   },
   {
@@ -16,7 +19,7 @@ const footerLinks = [
     links: [
       { href: "/rentals", label: "Rentals" },
       { href: "/store", label: "Store" },
-      { href: "/about", label: "About" },
+      { href: "/about", label: "About Us" },
       { href: "/contact", label: "Contact" },
     ],
   },
@@ -32,7 +35,7 @@ const footerLinks = [
 
 export function SiteFooter() {
   return (
-    <footer className="mt-8 border-t border-border bg-[#1c1917] text-[#faf8f5]">
+    <footer className="mt-8 border-t border-border bg-[#15111d] text-[#faf8f5] dark:bg-[#09070d]">
       <div className="container-page border-b border-white/10 py-12">
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
           <div>
@@ -44,7 +47,7 @@ export function SiteFooter() {
             </p>
           </div>
           <Link href="/plan-event">
-            <Button size="lg" className="bg-white text-primary hover:bg-white/90">
+            <Button size="lg" className="bg-white text-[#5b3a8f] font-bold hover:bg-white/90">
               Start Planning
             </Button>
           </Link>
@@ -53,16 +56,11 @@ export function SiteFooter() {
 
       <div className="container-page grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-5">
         <div className="lg:col-span-2">
-          <Link href="/" className="inline-flex items-center gap-2 font-bold">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-white">
-              <Sparkles className="h-4 w-4" />
-            </span>
-            Shape<span className="text-white/90">My</span>Moment
-          </Link>
+          <Logo variant="footer" />
           <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/65">
             You enjoy the moment. We handle everything else.
           </p>
-          <div className="mt-6 flex gap-3">
+          <div className="mt-6 flex items-center gap-3">
             {[Instagram, Facebook, Youtube].map((Icon, i) => (
               <a
                 key={i}
@@ -73,6 +71,7 @@ export function SiteFooter() {
                 <Icon className="h-4 w-4" />
               </a>
             ))}
+            <ThemeToggle className="ml-2 border-white/15 bg-white/5 text-white hover:bg-white/10" />
           </div>
         </div>
 

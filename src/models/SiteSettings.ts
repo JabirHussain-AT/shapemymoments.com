@@ -53,8 +53,8 @@ const SiteSettingsSchema = new Schema<ISiteSettings>(
     },
     contact: {
       email: { type: String, default: "hello@shapemymoment.com" },
-      phone: { type: String, default: "+91 98765 43210" },
-      whatsapp: { type: String, default: "919876543210" },
+      phone: { type: String, default: "+91 80899 09386" },
+      whatsapp: { type: String, default: "918089909386" },
       address: { type: String, default: "Kalpetta, Wayanad, Kerala" },
       city: { type: String, default: "Kalpetta" },
     },

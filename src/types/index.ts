@@ -85,3 +85,20 @@ export type PhotographerStatus = (typeof PHOTOGRAPHER_STATUSES)[number];
 
 export const CONTACT_METHODS = ["Phone", "Email", "WhatsApp"] as const;
 export type ContactMethod = (typeof CONTACT_METHODS)[number];
+
+export const CREATIVE_CATEGORIES = [
+  "Photographers",
+  "Hampers",
+  "Henna Designers",
+  "Makeup Artists",
+] as const;
+export type CreativeCategory = (typeof CREATIVE_CATEGORIES)[number];
+
+export const VERIFICATION_STATUSES = [
+  "UNVERIFIED",
+  "PENDING",
+  "VERIFIED",
+  "REJECTED",
+] as const;
+export type VerificationStatus = (typeof VERIFICATION_STATUSES)[number];
+
