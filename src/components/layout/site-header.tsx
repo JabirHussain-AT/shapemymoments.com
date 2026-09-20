@@ -96,7 +96,7 @@ export function SiteHeader() {
               <Button
                 variant="outline"
                 size="sm"
-                className="h-9 px-3 text-xs font-semibold border-border bg-card text-foreground hover:bg-primary hover:text-white dark:bg-[#181420] dark:border-[#2e263a] dark:text-foreground dark:hover:bg-primary dark:hover:text-white shadow-xs"
+                className="h-9 px-3 text-xs font-semibold border-black bg-black text-white hover:bg-zinc-800 dark:bg-zinc-900 dark:border-zinc-700 dark:text-white dark:hover:bg-zinc-800 shadow-xs"
               >
                 Join Network
               </Button>

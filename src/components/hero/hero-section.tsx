@@ -110,7 +110,7 @@ export function HeroSection() {
               </Button>
             </Link>
             <Link href="/creatives/register">
-              <Button size="lg" variant="outline" className="w-full sm:w-auto">
+              <Button size="lg" variant="outline" className="w-full sm:w-auto border-black bg-black text-white hover:bg-zinc-800 dark:bg-zinc-900 dark:border-zinc-700 dark:text-white dark:hover:bg-zinc-800">
                 Join as Creative / Vendor
               </Button>
             </Link>

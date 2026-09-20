@@ -16,7 +16,7 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 const STORAGE_KEY = "smm_theme";
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>("system");
+  const [theme, setThemeState] = useState<Theme>("light");
   const [resolvedTheme, setResolvedTheme] = useState<"light" | "dark">("light");
   const [mounted, setMounted] = useState(false);
 
@@ -25,6 +25,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const saved = localStorage.getItem(STORAGE_KEY) as Theme | null;
     if (saved && ["light", "dark", "system"].includes(saved)) {
       setThemeState(saved);
+    } else {
+      setThemeState("light");
     }
   }, []);
 
@@ -39,7 +41,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       if (theme === "system") {
         active = mediaQuery.matches ? "dark" : "light";
       } else {
-        active = theme;
+        active = theme === "dark" ? "dark" : "light";
       }
 
       setResolvedTheme(active);

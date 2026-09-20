@@ -136,8 +136,7 @@ const themeInitializerScript = `
   (function() {
     try {
       var saved = localStorage.getItem('smm_theme');
-      var supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      if (saved === 'dark' || (!saved && supportDarkMode) || saved === 'system' && supportDarkMode) {
+      if (saved === 'dark') {
         document.documentElement.classList.add('dark');
       } else {
         document.documentElement.classList.remove('dark');

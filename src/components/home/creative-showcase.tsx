@@ -109,7 +109,7 @@ export function CreativeShowcase({ creatives }: { creatives: DemoCreative[] }) {
           <Link href="/creatives/register">
             <Button
               variant="outline"
-              className="gap-2 border-border bg-card text-foreground hover:bg-primary hover:text-white dark:bg-[#181420] dark:border-[#2e263a] dark:text-foreground dark:hover:bg-primary dark:hover:text-white shadow-xs"
+              className="gap-2 border-black bg-black text-white hover:bg-zinc-800 dark:bg-zinc-900 dark:border-zinc-700 dark:text-white dark:hover:bg-zinc-800 shadow-xs"
             >
               Join as Creative <ArrowUpRight className="h-4 w-4" />
             </Button>
