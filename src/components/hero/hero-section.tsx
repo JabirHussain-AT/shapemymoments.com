@@ -4,8 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, Camera, PartyPopper, Sparkles } from "lucide-react";
+import { ArrowRight, Camera, PartyPopper, Sparkles, Gift, Palette, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { getWhatsAppUrl } from "@/lib/utils";
 import {
   CelebrationAmbient,
   ConfettiBurst,
@@ -27,6 +28,13 @@ const collage = [
     alt: "Surprise party",
     className: "col-span-1 row-span-1",
   },
+];
+
+const CATEGORY_PILLS = [
+  { label: "Photographers", icon: Camera, href: "#creatives-section" },
+  { label: "Hampers", icon: Gift, href: "#creatives-section" },
+  { label: "Henna Designers", icon: Sparkles, href: "#creatives-section" },
+  { label: "Makeup Artists", icon: Palette, href: "#creatives-section" },
 ];
 
 export function HeroSection() {
@@ -74,25 +82,21 @@ export function HeroSection() {
             Book verified Photographers, Artisanal Hampers, Henna Designers &amp; Makeup Artists — or let ShapeMyMoment plan your entire event seamlessly.
           </motion.p>
 
-          {/* Creative Category Pills */}
+          {/* Creative Category Pills (Icons without text emojis) */}
           <motion.div
             initial={reduce ? false : { opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="mt-6 flex flex-wrap gap-2 text-xs font-semibold"
+            className="mt-6 flex flex-wrap gap-2.5 text-xs font-semibold"
           >
-            {[
-              { label: "📸 Photographers", href: "#creatives-section" },
-              { label: "🎁 Hampers", href: "#creatives-section" },
-              { label: "✨ Henna Designers", href: "#creatives-section" },
-              { label: "💄 Makeup Artists", href: "#creatives-section" },
-            ].map((cat) => (
+            {CATEGORY_PILLS.map((cat) => (
               <a
                 key={cat.label}
                 href={cat.href}
-                className="rounded-xl border border-border bg-white/80 px-3 py-1.5 text-foreground shadow-xs transition hover:border-primary hover:bg-primary/5 hover:text-primary"
+                className="inline-flex items-center gap-2 rounded-xl border border-border bg-card px-3.5 py-2 text-foreground shadow-2xs transition hover:border-primary hover:bg-primary/10 hover:text-primary"
               >
-                {cat.label}
+                <cat.icon className="h-4 w-4 text-primary shrink-0" />
+                <span>{cat.label}</span>
               </a>
             ))}
           </motion.div>
@@ -104,16 +108,27 @@ export function HeroSection() {
             className="mt-8 flex flex-col gap-3 sm:flex-row"
           >
             <Link href="/plan-event" onClick={celebrate}>
-              <Button size="lg" className="w-full sm:w-auto shadow-md">
+              <Button size="lg" className="w-full sm:w-auto shadow-md font-bold">
                 Plan My Event
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
-            <Link href="/creatives/register">
-              <Button size="lg" variant="outline" className="w-full sm:w-auto border-black bg-black text-white hover:bg-zinc-800 dark:bg-zinc-900 dark:border-zinc-700 dark:text-white dark:hover:bg-zinc-800">
-                Join as Creative / Vendor
+
+            {/* Inquire on WhatsApp Action (Replaced Join button) */}
+            <a
+              href={getWhatsAppUrl("Hi ShapeMyMoment Team! I would like to inquire about event planning & creative partner services for my event.")}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto"
+            >
+              <Button
+                size="lg"
+                className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-bold gap-2 shadow-md"
+              >
+                <MessageCircle className="h-5 w-5" />
+                Inquire on WhatsApp
               </Button>
-            </Link>
+            </a>
           </motion.div>
 
           <div className="mt-10 flex flex-wrap gap-6 text-sm text-muted-foreground">
@@ -159,7 +174,7 @@ export function HeroSection() {
           <motion.div
             animate={reduce ? undefined : { y: [0, -8, 0] }}
             transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -bottom-4 left-4 rounded-2xl border border-white/60 bg-white/90 px-4 py-3 shadow-lg backdrop-blur sm:left-6"
+            className="absolute -bottom-4 left-4 rounded-2xl border border-border bg-card/90 px-4 py-3 shadow-lg backdrop-blur sm:left-6"
           >
             <p className="text-xs font-semibold uppercase tracking-wider text-primary">
               Event partner
@@ -172,7 +187,7 @@ export function HeroSection() {
           <motion.div
             animate={reduce ? undefined : { y: [0, 10, 0] }}
             transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -top-3 right-2 rounded-2xl border border-white/60 bg-white/90 px-3 py-2 text-xs font-semibold text-foreground shadow-lg backdrop-blur sm:right-6"
+            className="absolute -top-3 right-2 rounded-2xl border border-border bg-card/90 px-3 py-2 text-xs font-semibold text-foreground shadow-lg backdrop-blur sm:right-6"
           >
             ✨ Custom packages
           </motion.div>

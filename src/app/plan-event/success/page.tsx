@@ -20,7 +20,7 @@ export default async function PlanEventSuccessPage({
   return (
     <div className="section-padding">
       <div className="container-page">
-        <div className="mx-auto max-w-xl rounded-3xl border border-border bg-white p-8 text-center premium-shadow sm:p-12">
+        <div className="mx-auto max-w-xl rounded-3xl border border-border bg-card p-8 text-center premium-shadow sm:p-12">
           <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-secondary text-primary">
             <CheckCircle2 className="h-8 w-8" />
           </div>
@@ -39,7 +39,7 @@ export default async function PlanEventSuccessPage({
               <p className="mt-1 font-mono text-lg font-bold text-primary">{id}</p>
             </div>
           )}
-          <div className="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-emerald-900">
+          <div className="mt-6 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-4 text-emerald-800 dark:text-emerald-300">
             <p className="text-xs font-bold uppercase tracking-wider text-emerald-700">
               Want faster response? Chat on WhatsApp now
             </p>

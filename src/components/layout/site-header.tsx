@@ -16,7 +16,7 @@ const navLinks = [
   { href: "/plan-event", label: "Plan Event" },
   { href: "/#creatives-section", label: "Creatives" },
   { href: "/packages", label: "Packages" },
-  { href: "/#hiring-section", label: "Careers" },
+  { href: "/careers", label: "Careers" },
   { href: "/store", label: "Store" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
@@ -92,6 +92,15 @@ export function SiteHeader() {
 
           <div className="hidden items-center gap-2 md:flex">
             <ThemeToggle />
+            <Link href="/creatives/login">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-9 px-2.5 text-xs font-semibold hover:bg-muted text-foreground"
+              >
+                Partner Login
+              </Button>
+            </Link>
             <Link href="/creatives/register">
               <Button
                 variant="outline"
@@ -148,11 +157,18 @@ export function SiteHeader() {
                   </motion.div>
                 ))}
                 <div className="mt-3 grid gap-2">
-                  <Link href="/photographers">
-                    <Button variant="outline" className="w-full">
-                      Find a Photographer
-                    </Button>
-                  </Link>
+                  <div className="grid grid-cols-2 gap-2">
+                    <Link href="/creatives/login">
+                      <Button variant="outline" className="w-full text-xs font-semibold">
+                        Partner Login
+                      </Button>
+                    </Link>
+                    <Link href="/creatives/register">
+                      <Button variant="outline" className="w-full text-xs font-semibold bg-zinc-900 text-white dark:bg-zinc-800">
+                        Join Network
+                      </Button>
+                    </Link>
+                  </div>
                   <Link href="/plan-event" onClick={celebrate}>
                     <Button className="w-full">Plan My Event</Button>
                   </Link>

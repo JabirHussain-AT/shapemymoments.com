@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { PhotographerDirectory } from "@/components/photographers/directory";
-import { getDemoPhotographers } from "@/lib/data";
+import { getLiveCreativesFromDb } from "@/lib/data";
 import { absoluteUrl } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -14,8 +14,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default function PhotographersPage() {
-  const photographers = getDemoPhotographers();
+export default async function PhotographersPage() {
+  const photographers = await getLiveCreativesFromDb();
 
   return (
     <div className="section-padding pt-10">

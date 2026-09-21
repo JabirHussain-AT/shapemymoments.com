@@ -12,7 +12,7 @@ export async function GET() {
     try {
       await connectDB();
       const items = await EventPackage.find({ active: true }).sort({ startingPrice: 1 }).lean();
-      if (items.length) return ok(items);
+      return ok(items);
     } catch {
       // fallback
     }

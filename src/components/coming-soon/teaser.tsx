@@ -128,7 +128,7 @@ export function ComingSoonTeaser({
         <FadeIn delay={0.15}>
           <form
             onSubmit={notify}
-            className="mx-auto mt-14 max-w-md rounded-2xl border border-border bg-white p-6 text-center premium-shadow"
+            className="mx-auto mt-14 max-w-md rounded-2xl border border-border bg-card p-6 text-center premium-shadow"
           >
             <Bell className="mx-auto h-8 w-8 text-primary float-slow" />
             <h2 className="mt-3 text-xl font-bold">Notify Me</h2>
@@ -158,7 +158,7 @@ export function ComingSoonTeaser({
               href="https://wa.me/918089909386?text=Hi!%20I%20have%20an%20enquiry%20regarding%20store%20items%20or%20party%20supplies."
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-2 inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-300 bg-emerald-50 px-4 py-2 text-xs font-bold text-emerald-800 shadow-xs hover:bg-emerald-600 hover:text-white transition"
+              className="mt-2 inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-2 text-xs font-bold text-emerald-800 dark:text-emerald-300 shadow-xs hover:bg-emerald-600 hover:text-white transition"
             >
               💬 Inquire via WhatsApp (+91 80899 09386)
             </a>

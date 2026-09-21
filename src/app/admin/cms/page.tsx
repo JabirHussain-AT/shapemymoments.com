@@ -11,7 +11,7 @@ export default function AdminCmsPage() {
   return (
     <AdminShell title="CMS">
       <div className="grid gap-6 lg:grid-cols-2">
-        <section className="rounded-2xl border border-border bg-white p-5">
+        <section className="rounded-2xl border border-border bg-card p-5">
           <h2 className="font-semibold">Homepage hero</h2>
           <div className="mt-4 space-y-3">
             <div>
@@ -30,7 +30,7 @@ export default function AdminCmsPage() {
           </div>
         </section>
 
-        <section className="rounded-2xl border border-border bg-white p-5">
+        <section className="rounded-2xl border border-border bg-card p-5">
           <h2 className="font-semibold">Contact & social</h2>
           <div className="mt-4 space-y-3">
             <div>
@@ -53,7 +53,7 @@ export default function AdminCmsPage() {
           </div>
         </section>
 
-        <section className="rounded-2xl border border-border bg-white p-5 lg:col-span-2">
+        <section className="rounded-2xl border border-border bg-card p-5 lg:col-span-2">
           <h2 className="font-semibold">FAQs</h2>
           <ul className="mt-4 space-y-3">
             {faqs.map((faq) => (

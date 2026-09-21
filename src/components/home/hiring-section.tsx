@@ -1,56 +1,13 @@
 "use client";
 
-import { Briefcase, MapPin, Sparkles, CheckCircle2, MessageCircle, ArrowRight } from "lucide-react";
+import { Briefcase, Sparkles, MessageCircle, Mail, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { getWhatsAppUrl } from "@/lib/utils";
 
-const OPEN_POSITIONS = [
-  {
-    id: "job-event-coordinator",
-    title: "Event Operations & On-Day Coordinator",
-    department: "Event Management",
-    location: "Wayanad / Kochi / Kozhikode",
-    type: "Full-Time / Freelance",
-    experience: "1-3 Years",
-    description: "Manage vendor execution, timeline coordination, and client hospitality on event days.",
-    requirements: ["Experience in event execution", "Fluency in Malayalam & English", "Strong problem solving"],
-  },
-  {
-    id: "job-vendor-manager",
-    title: "Regional Creative & Vendor Network Manager",
-    department: "Partner Relations",
-    location: "Kochi / Calicut / Bangalore",
-    type: "Full-Time",
-    experience: "2+ Years",
-    description: "Onboard, verify, and quality-check photographers, hamper designers, henna artists, and makeup artists.",
-    requirements: ["Strong network in South India", "Quality assessment eye", "Vendor negotiation"],
-  },
-  {
-    id: "job-content-creator",
-    title: "Social Media & Event Reels Creator",
-    department: "Media & Marketing",
-    location: "Wayanad / Remote",
-    type: "Part-Time / Contract",
-    experience: "Freshers / Experienced",
-    description: "Capture behind-the-scenes event moments, edit viral Instagram Reels, and interview creative partners.",
-    requirements: ["Smartphone / Camera video editing skills", "Trendy Reels sense", "Fast turnaround"],
-  },
-  {
-    id: "job-decor-designer",
-    title: "Event Decor & Concept Designer",
-    department: "Creative Design",
-    location: "Wayanad / Kochi",
-    type: "Full-Time",
-    experience: "2-4 Years",
-    description: "Design custom theme setups, floral installations, and personalized hamper aesthetics.",
-    requirements: ["Portfolio in stage/party decor", "3D/2D rendering skill is a plus", "Attention to detail"],
-  },
-];
-
 export function HiringSection() {
-  const applyViaWhatsApp = (jobTitle: string) => {
-    const text = `Hi ShapeMyMoment Careers Team! I would like to apply for the "${jobTitle}" position. Here is a link to my CV/Portfolio:`;
+  const openApplicationWhatsApp = () => {
+    const text = "Hi ShapeMyMoment Team! I would like to submit my resume/portfolio for future career opportunities at ShapeMyMoment.";
     window.open(getWhatsAppUrl(text), "_blank");
   };
 
@@ -58,106 +15,66 @@ export function HiringSection() {
     <section id="hiring-section" className="section-padding bg-background border-t border-border/60">
       <div className="container-page">
         <div className="mx-auto max-w-3xl text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-primary">
-            <Sparkles className="h-4 w-4" /> We&apos;re Growing &amp; Hiring
+          <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-amber-700 dark:text-amber-400">
+            <Briefcase className="h-4 w-4" /> Careers at ShapeMyMoment
           </div>
           <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
-            Join South India&apos;s Premier Event &amp; Creative Team
+            Join Our Growing Creative &amp; Event Network
           </h2>
           <p className="mt-3 text-muted-foreground sm:text-lg">
-            We are expanding our team across Wayanad, Kochi, Kozhikode, and Bangalore. Shape unforgettable moments with us!
+            We build unforgettable experiences across Wayanad, Kochi, Kozhikode, and all of South India.
           </p>
         </div>
 
-        {/* Jobs Grid */}
-        <div className="mt-12 grid gap-6 md:grid-cols-2">
-          {OPEN_POSITIONS.map((job) => (
-            <div
-              key={job.id}
-              className="group flex flex-col justify-between rounded-2xl border border-border bg-card p-6 shadow-xs transition duration-300 hover:border-primary/50 hover:shadow-md"
-            >
-              <div>
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <Badge variant="outline" className="text-xs font-semibold">
-                    {job.department}
-                  </Badge>
-                  <span className="rounded-full bg-secondary px-2.5 py-0.5 text-xs font-bold text-secondary-foreground">
-                    {job.type}
-                  </span>
-                </div>
+        {/* No Vacancies Available Card */}
+        <div className="mt-10 mx-auto max-w-2xl rounded-3xl border border-border bg-card p-8 sm:p-10 shadow-sm text-center space-y-6">
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-muted text-muted-foreground">
+            <AlertCircle className="h-8 w-8 text-amber-500" />
+          </div>
 
-                <h3 className="mt-3 text-xl font-bold text-card-foreground group-hover:text-primary transition">
-                  {job.title}
-                </h3>
-
-                <div className="mt-2 flex flex-wrap items-center gap-4 text-xs font-medium text-muted-foreground">
-                  <span className="flex items-center gap-1">
-                    <MapPin className="h-3.5 w-3.5 text-primary shrink-0" />
-                    {job.location}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <Briefcase className="h-3.5 w-3.5 text-primary shrink-0" />
-                    {job.experience}
-                  </span>
-                </div>
-
-                <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
-                  {job.description}
-                </p>
-
-                <div className="mt-4 border-t border-border/50 pt-3">
-                  <p className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
-                    Key Requirements:
-                  </p>
-                  <ul className="mt-2 space-y-1 text-xs text-muted-foreground">
-                    {job.requirements.map((req, i) => (
-                      <li key={i} className="flex items-center gap-1.5">
-                        <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500 shrink-0" />
-                        {req}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-
-              <div className="mt-6 pt-4 border-t border-border/60 flex items-center justify-between gap-3">
-                <a
-                  href={`mailto:careers@shapemymoment.com?subject=Application for ${encodeURIComponent(job.title)}`}
-                  className="text-xs font-bold text-primary hover:underline"
-                >
-                  Email Resume
-                </a>
-
-                <Button
-                  size="sm"
-                  onClick={() => applyViaWhatsApp(job.title)}
-                  className="bg-emerald-600 hover:bg-emerald-700 text-white gap-1.5 text-xs"
-                >
-                  <MessageCircle className="h-4 w-4" /> Apply via WhatsApp
-                </Button>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* General Application Callout */}
-        <div className="mt-12 rounded-3xl border border-primary/20 bg-gradient-to-r from-primary/10 via-purple-500/10 to-amber-500/10 p-8 text-center sm:flex sm:items-center sm:justify-between sm:text-left">
-          <div>
-            <h3 className="text-xl font-bold">Don&apos;t see your role?</h3>
-            <p className="mt-1 text-sm text-muted-foreground">
-              We&apos;re always looking for passionate planners, artists, and logistics managers. Send us your resume anytime.
+          <div className="space-y-2">
+            <Badge variant="outline" className="text-xs font-bold border-amber-500/40 bg-amber-500/10 text-amber-800 dark:text-amber-300">
+              🔴 No Open Vacancies Available Right Now
+            </Badge>
+            <h3 className="text-xl font-extrabold text-foreground">
+              Currently Not Hiring Active Roles
+            </h3>
+            <p className="text-xs sm:text-sm text-muted-foreground max-w-lg mx-auto leading-relaxed">
+              We currently do not have any open vacancies or immediate job openings listed. However, as our creative and event network expands across South India, new positions open up frequently!
             </p>
           </div>
-          <a
-            href={getWhatsAppUrl("Hi ShapeMyMoment Careers! I'd like to submit an open job application / resume.")}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-4 sm:mt-0 shrink-0"
-          >
-            <Button className="gap-2 shadow-md">
-              Send Open Application <ArrowRight className="h-4 w-4" />
-            </Button>
-          </a>
+
+          {/* Future Applications Callout */}
+          <div className="rounded-2xl border border-primary/20 bg-primary/5 p-5 text-left space-y-3">
+            <div className="flex items-center gap-2 text-xs font-bold text-primary">
+              <Sparkles className="h-4 w-4 shrink-0" /> Submit Your Resume for Future Vacancies
+            </div>
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              If you are an event planner, photographer, media creator, decor designer, or partner relations specialist, share your profile with us. Our HR team will reach out to you first as soon as a suitable vacancy arises!
+            </p>
+            <div className="pt-2 flex flex-col sm:flex-row items-center gap-3">
+              <Button
+                size="sm"
+                onClick={openApplicationWhatsApp}
+                className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs gap-2 shadow-xs"
+              >
+                <MessageCircle className="h-4 w-4" /> Share CV on WhatsApp
+              </Button>
+
+              <a
+                href="mailto:careers@shapemymoment.com?subject=Future Career Opportunities - CV Submission"
+                className="w-full sm:w-auto"
+              >
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="w-full sm:w-auto text-xs font-bold gap-2"
+                >
+                  <Mail className="h-4 w-4" /> Email Resume (careers@shapemymoment.com)
+                </Button>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </section>

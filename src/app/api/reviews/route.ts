@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
       if (packageId) query.packageId = packageId;
       if (featured === "true") query.featured = true;
       const items = await Review.find(query).sort({ createdAt: -1 }).lean();
-      if (items.length) return ok(items);
+      return ok(items);
     } catch {
       // fallback
     }

@@ -8,7 +8,7 @@ export const Input = React.forwardRef<
   <input
     ref={ref}
     className={cn(
-      "flex h-11 w-full rounded-xl border border-border bg-white px-4 text-sm text-foreground placeholder:text-muted-foreground transition focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:opacity-50",
+      "flex h-11 w-full rounded-xl border border-border bg-card px-4 text-sm text-foreground placeholder:text-muted-foreground transition focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:opacity-50 dark:bg-card dark:text-foreground dark:border-border",
       className
     )}
     {...props}
@@ -23,7 +23,7 @@ export const Textarea = React.forwardRef<
   <textarea
     ref={ref}
     className={cn(
-      "flex min-h-28 w-full rounded-xl border border-border bg-white px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground transition focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:opacity-50",
+      "flex min-h-28 w-full rounded-xl border border-border bg-card px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground transition focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:opacity-50 dark:bg-card dark:text-foreground dark:border-border",
       className
     )}
     {...props}
@@ -38,7 +38,7 @@ export const Select = React.forwardRef<
   <select
     ref={ref}
     className={cn(
-      "flex h-11 w-full rounded-xl border border-border bg-white px-4 text-sm text-foreground transition focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:opacity-50",
+      "flex h-11 w-full rounded-xl border border-border bg-card px-4 text-sm text-foreground transition focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:opacity-50 dark:bg-card dark:text-foreground dark:border-border dark:[&>option]:bg-[#15111d] dark:[&>option]:text-[#f5f3f0]",
       className
     )}
     {...props}

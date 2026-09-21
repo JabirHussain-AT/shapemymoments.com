@@ -217,7 +217,7 @@ export function PlanEventWizard() {
         </div>
       </div>
 
-      <div className="rounded-2xl border border-border bg-white/90 p-5 premium-shadow sm:p-8">
+      <div className="rounded-2xl border border-border bg-card p-5 premium-shadow sm:p-8">
         <AnimatePresence mode="wait">
           <motion.div
             key={step}
@@ -241,7 +241,7 @@ export function PlanEventWizard() {
                       className={`rounded-xl border px-4 py-4 text-left text-sm font-semibold transition ${
                         form.eventType === type
                           ? "border-primary bg-secondary text-primary"
-                          : "border-border bg-white hover:border-primary/40"
+                          : "border-border bg-card hover:border-primary/40 text-foreground"
                       }`}
                     >
                       {type}

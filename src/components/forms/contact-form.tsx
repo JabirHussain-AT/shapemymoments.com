@@ -49,7 +49,7 @@ export function ContactForm() {
     <div className="grid gap-10 lg:grid-cols-[1fr_0.9fr]">
       <form
         onSubmit={submit}
-        className="rounded-2xl border border-border bg-white p-6 premium-shadow sm:p-8"
+        className="rounded-2xl border border-border bg-card p-6 premium-shadow sm:p-8"
       >
         <h2 className="text-xl font-bold">Send a message</h2>
         <div className="mt-5 space-y-4">
@@ -97,7 +97,7 @@ export function ContactForm() {
       </form>
 
       <div className="space-y-6">
-        <div className="rounded-2xl border border-border bg-white p-6">
+        <div className="rounded-2xl border border-border bg-card p-6">
           <h2 className="text-xl font-bold">Reach us directly</h2>
           <ul className="mt-5 space-y-4 text-sm">
             <li className="flex items-start gap-3">
@@ -129,7 +129,7 @@ export function ContactForm() {
           </a>
         </div>
 
-        <div className="rounded-2xl border border-border bg-white p-6">
+        <div className="rounded-2xl border border-border bg-card p-6">
           <h2 className="text-xl font-bold">FAQ</h2>
           <div className="mt-4 space-y-4">
             {DEMO_FAQS.map((faq) => (

@@ -16,7 +16,7 @@ export default function AdminSubscriptionsPage() {
         {(["FREE", "PRO", "PREMIUM"] as const).map((plan) => (
           <article
             key={plan}
-            className="rounded-2xl border border-border bg-white p-5"
+            className="rounded-2xl border border-border bg-card p-5"
           >
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-bold">{plan}</h2>

@@ -42,4 +42,4 @@ const ReviewSchema = new Schema<IReview>(
   { timestamps: true }
 );
 
-export const Review = models.Review || model<IReview>("Review", ReviewSchema);
+export const Review = models?.Review || model<IReview>("Review", ReviewSchema);

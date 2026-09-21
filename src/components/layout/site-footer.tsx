@@ -10,6 +10,7 @@ const footerLinks = [
     links: [
       { href: "/plan-event", label: "Plan Your Event" },
       { href: "/creatives/register", label: "Join as Creative" },
+      { href: "/creatives/login", label: "Creative Partner Login" },
       { href: "/#creatives-section", label: "Creative Showcase" },
       { href: "/packages", label: "Packages" },
     ],
@@ -19,6 +20,7 @@ const footerLinks = [
     links: [
       { href: "/rentals", label: "Rentals" },
       { href: "/store", label: "Store" },
+      { href: "/careers", label: "Careers" },
       { href: "/about", label: "About Us" },
       { href: "/contact", label: "Contact" },
     ],
@@ -59,6 +61,9 @@ export function SiteFooter() {
           <Logo variant="footer" />
           <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/65">
             You enjoy the moment. We handle everything else.
+          </p>
+          <p className="mt-2 text-xs font-semibold text-white/70">
+            Support: <a href="mailto:help@shapemymoment.com" className="text-white hover:underline">help@shapemymoment.com</a>
           </p>
           <div className="mt-6 flex items-center gap-3">
             {[Instagram, Facebook, Youtube].map((Icon, i) => (
