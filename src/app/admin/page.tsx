@@ -18,10 +18,10 @@ export default async function AdminDashboardPage() {
 
   const cards = [
     { label: "Total Registered Users", value: String(stats.totalUsers) },
-    { label: "Active Photographers", value: String(stats.totalPhotographers) },
+    { label: "Creatives & Partners", value: String(stats.totalPhotographers) },
     { label: "Total Event Requests", value: String(stats.totalEventRequests) },
     { label: "Pending Requests", value: String(stats.pendingEventRequests) },
-    { label: "Photographer Leads", value: String(stats.totalLeads) },
+    { label: "Partner Booking Leads", value: String(stats.totalLeads) },
     { label: "Customer Reviews", value: String(stats.totalReviews) },
   ];
 
