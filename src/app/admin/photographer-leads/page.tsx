@@ -14,7 +14,7 @@ export default function AdminPhotographerLeadsPage() {
         title="Leads appear here"
         description="When customers request a photographer, leads are stored and shown here for admin and photographer follow-up."
       />
-      <div className="mt-4 rounded-xl border border-border bg-white p-4 text-sm text-muted-foreground">
+      <div className="mt-4 rounded-xl border border-border bg-card p-4 text-sm text-muted-foreground">
         API: <code className="text-foreground">GET/POST /api/photographers/leads</code>
         <div className="mt-2 flex gap-2">
           <Badge>NEW</Badge>

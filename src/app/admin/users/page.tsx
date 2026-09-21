@@ -16,7 +16,7 @@ export default function AdminUsersPage() {
         Roles: CUSTOMER · PHOTOGRAPHER · ADMIN · EVENT_MANAGER · STAFF ·
         SUPER_ADMIN
       </p>
-      <div className="overflow-x-auto rounded-2xl border border-border bg-white">
+      <div className="overflow-x-auto rounded-2xl border border-border bg-card">
         <table className="w-full text-left text-sm">
           <thead className="border-b border-border bg-muted/50 text-xs uppercase text-muted-foreground">
             <tr>

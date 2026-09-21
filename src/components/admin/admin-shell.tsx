@@ -116,7 +116,7 @@ export function AdminShell({
             </div>
           </header>
 
-          <div className="flex gap-2 overflow-x-auto border-b border-border bg-white px-4 py-2 lg:hidden">
+          <div className="flex gap-2 overflow-x-auto border-b border-border bg-background px-4 py-2 lg:hidden">
             {adminNav.slice(0, 6).map((item) => (
               <Link
                 key={item.href}

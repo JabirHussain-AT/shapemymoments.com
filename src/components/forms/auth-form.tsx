@@ -57,7 +57,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
   return (
     <form
       onSubmit={submit}
-      className="mx-auto w-full max-w-md rounded-2xl border border-border bg-white p-6 premium-shadow sm:p-8"
+      className="mx-auto w-full max-w-md rounded-2xl border border-border bg-card p-6 premium-shadow sm:p-8"
     >
       <h1 className="text-2xl font-bold">
         {mode === "login" ? "Sign in" : "Create account"}
@@ -137,10 +137,18 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
       </div>
 
       {mode === "login" && (
-        <div className="mt-6 rounded-xl bg-muted p-3 text-xs text-muted-foreground">
-          <p className="font-semibold text-foreground">Demo accounts</p>
-          <p className="mt-1">Admin: admin@shapemymoment.com / admin12345</p>
-          <p>Customer: demo@shapemymoment.com / demo12345</p>
+        <div className="mt-6 space-y-3 text-xs">
+          <div className="rounded-xl border border-primary/20 bg-primary/5 p-3 text-center">
+            <span className="text-muted-foreground">Are you a registered Creative Partner? </span>
+            <Link href="/creatives/login" className="font-bold text-primary underline">
+              Sign In to Creative Portal →
+            </Link>
+          </div>
+          <div className="rounded-xl bg-muted p-3 text-muted-foreground">
+            <p className="font-semibold text-foreground">Demo accounts</p>
+            <p className="mt-1">Admin: admin@shapemymoment.com / admin12345</p>
+            <p>Customer: demo@shapemymoment.com / demo12345</p>
+          </div>
         </div>
       )}
     </form>

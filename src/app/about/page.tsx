@@ -42,13 +42,13 @@ export default function AboutPage() {
         </div>
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2">
-          <div className="rounded-2xl border border-border bg-white p-6">
+          <div className="rounded-2xl border border-border bg-card p-6">
             <p className="text-xs font-semibold uppercase tracking-wider text-primary">
               Mission
             </p>
             <p className="mt-3 text-xl font-bold">Make celebrations effortless.</p>
           </div>
-          <div className="rounded-2xl border border-border bg-white p-6">
+          <div className="rounded-2xl border border-border bg-card p-6">
             <p className="text-xs font-semibold uppercase tracking-wider text-primary">
               Vision
             </p>

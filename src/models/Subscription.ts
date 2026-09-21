@@ -67,6 +67,6 @@ const SubscriptionSchema = new Schema<ISubscription>(
 );
 
 export const Subscription =
-  models.Subscription || model<ISubscription>("Subscription", SubscriptionSchema);
+  models?.Subscription || model<ISubscription>("Subscription", SubscriptionSchema);
 
 export { PLAN_PRICES, PLAN_FEATURES };

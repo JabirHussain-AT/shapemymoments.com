@@ -66,7 +66,7 @@ export function WhatWeDo() {
           {steps.map((step, i) => (
             <StaggerItem key={step.title}>
               <HoverLift>
-              <div className="group h-full rounded-2xl border border-border bg-white/80 p-6 premium-shadow transition hover:border-primary/25">
+              <div className="group h-full rounded-2xl border border-border bg-card p-6 premium-shadow transition hover:border-primary/25">
                 <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-secondary text-primary transition group-hover:scale-110 group-hover:rotate-3">
                   <step.icon className="h-5 w-5" />
                 </div>
@@ -147,7 +147,7 @@ export function TrustSection() {
         <StaggerContainer className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {trust.map((item) => (
             <StaggerItem key={item.title}>
-              <div className="flex items-start gap-4 rounded-2xl border border-border bg-white/80 p-5">
+              <div className="flex items-start gap-4 rounded-2xl border border-border bg-card p-5">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gold-soft text-[#7a6414]">
                   <item.icon className="h-5 w-5" />
                 </div>
@@ -170,67 +170,77 @@ export function FeaturedPackages({ packages }: { packages: DemoPackage[] }) {
           title="Start with a package. Make it yours."
           description="Configurable starting points — then customized to your date, location and vision."
         />
-        <div className="grid gap-6 lg:grid-cols-3">
-          {packages.slice(0, 3).map((pkg, i) => (
-            <FadeIn key={pkg.id} delay={i * 0.08}>
-              <HoverLift>
-              <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-white premium-shadow">
-                <div className="relative aspect-[16/10]">
-                  <Image
-                    src={pkg.images[0]}
-                    alt={pkg.name}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width:1024px) 100vw, 33vw"
-                  />
-                </div>
-                <div className="flex flex-1 flex-col p-6">
-                  <div className="flex items-center justify-between gap-2">
-                    <Badge variant={i === 2 ? "gold" : "default"}>{pkg.name}</Badge>
-                    <span className="rounded-full bg-amber-500/15 px-2.5 py-0.5 text-[11px] font-bold text-amber-700">
-                      🎁 Offer Package
-                    </span>
+        {packages.length === 0 ? (
+          <div className="rounded-2xl border border-dashed border-border bg-card p-12 text-center text-muted-foreground">
+            <p className="font-semibold text-foreground">Custom Event Planning</p>
+            <p className="mt-1 text-sm">Every celebration is uniquely tailored around your preferences and budget.</p>
+            <Link href="/plan-event" className="mt-4 inline-block">
+              <Button variant="primary">Plan Your Event</Button>
+            </Link>
+          </div>
+        ) : (
+          <div className="grid gap-6 lg:grid-cols-3">
+            {packages.slice(0, 3).map((pkg, i) => (
+              <FadeIn key={pkg.id} delay={i * 0.08}>
+                <HoverLift>
+                <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card premium-shadow">
+                  <div className="relative aspect-[16/10]">
+                    <Image
+                      src={pkg.images[0]}
+                      alt={pkg.name}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width:1024px) 100vw, 33vw"
+                    />
                   </div>
-
-                  <div className="mt-3">
-                    <p className="text-xs text-muted-foreground">
-                      Predefined Price:{" "}
-                      <span className="line-through font-semibold text-muted-foreground/70">
-                        {formatCurrency(pkg.startingPrice)}
-                      </span>{" "}
-                      <span className="rounded-xs bg-red-100 px-1 py-0.5 text-[10px] font-bold text-red-600">
-                        Disabled
+                  <div className="flex flex-1 flex-col p-6">
+                    <div className="flex items-center justify-between gap-2">
+                      <Badge variant={i === 2 ? "gold" : "default"}>{pkg.name}</Badge>
+                      <span className="rounded-full bg-amber-500/15 px-2.5 py-0.5 text-[11px] font-bold text-amber-700">
+                        🎁 Offer Package
                       </span>
-                    </p>
-                    <p className="mt-1 text-lg font-extrabold text-emerald-600">
-                      Custom Offer Package (Your Budget)
-                    </p>
-                  </div>
+                    </div>
 
-                  <p className="mt-2 text-sm text-muted-foreground line-clamp-3">
-                    {pkg.description}
-                  </p>
-                  <ul className="mt-4 space-y-2 text-sm">
-                    {pkg.highlights.slice(0, 4).map((h) => (
-                      <li key={h} className="flex items-start gap-2">
-                        <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                        {h}
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="mt-auto pt-6">
-                    <Link href={`/plan-event?package=${pkg.slug}`}>
-                      <Button className="w-full" variant={i === 2 ? "primary" : "outline"}>
-                        {i === 2 ? "Build My Package" : "Customize Package"}
-                      </Button>
-                    </Link>
+                    <div className="mt-3">
+                      <p className="text-xs text-muted-foreground">
+                        Predefined Price:{" "}
+                        <span className="line-through font-semibold text-muted-foreground/70">
+                          {formatCurrency(pkg.startingPrice)}
+                        </span>{" "}
+                        <span className="rounded-xs bg-red-100 px-1 py-0.5 text-[10px] font-bold text-red-600">
+                          Disabled
+                        </span>
+                      </p>
+                      <p className="mt-1 text-lg font-extrabold text-emerald-600">
+                        Custom Offer Package (Your Budget)
+                      </p>
+                    </div>
+
+                    <p className="mt-2 text-sm text-muted-foreground line-clamp-3">
+                      {pkg.description}
+                    </p>
+                    <ul className="mt-4 space-y-2 text-sm">
+                      {pkg.highlights.slice(0, 4).map((h) => (
+                        <li key={h} className="flex items-start gap-2">
+                          <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                          {h}
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="mt-auto pt-6">
+                      <Link href={`/plan-event?package=${pkg.slug}`}>
+                        <Button className="w-full" variant={i === 2 ? "primary" : "outline"}>
+                          {i === 2 ? "Build My Package" : "Customize Package"}
+                        </Button>
+                      </Link>
+                    </div>
                   </div>
-                </div>
-              </article>
-              </HoverLift>
-            </FadeIn>
-          ))}
-        </div>
+                </article>
+                </HoverLift>
+              </FadeIn>
+            ))}
+          </div>
+        )}
         <div className="mt-8 text-center">
           <Link href="/packages">
             <Button variant="ghost">
@@ -256,43 +266,53 @@ export function FeaturedPhotographers({
           title="Meet photographers who capture the joy"
           description="Browse verified professionals — or include photography in your full event plan."
         />
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {photographers.map((p, i) => (
-            <FadeIn key={p.id} delay={i * 0.06}>
-              <Link
-                href={`/photographers/${p.slug}`}
-                className="group block overflow-hidden rounded-2xl border border-border bg-white premium-shadow transition hover:-translate-y-1"
-              >
-                <div className="relative aspect-[4/5]">
-                  <Image
-                    src={p.profilePhoto}
-                    alt={p.name}
-                    fill
-                    className="object-cover transition duration-500 group-hover:scale-105"
-                    sizes="(max-width:768px) 50vw, 25vw"
-                  />
-                  {p.featured && (
-                    <Badge className="absolute left-3 top-3" variant="gold">
-                      Featured
-                    </Badge>
-                  )}
-                </div>
-                <div className="p-4">
-                  <div className="flex items-center justify-between gap-2">
-                    <h3 className="font-semibold">{p.name}</h3>
-                    <span className="text-sm font-medium text-primary">
-                      ★ {p.rating}
-                    </span>
+        {photographers.length === 0 ? (
+          <div className="rounded-2xl border border-dashed border-border bg-card p-12 text-center text-muted-foreground">
+            <p className="font-semibold text-foreground">Photographers Directory</p>
+            <p className="mt-1 text-sm">No registered photographers listed yet. We connect you with top verified talent.</p>
+            <Link href="/contact" className="mt-4 inline-block">
+              <Button variant="outline">Join as a Photographer</Button>
+            </Link>
+          </div>
+        ) : (
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {photographers.map((p, i) => (
+              <FadeIn key={p.id} delay={i * 0.06}>
+                <Link
+                  href={`/photographers/${p.slug}`}
+                  className="group block overflow-hidden rounded-2xl border border-border bg-card premium-shadow transition hover:-translate-y-1"
+                >
+                  <div className="relative aspect-[4/5]">
+                    <Image
+                      src={p.profilePhoto}
+                      alt={p.name}
+                      fill
+                      className="object-cover transition duration-500 group-hover:scale-105"
+                      sizes="(max-width:768px) 50vw, 25vw"
+                    />
+                    {p.featured && (
+                      <Badge className="absolute left-3 top-3" variant="gold">
+                        Featured
+                      </Badge>
+                    )}
                   </div>
-                  <p className="mt-1 text-sm text-muted-foreground">{p.location}</p>
-                  <p className="mt-2 text-sm font-medium">
-                    From {formatCurrency(p.startingPrice)}
-                  </p>
-                </div>
-              </Link>
-            </FadeIn>
-          ))}
-        </div>
+                  <div className="p-4">
+                    <div className="flex items-center justify-between gap-2">
+                      <h3 className="font-semibold">{p.name}</h3>
+                      <span className="text-sm font-medium text-primary">
+                        ★ {p.rating}
+                      </span>
+                    </div>
+                    <p className="mt-1 text-sm text-muted-foreground">{p.location}</p>
+                    <p className="mt-2 text-sm font-medium">
+                      From {formatCurrency(p.startingPrice)}
+                    </p>
+                  </div>
+                </Link>
+              </FadeIn>
+            ))}
+          </div>
+        )}
         <div className="mt-8 text-center">
           <Link href="/photographers">
             <Button variant="outline">
@@ -314,40 +334,47 @@ export function ReviewsSection({ reviews }: { reviews: DemoReview[] }) {
           title="Moments people loved"
           description="Real celebrations planned and managed by ShapeMyMoment."
         />
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {reviews.slice(0, 6).map((review, i) => (
-            <FadeIn key={review.id} delay={i * 0.05}>
-              <article className="h-full rounded-2xl border border-border bg-white p-6">
-                <div className="flex items-center gap-3">
-                  {"avatar" in review && review.avatar ? (
-                    <Image
-                      src={review.avatar}
-                      alt={review.name}
-                      width={40}
-                      height={40}
-                      className="rounded-full object-cover"
-                    />
-                  ) : (
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-sm font-bold text-primary">
-                      {review.name[0]}
+        {reviews.length === 0 ? (
+          <div className="rounded-2xl border border-dashed border-border bg-white p-12 text-center text-muted-foreground">
+            <p className="font-semibold text-foreground">Client Reviews</p>
+            <p className="mt-1 text-sm">Be the first to share your event experience with ShapeMyMoment.</p>
+          </div>
+        ) : (
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {reviews.slice(0, 6).map((review, i) => (
+              <FadeIn key={review.id} delay={i * 0.05}>
+                <article className="h-full rounded-2xl border border-border bg-card p-6">
+                  <div className="flex items-center gap-3">
+                    {"avatar" in review && review.avatar ? (
+                      <Image
+                        src={review.avatar}
+                        alt={review.name}
+                        width={40}
+                        height={40}
+                        className="rounded-full object-cover"
+                      />
+                    ) : (
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-sm font-bold text-primary">
+                        {review.name[0]}
+                      </div>
+                    )}
+                    <div>
+                      <p className="font-semibold">{review.name}</p>
+                      <p className="text-xs text-muted-foreground">{review.eventType}</p>
                     </div>
-                  )}
-                  <div>
-                    <p className="font-semibold">{review.name}</p>
-                    <p className="text-xs text-muted-foreground">{review.eventType}</p>
                   </div>
-                </div>
-                <p className="mt-3 text-sm text-primary">
-                  {"★".repeat(review.rating)}
-                  {"☆".repeat(5 - review.rating)}
-                </p>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                  “{review.review}”
-                </p>
-              </article>
-            </FadeIn>
-          ))}
-        </div>
+                  <p className="mt-3 text-sm text-primary">
+                    {"★".repeat(review.rating)}
+                    {"☆".repeat(5 - review.rating)}
+                  </p>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                    “{review.review}”
+                  </p>
+                </article>
+              </FadeIn>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

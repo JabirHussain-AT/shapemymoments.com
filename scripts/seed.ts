@@ -176,83 +176,89 @@ async function seed() {
     },
   ]);
 
-  await EventPackage.insertMany(
-    DEMO_PACKAGES.map((p) => ({
-      name: p.name,
-      slug: p.slug,
-      description: p.description,
-      startingPrice: p.startingPrice,
-      eventTypes: [...p.eventTypes],
-      services: [...p.services],
-      images: [...p.images],
-      highlights: [...p.highlights],
-      featured: p.featured,
-      active: p.active,
-    }))
-  );
+  if (DEMO_PACKAGES.length > 0) {
+    await EventPackage.insertMany(
+      DEMO_PACKAGES.map((p: any) => ({
+        name: p.name,
+        slug: p.slug,
+        description: p.description,
+        startingPrice: p.startingPrice,
+        eventTypes: [...p.eventTypes],
+        services: [...p.services],
+        images: [...p.images],
+        highlights: [...p.highlights],
+        featured: p.featured,
+        active: p.active,
+      }))
+    );
+  }
 
-  const photographers = await Photographer.insertMany(
-    DEMO_PHOTOGRAPHERS.map((p) => ({
-      slug: p.slug,
-      name: p.name,
-      profilePhoto: p.profilePhoto,
-      coverImage: p.coverImage,
-      location: p.location,
-      bio: p.bio,
-      experience: p.experience,
-      yearsOfExperience: p.yearsOfExperience,
-      specializations: [...p.specializations],
-      eventTypes: [...p.eventTypes],
-      portfolio: p.portfolio.map((item) => ({ ...item })),
-      startingPrice: p.startingPrice,
-      languages: [...p.languages],
-      serviceLocations: [...p.serviceLocations],
-      availability: p.availability,
-      packages: p.packages.map((pkg) => ({
-        ...pkg,
-        includes: [...pkg.includes],
-      })),
-      rating: p.rating,
-      reviewCount: p.reviewCount,
-      socialLinks: { ...p.socialLinks },
-      verified: p.verified,
-      featured: p.featured,
-      status: p.status,
-      subscriptionPlan: p.subscriptionPlan,
-      profileViews: p.profileViews,
-      portfolioViews: p.portfolioViews,
-    }))
-  );
+  if (DEMO_PHOTOGRAPHERS.length > 0) {
+    const photographers = await Photographer.insertMany(
+      DEMO_PHOTOGRAPHERS.map((p: any) => ({
+        slug: p.slug,
+        name: p.name,
+        profilePhoto: p.profilePhoto,
+        coverImage: p.coverImage,
+        location: p.location,
+        bio: p.bio,
+        experience: p.experience,
+        yearsOfExperience: p.yearsOfExperience,
+        specializations: [...p.specializations],
+        eventTypes: [...p.eventTypes],
+        portfolio: p.portfolio.map((item: any) => ({ ...item })),
+        startingPrice: p.startingPrice,
+        languages: [...p.languages],
+        serviceLocations: [...p.serviceLocations],
+        availability: p.availability,
+        packages: p.packages.map((pkg: any) => ({
+          ...pkg,
+          includes: [...pkg.includes],
+        })),
+        rating: p.rating,
+        reviewCount: p.reviewCount,
+        socialLinks: { ...p.socialLinks },
+        verified: p.verified,
+        featured: p.featured,
+        status: p.status,
+        subscriptionPlan: p.subscriptionPlan,
+        profileViews: p.profileViews,
+        portfolioViews: p.portfolioViews,
+      }))
+    );
 
-  const planPrices = { FREE: 0, PRO: 999, PREMIUM: 2499 } as const;
-  await Subscription.insertMany(
-    photographers.map((p, i) => {
-      const plan = DEMO_PHOTOGRAPHERS[i].subscriptionPlan;
-      return {
-        photographerId: p._id,
-        plan,
-        status: "ACTIVE",
-        priceMonthly: planPrices[plan],
-        features: [],
-        startDate: new Date(),
-      };
-    })
-  );
+    const planPrices = { FREE: 0, PRO: 999, PREMIUM: 2499 } as const;
+    await Subscription.insertMany(
+      photographers.map((p, i) => {
+        const plan = (DEMO_PHOTOGRAPHERS as any)[i].subscriptionPlan;
+        return {
+          photographerId: p._id,
+          plan,
+          status: "ACTIVE",
+          priceMonthly: planPrices[plan as keyof typeof planPrices] || 0,
+          features: [],
+          startDate: new Date(),
+        };
+      })
+    );
+  }
 
-  await Review.insertMany(
-    DEMO_REVIEWS.map((r) => ({
-      name: r.name,
-      avatar: "avatar" in r ? r.avatar : undefined,
-      rating: r.rating,
-      review: r.review,
-      eventType: r.eventType,
-      photographerSlug: "photographerId" in r ? r.photographerId : undefined,
-      packageSlug: "packageId" in r ? r.packageId : undefined,
-      status: r.status,
-      featured: r.featured,
-      date: new Date(r.date),
-    }))
-  );
+  if (DEMO_REVIEWS.length > 0) {
+    await Review.insertMany(
+      DEMO_REVIEWS.map((r: any) => ({
+        name: r.name,
+        avatar: "avatar" in r ? r.avatar : undefined,
+        rating: r.rating,
+        review: r.review,
+        eventType: r.eventType,
+        photographerSlug: "photographerId" in r ? r.photographerId : undefined,
+        packageSlug: "packageId" in r ? r.packageId : undefined,
+        status: r.status,
+        featured: r.featured,
+        date: new Date(r.date),
+      }))
+    );
+  }
 
   await SiteSettings.create({
     hero: {
@@ -277,17 +283,14 @@ async function seed() {
     },
     faqs: DEMO_FAQS.map((f) => ({ ...f })),
     eventTypes: DEMO_EVENT_TYPES.map((t) => ({ ...t })),
-    featuredPhotographerIds: DEMO_PHOTOGRAPHERS.filter((p) => p.featured).map(
-      (p) => p.slug
-    ),
-    featuredReviewIds: DEMO_REVIEWS.filter((r) => r.featured).map((r) => r.id),
+    featuredPhotographerIds: [],
+    featuredReviewIds: [],
     notifyEmails: [],
   });
 
   console.log("Seed complete:");
-  console.log(`- ${DEMO_PHOTOGRAPHERS.length} photographers`);
-  console.log(`- ${DEMO_PACKAGES.length} packages`);
-  console.log(`- ${DEMO_REVIEWS.length} reviews`);
+  console.log(`- Admin: admin@shapemymoment.com / admin12345`);
+  console.log(`- Customer: demo@shapemymoment.com / demo12345`);
   console.log(`- ${DEMO_EVENT_TYPES.length} event types`);
   console.log("- Admin: admin@shapemymoment.com / admin12345");
   console.log("- Customer: demo@shapemymoment.com / demo12345");

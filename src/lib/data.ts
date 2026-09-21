@@ -8,9 +8,70 @@ import {
   DEMO_EVENT_REQUESTS,
 } from "@/lib/demo-data";
 
-export type DemoCreative = (typeof DEMO_CREATIVES)[number];
-export type DemoPhotographer = (typeof DEMO_PHOTOGRAPHERS)[number];
-export type DemoPackage = (typeof DEMO_PACKAGES)[number];
+export type DemoCreative = {
+  id: string;
+  slug: string;
+  name: string;
+  category: string;
+  profilePhoto: string;
+  coverImage?: string;
+  location: string;
+  bio: string;
+  experience?: string;
+  yearsOfExperience: number;
+  specializations: string[];
+  eventTypes: string[];
+  startingPrice: number;
+  rating: number;
+  reviewCount: number;
+  verified: boolean;
+  featured: boolean;
+  status: string;
+  serviceLocations: string[];
+  availability?: string;
+  languages?: string[];
+  portfolio?: Array<{
+    url?: string;
+    image?: string;
+    title?: string;
+    category?: string;
+    caption?: string;
+    eventType?: string;
+  }>;
+  packages?: Array<{
+    name: string;
+    price: number;
+    description?: string;
+    hours?: string;
+    includes?: string[];
+  }>;
+  bookedDates?: string[];
+  hourlyRate?: number;
+  includes?: string[];
+  excludes?: string[];
+  guarantees?: string[];
+  socialLinks?: Record<string, string>;
+  subscriptionPlan?: string;
+  profileViews?: number;
+  portfolioViews?: number;
+};
+
+export type DemoPhotographer = DemoCreative;
+
+export type DemoPackage = {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  startingPrice: number;
+  eventTypes: string[];
+  services: string[];
+  images: string[];
+  highlights: string[];
+  featured: boolean;
+  active: boolean;
+};
+
 export type DemoReview = {
   id: string;
   name: string;
@@ -25,6 +86,22 @@ export type DemoReview = {
   date: string;
 };
 
+export type DemoEventRequest = {
+  id: string;
+  requestId: string;
+  name: string;
+  email: string;
+  phone: string;
+  eventType: string;
+  eventDate: string;
+  location: string;
+  guestCount: number;
+  budget: number;
+  notes?: string;
+  status: string;
+  createdAt: string;
+};
+
 export function getDemoCreatives(filters?: {
   category?: string;
   q?: string;
@@ -35,8 +112,8 @@ export function getDemoCreatives(filters?: {
   minRating?: number;
   availability?: string;
   sort?: string;
-}) {
-  let list = [...DEMO_CREATIVES].filter((c) => c.status === "APPROVED");
+}): DemoCreative[] {
+  let list: DemoCreative[] = [...(DEMO_CREATIVES as DemoCreative[])].filter((c) => c.status === "APPROVED");
 
   if (filters?.category && filters.category !== "All") {
     const cat = filters.category.toLowerCase();
@@ -101,7 +178,7 @@ export function getDemoCreatives(filters?: {
 
 export function getDemoCreative(slug: string): DemoCreative | null {
   return (
-    DEMO_CREATIVES.find(
+    (DEMO_CREATIVES as DemoCreative[]).find(
       (c: DemoCreative) => c.slug === slug || c.id === slug
     ) || null
   );
@@ -175,15 +252,15 @@ export function getDemoPhotographers(filters?: {
 }
 
 export function getDemoPhotographer(slug: string): DemoPhotographer | null {
-  return (DEMO_PHOTOGRAPHERS.find((p) => p.slug === slug) as DemoPhotographer) || null;
+  return ((DEMO_PHOTOGRAPHERS as DemoPhotographer[]).find((p) => p.slug === slug) as DemoPhotographer) || null;
 }
 
-export function getDemoPackages() {
-  return DEMO_PACKAGES.filter((p) => p.active);
+export function getDemoPackages(): DemoPackage[] {
+  return (DEMO_PACKAGES as DemoPackage[]).filter((p) => p.active);
 }
 
-export function getDemoPackage(slug: string) {
-  return DEMO_PACKAGES.find((p) => p.slug === slug) || null;
+export function getDemoPackage(slug: string): DemoPackage | null {
+  return (DEMO_PACKAGES as DemoPackage[]).find((p) => p.slug === slug) || null;
 }
 
 export function getDemoReviews(opts?: {
@@ -191,7 +268,7 @@ export function getDemoReviews(opts?: {
   packageId?: string;
   featured?: boolean;
 }): DemoReview[] {
-  let list: DemoReview[] = DEMO_REVIEWS.filter((r) => r.status === "APPROVED").map(
+  let list: DemoReview[] = (DEMO_REVIEWS as DemoReview[]).filter((r) => r.status === "APPROVED").map(
     (r) => ({
       id: r.id,
       name: r.name,
@@ -226,18 +303,89 @@ export function getDemoFaqs() {
   return DEMO_FAQS;
 }
 
-export function getDemoEventRequests() {
-  return DEMO_EVENT_REQUESTS;
+export function getDemoEventRequests(): DemoEventRequest[] {
+  return DEMO_EVENT_REQUESTS as DemoEventRequest[];
 }
 
-export function getFeaturedPhotographers(limit = 4) {
-  return getDemoPhotographers({ sort: "featured" }).slice(0, limit);
+export async function getLiveCreativesFromDb(): Promise<DemoCreative[]> {
+  try {
+    const { connectDB } = await import("@/lib/mongodb");
+    const { Photographer } = await import("@/models");
+    await connectDB();
+    const docs = await Photographer.find().sort({ createdAt: -1 }).lean();
+    if (docs && docs.length > 0) {
+      return docs.map((p: any) => ({
+        id: String(p._id),
+        slug: p.slug,
+        name: p.name,
+        category: p.category || "Photographers",
+        profilePhoto: p.profilePhoto || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&q=80",
+        coverImage: p.coverImage || "https://images.unsplash.com/photo-1519741497674-611481863552?w=1400&q=80",
+        location: p.location || "Wayanad, Kerala",
+        bio: p.bio || "Creative partner profile with ShapeMyMoment.",
+        experience: p.experience || `${p.yearsOfExperience || 1} years experience`,
+        yearsOfExperience: p.yearsOfExperience || 1,
+        specializations: Array.isArray(p.specializations) ? p.specializations : [],
+        eventTypes: Array.isArray(p.eventTypes) ? p.eventTypes : ["Wedding", "Birthday"],
+        startingPrice: p.startingPrice || 10000,
+        rating: p.rating || 4.9,
+        reviewCount: p.reviewCount || 0,
+        verified: Boolean(p.verified),
+        featured: Boolean(p.featured),
+        status: p.status || "APPROVED",
+        serviceLocations: Array.isArray(p.serviceLocations) ? p.serviceLocations : [p.location || "Wayanad"],
+        availability: p.availability || "Available",
+        languages: Array.isArray(p.languages) ? p.languages : ["English", "Malayalam"],
+        portfolio: Array.isArray(p.portfolio)
+          ? p.portfolio
+              .map((item: any) => ({
+                url: typeof item === "string" ? item : (item?.url || item?.image || ""),
+                caption: typeof item === "string" ? "" : (item?.caption || item?.title || ""),
+                eventType: typeof item === "string" ? "Event" : (item?.eventType || "Event"),
+              }))
+              .filter((item: any) => Boolean(item.url))
+          : [],
+        packages: Array.isArray(p.packages) ? p.packages : [],
+        bookedDates: Array.isArray(p.bookedDates) ? p.bookedDates : [],
+        hourlyRate: p.hourlyRate || Math.round((p.startingPrice || 10000) / 4),
+        includes: Array.isArray(p.includes)
+          ? p.includes
+          : [
+              "High-resolution edited digital photos",
+              "Professional lighting & camera gear",
+              "Color correction & retouching",
+              "Full digital cloud album link",
+              "Pre-event consultation & timeline planning",
+            ],
+        excludes: Array.isArray(p.excludes)
+          ? p.excludes
+          : [
+              "Travel & accommodation beyond 100km radius",
+              "Printed physical photo albums (available as add-on)",
+              "Additional overtime hours beyond agreed schedule",
+            ],
+        guarantees: Array.isArray(p.guarantees)
+          ? p.guarantees
+          : [
+              "ShapeMyMoment 100% On-Time Service Delivery Guarantee",
+              "Direct Concierge Booking & Price Protection (Zero hidden fees)",
+              "Verified Partner Checkmark & Quality Audit",
+              "Secure Payment Escrow Protection",
+            ],
+        socialLinks: p.socialLinks || {},
+        subscriptionPlan: p.subscriptionPlan || "FREE",
+      }));
+    }
+  } catch (err) {
+    console.warn("MongoDB query error in getLiveCreativesFromDb:", err);
+  }
+  return getDemoCreatives();
 }
 
 export const SITE_DEFAULTS = {
   name: "ShapeMyMoment",
   tagline: "You enjoy the moment. We handle everything else.",
-  email: "hello@shapemymoment.com",
+  email: "help@shapemymoment.com",
   phone: "+91 80899 09386",
   address: "Kalpetta, Wayanad, Kerala",
   hero: {

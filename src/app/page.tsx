@@ -13,7 +13,7 @@ import {
   getDemoEventTypes,
   getDemoPackages,
   getDemoReviews,
-  getDemoCreatives,
+  getLiveCreativesFromDb,
 } from "@/lib/data";
 import { absoluteUrl } from "@/lib/utils";
 
@@ -27,10 +27,10 @@ export const metadata: Metadata = {
   alternates: { canonical: absoluteUrl("/") },
 };
 
-export default function HomePage() {
+export default async function HomePage() {
   const eventTypes = getDemoEventTypes();
   const packages = getDemoPackages();
-  const creatives = getDemoCreatives();
+  const creatives = await getLiveCreativesFromDb();
   const reviews = getDemoReviews({ featured: true });
 
   return (

@@ -23,7 +23,7 @@ export function LogoIcon({ className = "h-9 w-9" }: { className?: string }) {
         <linearGradient id="smmGradBg" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
           <stop stopColor="#5B3A8F" />
           <stop offset="0.5" stopColor="#7C4DB8" />
-          <stop offset="1" stop-color="#C9A227" />
+          <stop offset="1" stopColor="#C9A227" />
         </linearGradient>
         <linearGradient id="smmPopperGrad" x1="8" y1="32" x2="22" y2="18" gradientUnits="userSpaceOnUse">
           <stop stopColor="#FFD700" />

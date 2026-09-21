@@ -34,6 +34,7 @@ export interface IPhotographer {
   languages: string[];
   serviceLocations: string[];
   availability: string;
+  bookedDates?: string[];
   packages: IPhotographerPackage[];
   rating: number;
   reviewCount: number;
@@ -46,6 +47,13 @@ export interface IPhotographer {
   featured: boolean;
   status: PhotographerStatus;
   subscriptionPlan: SubscriptionPlan;
+  totalEarnings?: number;
+  completedWorksCount?: number;
+  hourlyRate?: number;
+  includes?: string[];
+  excludes?: string[];
+  guarantees?: string[];
+  dateNotes?: { date: string; note: string; status?: string }[];
   profileViews: number;
   portfolioViews: number;
   createdAt: Date;
@@ -81,6 +89,7 @@ const PhotographerSchema = new Schema<IPhotographer>(
       default: "Available",
       index: true,
     },
+    bookedDates: [{ type: String }],
     packages: [
       {
         name: String,
@@ -110,6 +119,19 @@ const PhotographerSchema = new Schema<IPhotographer>(
       enum: ["FREE", "PRO", "PREMIUM"],
       default: "FREE",
     },
+    totalEarnings: { type: Number, default: 0 },
+    completedWorksCount: { type: Number, default: 0 },
+    hourlyRate: { type: Number, default: 2500 },
+    includes: [{ type: String }],
+    excludes: [{ type: String }],
+    guarantees: [{ type: String }],
+    dateNotes: [
+      {
+        date: String,
+        note: String,
+        status: String,
+      },
+    ],
     profileViews: { type: Number, default: 0 },
     portfolioViews: { type: Number, default: 0 },
   },
@@ -117,4 +139,4 @@ const PhotographerSchema = new Schema<IPhotographer>(
 );
 
 export const Photographer =
-  models.Photographer || model<IPhotographer>("Photographer", PhotographerSchema);
+  models?.Photographer || model<IPhotographer>("Photographer", PhotographerSchema);

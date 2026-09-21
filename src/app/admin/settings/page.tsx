@@ -7,7 +7,7 @@ export const metadata = { title: "Settings", robots: { index: false } };
 export default function AdminSettingsPage() {
   return (
     <AdminShell title="Settings">
-      <div className="max-w-xl rounded-2xl border border-border bg-white p-6">
+      <div className="max-w-xl rounded-2xl border border-border bg-card p-6">
         <h2 className="font-semibold">Site settings</h2>
         <div className="mt-4 space-y-3">
           <div>
