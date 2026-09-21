@@ -102,7 +102,115 @@ export type DemoEventRequest = {
   createdAt: string;
 };
 
-export function getDemoCreatives(filters?: {
+export function filterCreativesList<T extends DemoCreative>(
+  sourceList: T[],
+  filters?: {
+    category?: string;
+    q?: string;
+    location?: string;
+    eventType?: string;
+    minExperience?: number;
+    maxPrice?: number;
+    minRating?: number;
+    availability?: string;
+    sort?: string;
+  }
+): T[] {
+  let list = [...sourceList].filter((c) => c.status === "APPROVED" || !c.status);
+
+  if (filters?.category && filters.category !== "All") {
+    const cat = filters.category.toLowerCase().trim();
+    list = list.filter((c) => {
+      const cCat = (c.category || "").toLowerCase();
+      if (cat === "henna artists" && (cCat === "henna designers" || cCat === "henna artists")) return true;
+      if (cat === "hamper makers" && (cCat === "hampers" || cCat === "hamper makers")) return true;
+      return cCat === cat;
+    });
+  }
+
+  if (filters?.q) {
+    const q = filters.q.toLowerCase().trim();
+    list = list.filter(
+      (c) =>
+        (c.name || "").toLowerCase().includes(q) ||
+        (c.location || "").toLowerCase().includes(q) ||
+        (c.category || "").toLowerCase().includes(q) ||
+        (c.specializations && c.specializations.some((s: string) => s.toLowerCase().includes(q)))
+    );
+  }
+
+  if (filters?.location) {
+    const rawLoc = filters.location.toLowerCase().trim();
+    if (rawLoc && rawLoc !== "all" && rawLoc !== "all south india") {
+      // Related region keywords mapping for flexible matching
+      const locTerms: string[] = [rawLoc];
+      if (rawLoc.includes("wayanad")) {
+        locTerms.push("kalpetta", "bathery", "mananthavady", "kerala");
+      } else if (rawLoc.includes("kalpetta") || rawLoc.includes("bathery") || rawLoc.includes("mananthavady")) {
+        locTerms.push("wayanad");
+      }
+      if (rawLoc.includes("kochi") || rawLoc.includes("ernakulam")) {
+        locTerms.push("kochi", "ernakulam");
+      }
+
+      list = list.filter((c) => {
+        const cLoc = (c.location || "").toLowerCase();
+        const cServiceLocs = Array.isArray(c.serviceLocations)
+          ? c.serviceLocations.map((s: string) => s.toLowerCase())
+          : [];
+        return locTerms.some(
+          (term) => cLoc.includes(term) || cServiceLocs.some((s) => s.includes(term))
+        );
+      });
+    }
+  }
+
+  if (filters?.eventType) {
+    list = list.filter((c) =>
+      Array.isArray(c.eventTypes) && c.eventTypes.includes(filters.eventType!)
+    );
+  }
+
+  if (filters?.minExperience) {
+    list = list.filter((c) => Number(c.yearsOfExperience || 0) >= filters.minExperience!);
+  }
+
+  if (filters?.maxPrice) {
+    list = list.filter((c) => Number(c.startingPrice || 0) <= filters.maxPrice!);
+  }
+
+  if (filters?.minRating) {
+    list = list.filter((c) => Number(c.rating || 0) >= filters.minRating!);
+  }
+
+  if (filters?.availability) {
+    list = list.filter((c) => c.availability === filters.availability);
+  }
+
+  switch (filters?.sort) {
+    case "rating":
+      list.sort((a, b) => Number(b.rating || 0) - Number(a.rating || 0));
+      break;
+    case "experience":
+      list.sort((a, b) => Number(b.yearsOfExperience || 0) - Number(a.yearsOfExperience || 0));
+      break;
+    case "price-asc":
+      list.sort((a, b) => Number(a.startingPrice || 0) - Number(b.startingPrice || 0));
+      break;
+    case "price-desc":
+      list.sort((a, b) => Number(b.startingPrice || 0) - Number(a.startingPrice || 0));
+      break;
+    default:
+      list.sort((a, b) => {
+        if (a.featured !== b.featured) return Number(b.featured) - Number(a.featured);
+        return Number(b.rating || 0) - Number(a.rating || 0);
+      });
+  }
+
+  return list;
+}
+
+type CreativeFilters = {
   category?: string;
   q?: string;
   location?: string;
@@ -112,68 +220,16 @@ export function getDemoCreatives(filters?: {
   minRating?: number;
   availability?: string;
   sort?: string;
-}): DemoCreative[] {
-  let list: DemoCreative[] = [...(DEMO_CREATIVES as DemoCreative[])].filter((c) => c.status === "APPROVED");
+};
 
-  if (filters?.category && filters.category !== "All") {
-    const cat = filters.category.toLowerCase();
-    list = list.filter((c) => c.category.toLowerCase() === cat);
+export function getDemoCreatives(
+  sourceListOrFilters?: DemoCreative[] | CreativeFilters,
+  filters?: CreativeFilters
+): DemoCreative[] {
+  if (Array.isArray(sourceListOrFilters)) {
+    return filterCreativesList(sourceListOrFilters, filters);
   }
-
-  if (filters?.q) {
-    const q = filters.q.toLowerCase();
-    list = list.filter(
-      (c) =>
-        c.name.toLowerCase().includes(q) ||
-        c.location.toLowerCase().includes(q) ||
-        c.category.toLowerCase().includes(q) ||
-        c.specializations.some((s: string) => s.toLowerCase().includes(q))
-    );
-  }
-  if (filters?.location) {
-    const loc = filters.location.toLowerCase();
-    list = list.filter(
-      (c) =>
-        c.location.toLowerCase().includes(loc) ||
-        c.serviceLocations.some((s: string) => s.toLowerCase().includes(loc))
-    );
-  }
-  if (filters?.eventType) {
-    list = list.filter((c) =>
-      (c.eventTypes as readonly string[]).includes(filters.eventType!)
-    );
-  }
-  if (filters?.minExperience) {
-    list = list.filter((c) => c.yearsOfExperience >= filters.minExperience!);
-  }
-  if (filters?.maxPrice) {
-    list = list.filter((c) => c.startingPrice <= filters.maxPrice!);
-  }
-  if (filters?.minRating) {
-    list = list.filter((c) => c.rating >= filters.minRating!);
-  }
-
-  switch (filters?.sort) {
-    case "rating":
-      list.sort((a, b) => b.rating - a.rating);
-      break;
-    case "experience":
-      list.sort((a, b) => b.yearsOfExperience - a.yearsOfExperience);
-      break;
-    case "price-asc":
-      list.sort((a, b) => a.startingPrice - b.startingPrice);
-      break;
-    case "price-desc":
-      list.sort((a, b) => b.startingPrice - a.startingPrice);
-      break;
-    default:
-      list.sort((a, b) => {
-        if (a.featured !== b.featured) return Number(b.featured) - Number(a.featured);
-        return b.rating - a.rating;
-      });
-  }
-
-  return list;
+  return filterCreativesList(DEMO_CREATIVES as DemoCreative[], sourceListOrFilters);
 }
 
 export function getDemoCreative(slug: string): DemoCreative | null {
@@ -184,71 +240,14 @@ export function getDemoCreative(slug: string): DemoCreative | null {
   );
 }
 
-export function getDemoPhotographers(filters?: {
-  q?: string;
-  location?: string;
-  eventType?: string;
-  minExperience?: number;
-  maxPrice?: number;
-  minRating?: number;
-  availability?: string;
-  sort?: string;
-}): DemoPhotographer[] {
-  let list = (DEMO_PHOTOGRAPHERS as DemoPhotographer[]).filter((p) => p.status === "APPROVED");
-
-  if (filters?.q) {
-    const q = filters.q.toLowerCase();
-    list = list.filter(
-      (p) =>
-        p.name.toLowerCase().includes(q) ||
-        p.location.toLowerCase().includes(q) ||
-        p.specializations.some((s: string) => s.toLowerCase().includes(q))
-    );
+export function getDemoPhotographers(
+  sourceListOrFilters?: DemoPhotographer[] | CreativeFilters,
+  filters?: CreativeFilters
+): DemoPhotographer[] {
+  if (Array.isArray(sourceListOrFilters)) {
+    return filterCreativesList(sourceListOrFilters, filters);
   }
-  if (filters?.location) {
-    const loc = filters.location.toLowerCase();
-    list = list.filter(
-      (p) =>
-        p.location.toLowerCase().includes(loc) ||
-        p.serviceLocations.some((s: string) => s.toLowerCase().includes(loc))
-    );
-  }
-  if (filters?.eventType) {
-    list = list.filter((p) =>
-      (p.eventTypes as readonly string[]).includes(filters.eventType!)
-    );
-  }
-  if (filters?.minExperience) {
-    list = list.filter((p) => p.yearsOfExperience >= filters.minExperience!);
-  }
-  if (filters?.maxPrice) {
-    list = list.filter((p) => p.startingPrice <= filters.maxPrice!);
-  }
-  if (filters?.minRating) {
-    list = list.filter((p) => p.rating >= filters.minRating!);
-  }
-
-  switch (filters?.sort) {
-    case "rating":
-      list.sort((a, b) => b.rating - a.rating);
-      break;
-    case "experience":
-      list.sort((a, b) => b.yearsOfExperience - a.yearsOfExperience);
-      break;
-    case "price-asc":
-      list.sort((a, b) => a.startingPrice - b.startingPrice);
-      break;
-    case "price-desc":
-      list.sort((a, b) => b.startingPrice - a.startingPrice);
-      break;
-    default:
-      list.sort((a, b) => {
-        if (a.featured !== b.featured) return Number(b.featured) - Number(a.featured);
-        return b.rating - a.rating;
-      });
-  }
-
-  return list;
+  return filterCreativesList(DEMO_PHOTOGRAPHERS as DemoPhotographer[], sourceListOrFilters);
 }
 
 export function getDemoPhotographer(slug: string): DemoPhotographer | null {

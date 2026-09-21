@@ -23,7 +23,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { formatCurrency, getWhatsAppUrl } from "@/lib/utils";
-import type { DemoCreative } from "@/lib/data";
+import { filterCreativesList, type DemoCreative } from "@/lib/data";
 
 const CATEGORIES = [
   { id: "All", label: "All Network", icon: Sparkles },
@@ -62,32 +62,10 @@ export function CreativeShowcase({ creatives }: { creatives: DemoCreative[] }) {
   const [selectedLocation, setSelectedLocation] = useState("All South India");
 
   const filtered = useMemo(() => {
-    const result = creatives.filter((c) => {
-      const catStr = c.category as string;
-      const matchCat =
-        activeTab === "All" ||
-        catStr === activeTab ||
-        (activeTab === "Henna Artists" && (catStr === "Henna Designers" || catStr === "Henna Artists")) ||
-        (activeTab === "Hamper Makers" && (catStr === "Hampers" || catStr === "Hamper Makers"));
-
-      const matchLoc =
-        selectedLocation === "All" ||
-        selectedLocation === "All South India" ||
-        c.location.toLowerCase().includes(selectedLocation.toLowerCase()) ||
-        (c.serviceLocations &&
-          c.serviceLocations.some((s: string) =>
-            s.toLowerCase().includes(selectedLocation.toLowerCase())
-          ));
-
-      const qLower = searchQuery.toLowerCase();
-      const matchQuery =
-        !searchQuery ||
-        c.name.toLowerCase().includes(qLower) ||
-        c.category.toLowerCase().includes(qLower) ||
-        c.location.toLowerCase().includes(qLower) ||
-        (c.specializations &&
-          c.specializations.some((s: string) => s.toLowerCase().includes(qLower)));
-      return matchCat && matchLoc && matchQuery;
+    const result = filterCreativesList(creatives, {
+      category: activeTab,
+      q: searchQuery || undefined,
+      location: selectedLocation || undefined,
     });
 
     if (activeTab !== "All") {
