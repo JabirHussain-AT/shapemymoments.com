@@ -439,16 +439,16 @@ export function CreativeProfileView({
         <div className="mt-12 space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-              <h2 className="text-2xl font-bold tracking-tight">Portfolio Showcase</h2>
-              <p className="text-sm text-muted-foreground">Click any image to enlarge or customize style with our team</p>
+              <h2 className="text-xl sm:text-2xl font-bold tracking-tight">Portfolio Showcase</h2>
+              <p className="text-xs sm:text-sm text-muted-foreground">Click any image to enlarge or customize style with our team</p>
             </div>
             <a
               href={getWhatsAppUrl(`Hi ShapeMyMoment Team! I am browsing ${c.name}'s portfolio showcase and would like to customize an event package for better planning and assurance.`)}
               target="_blank"
               rel="noopener noreferrer"
-              className="shrink-0"
+              className="w-full sm:w-auto shrink-0"
             >
-              <Button size="sm" variant="outline" className="text-xs font-bold gap-2 border-emerald-500/30 text-emerald-600 hover:bg-emerald-500/10">
+              <Button size="sm" variant="outline" className="w-full sm:w-auto text-xs font-bold gap-2 border-emerald-500/30 text-emerald-600 hover:bg-emerald-500/10">
                 <MessageCircle className="h-4 w-4" /> Customize Package or Chat with Team
               </Button>
             </a>
@@ -456,11 +456,11 @@ export function CreativeProfileView({
 
           {/* Public Category Filter Pills */}
           {portfolioCategories.length > 0 && (
-            <div className="flex flex-wrap items-center gap-2 border-b border-border/80 pb-3 pt-2">
+            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-3 pt-2 max-w-full flex-wrap border-b border-border/80">
               <button
                 type="button"
                 onClick={() => setActivePortfolioCat("ALL")}
-                className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
+                className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition shrink-0 ${
                   activePortfolioCat === "ALL"
                     ? "bg-primary text-primary-foreground shadow-2xs"
                     : "bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground"
@@ -476,7 +476,7 @@ export function CreativeProfileView({
                     key={cat}
                     type="button"
                     onClick={() => setActivePortfolioCat(cat)}
-                    className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition flex items-center gap-1.5 ${
+                    className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition shrink-0 flex items-center gap-1.5 ${
                       active
                         ? "bg-primary text-primary-foreground shadow-2xs"
                         : "bg-card border border-border/80 text-muted-foreground hover:bg-muted hover:text-foreground"
@@ -491,7 +491,7 @@ export function CreativeProfileView({
           )}
 
           {filteredPortfolio.length > 0 ? (
-            <div className="mt-6 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {filteredPortfolio.map((item: { imgUrl: string; caption: string; eventType: string }, idx: number) => {
                 const imgUrl = item.imgUrl;
                 const caption = item.caption;
@@ -500,7 +500,7 @@ export function CreativeProfileView({
                 return (
                   <div
                     key={idx}
-                    className="group relative h-72 w-full overflow-hidden rounded-2xl border border-border bg-muted shadow-xs flex flex-col justify-end"
+                    className="group relative h-64 sm:h-72 w-full max-w-full overflow-hidden rounded-2xl border border-border bg-muted shadow-xs flex flex-col justify-end"
                   >
                     <Image
                       src={imgUrl}
@@ -525,8 +525,8 @@ export function CreativeProfileView({
                         className="block w-full"
                         onClick={(e) => e.stopPropagation()}
                       >
-                        <Button size="sm" className="w-full h-8 text-[11px] font-bold gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm">
-                          <MessageCircle className="h-3.5 w-3.5" /> Customize or Chat with Team
+                        <Button size="sm" className="w-full h-8 text-[10px] sm:text-[11px] font-bold gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm px-2">
+                          <MessageCircle className="h-3.5 w-3.5 shrink-0" /> <span className="truncate">Customize or Chat with Team</span>
                         </Button>
                       </a>
                     </div>

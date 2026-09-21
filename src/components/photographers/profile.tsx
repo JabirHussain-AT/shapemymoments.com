@@ -343,20 +343,21 @@ export function PhotographerProfile({
               }).length > 0 && (
                 <section>
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
-                    <h2 className="flex items-center gap-2 text-lg font-bold">
-                      <Camera className="h-5 w-5 text-primary" /> Portfolio Showcase
+                    <h2 className="flex items-center gap-2 text-base sm:text-lg font-bold">
+                      <Camera className="h-5 w-5 text-primary shrink-0" /> Portfolio Showcase
                     </h2>
                     <a
                       href={getWhatsAppUrl(`Hi ShapeMyMoment Team! I am browsing ${p.name}'s portfolio showcase and would like to customize an event package for better planning and assurance.`)}
                       target="_blank"
                       rel="noopener noreferrer"
+                      className="w-full sm:w-auto"
                     >
-                      <Button size="sm" variant="outline" className="text-xs font-bold gap-1.5 border-emerald-500/30 text-emerald-600">
-                        <MessageCircle className="h-3.5 w-3.5" /> Customize or Chat with Team
+                      <Button size="sm" variant="outline" className="w-full sm:w-auto text-xs font-bold gap-1.5 border-emerald-500/30 text-emerald-600">
+                        <MessageCircle className="h-3.5 w-3.5 shrink-0" /> Customize or Chat with Team
                       </Button>
                     </a>
                   </div>
-                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     {p.portfolio
                       .map((item: unknown, i: number) => {
                         const itemObj = item as { url?: string; image?: string; caption?: string; title?: string };
@@ -367,7 +368,7 @@ export function PhotographerProfile({
                         return (
                           <div
                             key={i}
-                            className="group relative h-64 overflow-hidden rounded-2xl border border-border bg-muted flex flex-col justify-end p-3"
+                            className="group relative h-60 sm:h-64 w-full max-w-full overflow-hidden rounded-2xl border border-border bg-muted flex flex-col justify-end p-3"
                           >
                             <Image
                               src={imgUrl}
@@ -384,8 +385,8 @@ export function PhotographerProfile({
                                 rel="noopener noreferrer"
                                 className="block w-full"
                               >
-                                <Button size="sm" className="w-full h-8 text-[11px] font-bold gap-1 bg-emerald-600 hover:bg-emerald-700 text-white">
-                                  <MessageCircle className="h-3.5 w-3.5" /> Customize or Chat with Team
+                                <Button size="sm" className="w-full h-8 text-[10px] sm:text-[11px] font-bold gap-1 bg-emerald-600 hover:bg-emerald-700 text-white px-2">
+                                  <MessageCircle className="h-3.5 w-3.5 shrink-0" /> <span className="truncate">Customize or Chat with Team</span>
                                 </Button>
                               </a>
                             </div>

@@ -28,7 +28,7 @@ export function PhotographerDirectory({
   const [sort, setSort] = useState("recommended");
 
   const results = useMemo(() => {
-    return getDemoPhotographers({
+    return getDemoPhotographers(initial, {
       q: q || undefined,
       location: location || undefined,
       eventType: eventType || undefined,
@@ -38,7 +38,7 @@ export function PhotographerDirectory({
       availability: availability || undefined,
       sort,
     });
-  }, [q, location, eventType, minExperience, maxPrice, minRating, availability, sort]);
+  }, [initial, q, location, eventType, minExperience, maxPrice, minRating, availability, sort]);
 
   return (
     <div className="space-y-8">
