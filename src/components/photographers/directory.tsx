@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Search, BadgeCheck, MapPin, Star, MessageCircle, Sparkles, Users, Compass, ArrowUpRight } from "lucide-react";
+import { Search, BadgeCheck, MapPin, Star, MessageCircle, Users, Compass, ArrowUpRight } from "lucide-react";
 import { Input, Select, Label } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";

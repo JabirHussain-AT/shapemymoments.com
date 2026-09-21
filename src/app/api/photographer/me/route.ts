@@ -9,22 +9,24 @@ export async function GET() {
     const session = await requireSession(["PHOTOGRAPHER", "ADMIN", "SUPER_ADMIN"]);
     await connectDB();
 
-    const user: any = await User.findById(session.id).select("-passwordHash").lean();
+    const user = (await User.findById(session.id).select("-passwordHash").lean()) as { _id: unknown; name?: string; avatar?: string } | null;
     if (!user) return fail("User account not found", 404);
 
-    let photographer: any = await Photographer.findOne({ userId: user._id }).lean();
+    const userName = String(user.name || "Partner");
+
+    let photographer = (await Photographer.findOne({ userId: user._id }).lean()) as Record<string, unknown> | null;
 
     if (!photographer) {
       // Fallback: try finding photographer by email match or create fallback doc
-      photographer = await Photographer.findOne({ name: user.name }).lean();
+      photographer = (await Photographer.findOne({ name: userName }).lean()) as Record<string, unknown> | null;
     }
 
     if (!photographer) {
-      const slug = user.name.toLowerCase().replace(/[^a-z0-9]+/g, "-") + "-" + Date.now().toString(36);
+      const slug = userName.toLowerCase().replace(/[^a-z0-9]+/g, "-") + "-" + Date.now().toString(36);
       const newDoc = await Photographer.create({
         userId: user._id,
         slug,
-        name: user.name,
+        name: userName,
         profilePhoto: user.avatar || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&q=80",
         coverImage: "https://images.unsplash.com/photo-1519741497674-611481863552?w=1400&q=80",
         location: "Wayanad, Kerala",
@@ -45,8 +47,10 @@ export async function GET() {
         featured: true,
         subscriptionPlan: "FREE",
       });
-      photographer = newDoc.toObject();
+      photographer = newDoc.toObject() as Record<string, unknown>;
     }
+
+    if (!photographer) return fail("Photographer profile not found", 404);
 
     const reviews = await Review.find({ photographerId: photographer._id }).sort({ createdAt: -1 }).lean();
 

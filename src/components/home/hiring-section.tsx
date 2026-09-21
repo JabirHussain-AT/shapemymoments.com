@@ -1,6 +1,6 @@
 "use client";
 
-import { Briefcase, Sparkles, MessageCircle, Mail, AlertCircle, Send } from "lucide-react";
+import { Briefcase, Sparkles, MessageCircle, Mail, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { getWhatsAppUrl } from "@/lib/utils";

@@ -19,7 +19,6 @@ import {
   CalendarDays,
   ShieldCheck,
   Clock,
-  Zap,
   ShieldAlert,
   X,
   AlertTriangle,
@@ -115,17 +114,17 @@ export function CreativeProfileView({
   const [activePortfolioCat, setActivePortfolioCat] = useState("ALL");
 
   const validPortfolioItems = (c.portfolio || [])
-    .map((item: any, idx: number) => ({
-      imgUrl: typeof item === "string" ? item : (item?.url || item?.image || ""),
-      caption: typeof item === "string" ? `Work ${idx + 1}` : (item?.caption || item?.title || `Work ${idx + 1}`),
-      eventType: typeof item === "string" ? "Wedding" : (item?.eventType || "Wedding"),
+    .map((item: unknown, idx: number) => ({
+      imgUrl: typeof item === "string" ? item : (item as { url?: string; image?: string })?.url || (item as { url?: string; image?: string })?.image || "",
+      caption: typeof item === "string" ? `Work ${idx + 1}` : (item as { caption?: string; title?: string })?.caption || (item as { caption?: string; title?: string })?.title || `Work ${idx + 1}`,
+      eventType: typeof item === "string" ? "Wedding" : (item as { eventType?: string })?.eventType || "Wedding",
     }))
-    .filter((i: any) => Boolean(i.imgUrl));
+    .filter((i: { imgUrl: string }) => Boolean(i.imgUrl));
 
-  const portfolioCategories = Array.from(new Set(validPortfolioItems.map((i: any) => i.eventType)));
+  const portfolioCategories = Array.from(new Set(validPortfolioItems.map((i: { eventType: string }) => i.eventType)));
 
   const filteredPortfolio = validPortfolioItems.filter(
-    (item: any) => activePortfolioCat === "ALL" || item.eventType === activePortfolioCat
+    (item: { eventType: string }) => activePortfolioCat === "ALL" || item.eventType === activePortfolioCat
   );
 
   const rawInstagram = (c.socialLinks as { instagram?: string } | undefined)?.instagram;
@@ -470,7 +469,7 @@ export function CreativeProfileView({
                 All Works ({validPortfolioItems.length})
               </button>
               {portfolioCategories.map((cat: string) => {
-                const count = validPortfolioItems.filter((i: any) => i.eventType === cat).length;
+                const count = validPortfolioItems.filter((i: { eventType: string }) => i.eventType === cat).length;
                 const active = activePortfolioCat === cat;
                 return (
                   <button
@@ -493,7 +492,7 @@ export function CreativeProfileView({
 
           {filteredPortfolio.length > 0 ? (
             <div className="mt-6 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-              {filteredPortfolio.map((item: any, idx: number) => {
+              {filteredPortfolio.map((item: { imgUrl: string; caption: string; eventType: string }, idx: number) => {
                 const imgUrl = item.imgUrl;
                 const caption = item.caption;
                 const eventType = item.eventType;

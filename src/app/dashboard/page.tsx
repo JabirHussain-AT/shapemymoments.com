@@ -3,11 +3,10 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { CheckCircle2, Circle, LogOut, Calendar, Plus, Sparkles, Inbox } from "lucide-react";
+import { CheckCircle2, Circle, LogOut, Calendar, Plus, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { formatCurrency } from "@/lib/utils";
 
 interface IEventRequest {
   id: string;

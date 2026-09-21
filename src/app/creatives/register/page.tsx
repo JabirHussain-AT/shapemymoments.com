@@ -1,9 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import {
   BadgeCheck,
   CheckCircle2,
@@ -63,7 +61,6 @@ const COMMUNITY_BENEFITS = [
 ];
 
 export default function CreativeRegisterPage() {
-  const router = useRouter();
   const [confetti, setConfetti] = useState(false);
   const [loading, setLoading] = useState(false);
   const [activeBenefitIndex, setActiveBenefitIndex] = useState(0);

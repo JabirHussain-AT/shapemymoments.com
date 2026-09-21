@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -17,35 +17,25 @@ import {
   Plus,
   Trash2,
   ExternalLink,
-  Upload,
-  HelpCircle,
-  Mail,
   CheckCircle2,
   Circle,
   Sparkles,
   Quote,
-  Eye,
-  Award,
-  TrendingUp,
   MapPin,
-  ChevronRight,
   MessageCircle,
-  Clock,
   DollarSign,
   BarChart3,
-  Calendar,
   Inbox,
   ShieldCheck,
   Check,
   X,
-  FileText,
   AlertCircle,
   Instagram,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { formatCurrency, getWhatsAppUrl } from "@/lib/utils";
-import { PLAN_FEATURES, PLAN_PRICES } from "@/models/Subscription";
+import { PLAN_PRICES } from "@/models/Subscription";
 import { toast } from "sonner";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { ConfettiBurst } from "@/components/animations/motion";
@@ -100,13 +90,10 @@ export default function CreativeDashboardPage() {
   >("overview");
 
   const [quoteIndex, setQuoteIndex] = useState(0);
-  const [supportEmail, setSupportEmail] = useState("help@shapemymoment.com");
 
   // User & Photographer MongoDB data state
   const [photographerSlug, setPhotographerSlug] = useState("");
   const [currentPlan, setCurrentPlan] = useState("FREE");
-  const [profileViews, setProfileViews] = useState(0);
-  const [portfolioViews, setPortfolioViews] = useState(0);
   const [totalEarnings, setTotalEarnings] = useState(0);
   const [completedWorksCount, setCompletedWorksCount] = useState(0);
 
@@ -165,15 +152,7 @@ export default function CreativeDashboardPage() {
   // Customer reviews state
   const [reviews, setReviews] = useState<IReviewData[]>([]);
 
-  useEffect(() => {
-    fetchMe();
-    const interval = setInterval(() => {
-      setQuoteIndex((prev) => (prev + 1) % CREATIVE_QUOTES.length);
-    }, 10000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const fetchMe = async () => {
+  const fetchMe = useCallback(async () => {
     setLoading(true);
     try {
       const res = await fetch("/api/photographer/me");
@@ -190,8 +169,6 @@ export default function CreativeDashboardPage() {
       if (p) {
         setPhotographerSlug(p.slug || "");
         setCurrentPlan(p.subscriptionPlan || "FREE");
-        setProfileViews(p.profileViews || 0);
-        setPortfolioViews(p.portfolioViews || 0);
         setTotalEarnings(p.totalEarnings || 0);
         setCompletedWorksCount(p.completedWorksCount || 0);
 
@@ -221,15 +198,20 @@ export default function CreativeDashboardPage() {
       if (Array.isArray(json.data.reviews)) {
         setReviews(json.data.reviews);
       }
-      if (json.data.supportEmail) {
-        setSupportEmail(json.data.supportEmail);
-      }
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Failed to load creative profile");
     } finally {
       setLoading(false);
     }
-  };
+  }, [router]);
+
+  useEffect(() => {
+    fetchMe();
+    const interval = setInterval(() => {
+      setQuoteIndex((prev) => (prev + 1) % CREATIVE_QUOTES.length);
+    }, 10000);
+    return () => clearInterval(interval);
+  }, [fetchMe]);
 
   const logout = async () => {
     await fetch("/api/auth", {
@@ -239,10 +221,6 @@ export default function CreativeDashboardPage() {
     });
     toast.success("Signed out successfully");
     router.push("/login");
-  };
-
-  const upgradePlan = async (plan: "FREE" | "PRO" | "PREMIUM") => {
-    toast.info("Subscription plan upgrades are currently disabled and locked by Admin. All partners enjoy Free tier access.");
   };
 
   const handleCloudinaryUpload = async (file: File, onSuccess: (url: string) => void) => {
@@ -1316,7 +1294,7 @@ export default function CreativeDashboardPage() {
                     <label className="block text-[11px] font-bold text-muted-foreground mb-1">Status *</label>
                     <select
                       value={newDateStatusStr}
-                      onChange={(e) => setNewDateStatusStr(e.target.value as any)}
+                      onChange={(e) => setNewDateStatusStr(e.target.value as "Reserved" | "Available" | "Holiday")}
                       className="w-full rounded-xl border border-input bg-background px-3 py-2 text-xs font-semibold"
                     >
                       <option value="Reserved">🔴 Reserved / Booked</option>

@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import {
   BadgeCheck,
   Heart,
@@ -338,7 +337,10 @@ export function PhotographerProfile({
                 </div>
               </section>
 
-              {p.portfolio && p.portfolio.filter((item: any) => Boolean(typeof item === "string" ? item : item?.url || item?.image)).length > 0 && (
+              {p.portfolio && p.portfolio.filter((item: unknown) => {
+                const itemObj = item as { url?: string; image?: string };
+                return Boolean(typeof item === "string" ? item : itemObj?.url || itemObj?.image);
+              }).length > 0 && (
                 <section>
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
                     <h2 className="flex items-center gap-2 text-lg font-bold">
@@ -356,10 +358,11 @@ export function PhotographerProfile({
                   </div>
                   <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     {p.portfolio
-                      .map((item: any, i: number) => {
-                        const imgUrl = typeof item === "string" ? item : (item?.url || item?.image || "");
+                      .map((item: unknown, i: number) => {
+                        const itemObj = item as { url?: string; image?: string; caption?: string; title?: string };
+                        const imgUrl = typeof item === "string" ? item : (itemObj?.url || itemObj?.image || "");
                         if (!imgUrl) return null;
-                        const caption = typeof item === "string" ? `Work ${i + 1}` : (item?.caption || item?.title || `${p.name} portfolio ${i + 1}`);
+                        const caption = typeof item === "string" ? `Work ${i + 1}` : (itemObj?.caption || itemObj?.title || `${p.name} portfolio ${i + 1}`);
                         const itemMsg = `Hi ShapeMyMoment Team! I am viewing ${p.name}'s portfolio item ("${caption}") and would like to customize this style or chat with your team for better planning & assurance.`;
                         return (
                           <div

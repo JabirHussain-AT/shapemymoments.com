@@ -9,8 +9,6 @@ import {
   Mail,
   ArrowRight,
   HelpCircle,
-  ShieldCheck,
-  CheckCircle2,
   LayoutDashboard,
   UserCheck,
 } from "lucide-react";

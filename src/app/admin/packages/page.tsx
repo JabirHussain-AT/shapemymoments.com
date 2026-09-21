@@ -16,7 +16,7 @@ export default function AdminPackagesPage() {
       </div>
       {packages.length === 0 ? (
         <div className="rounded-2xl border border-border bg-card p-12 text-center text-sm text-muted-foreground">
-          No event packages created yet. Click "Create package" to add one.
+          No event packages created yet. Click &quot;Create package&quot; to add one.
         </div>
       ) : (
         <div className="grid gap-4 md:grid-cols-2">

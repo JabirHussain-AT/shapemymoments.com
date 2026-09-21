@@ -38,7 +38,7 @@ export default function AdminPhotographersPage() {
                   </td>
                   <td className="px-4 py-4">{p.location}</td>
                   <td className="px-4 py-4 font-mono text-xs">
-                    {(p as any).phone || "+91 80899 09386"}
+                    {(p as unknown as { phone?: string }).phone || "+91 80899 09386"}
                   </td>
                   <td className="px-4 py-4">
                     <Badge variant="outline">{p.subscriptionPlan}</Badge>
