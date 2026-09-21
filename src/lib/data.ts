@@ -118,13 +118,16 @@ export function filterCreativesList<T extends DemoCreative>(
 ): T[] {
   let list = [...sourceList].filter((c) => c.status === "APPROVED" || !c.status);
 
-  if (filters?.category && filters.category !== "All") {
+  if (filters?.category && filters.category !== "All" && filters.category !== "all") {
     const cat = filters.category.toLowerCase().trim();
     list = list.filter((c) => {
       const cCat = (c.category || "").toLowerCase();
-      if (cat === "henna artists" && (cCat === "henna designers" || cCat === "henna artists")) return true;
-      if (cat === "hamper makers" && (cCat === "hampers" || cCat === "hamper makers")) return true;
-      return cCat === cat;
+      if (cat.includes("henna") && (cCat.includes("henna") || cCat.includes("mehendi"))) return true;
+      if ((cat.includes("hamper") || cat.includes("gift")) && (cCat.includes("hamper") || cCat.includes("gift"))) return true;
+      if ((cat.includes("makeup") || cat.includes("styling")) && (cCat.includes("makeup") || cCat.includes("style") || cCat.includes("beauty"))) return true;
+      if ((cat.includes("cake") || cat.includes("dessert") || cat.includes("baker")) && (cCat.includes("cake") || cCat.includes("baker") || cCat.includes("dessert"))) return true;
+      if ((cat.includes("photo") || cat.includes("camera")) && (cCat.includes("photo") || cCat.includes("camera"))) return true;
+      return cCat === cat || cCat.includes(cat);
     });
   }
 
@@ -519,6 +522,7 @@ export async function getLiveAdminStatsFromDb() {
     const recentPhotographers = recentPhotographersDocs.map((p: Record<string, unknown>) => ({
       id: String(p._id),
       name: String(p.name),
+      category: String(p.category || "Photographers"),
       location: String(p.location),
       subscriptionPlan: String(p.subscriptionPlan || "FREE"),
       status: String(p.status || "APPROVED"),
