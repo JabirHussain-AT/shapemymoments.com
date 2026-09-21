@@ -1,12 +1,12 @@
 import { AdminShell } from "@/components/admin/admin-shell";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { getDemoReviews } from "@/lib/data";
+import { getLiveReviewsFromDb } from "@/lib/data";
 
-export const metadata = { title: "Reviews", robots: { index: false } };
+export const metadata = { title: "Customer Reviews", robots: { index: false } };
 
-export default function AdminReviewsPage() {
-  const reviews = getDemoReviews();
+export default async function AdminReviewsPage() {
+  const reviews = await getLiveReviewsFromDb();
 
   return (
     <AdminShell title="Reviews">

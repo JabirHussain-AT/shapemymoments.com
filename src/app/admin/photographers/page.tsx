@@ -1,12 +1,12 @@
 import { AdminShell } from "@/components/admin/admin-shell";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { getDemoPhotographers } from "@/lib/data";
+import { getLiveCreativesFromDb } from "@/lib/data";
 
-export const metadata = { title: "Photographers", robots: { index: false } };
+export const metadata = { title: "Photographers & Creatives", robots: { index: false } };
 
-export default function AdminPhotographersPage() {
-  const photographers = getDemoPhotographers();
+export default async function AdminPhotographersPage() {
+  const photographers = await getLiveCreativesFromDb();
 
   return (
     <AdminShell title="Photographers">

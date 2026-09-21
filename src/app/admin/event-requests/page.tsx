@@ -1,14 +1,14 @@
 import { AdminShell } from "@/components/admin/admin-shell";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { getDemoEventRequests } from "@/lib/data";
+import { getLiveEventRequestsFromDb } from "@/lib/data";
 import { formatCurrency } from "@/lib/utils";
 import { EVENT_REQUEST_STATUSES } from "@/types";
 
 export const metadata = { title: "Event Requests", robots: { index: false } };
 
-export default function AdminEventRequestsPage() {
-  const requests = getDemoEventRequests();
+export default async function AdminEventRequestsPage() {
+  const requests = await getLiveEventRequestsFromDb();
 
   return (
     <AdminShell title="Event Requests">

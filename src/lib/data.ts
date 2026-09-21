@@ -384,6 +384,173 @@ export async function getLiveCreativesFromDb(): Promise<DemoCreative[]> {
   return getDemoCreatives();
 }
 
+export async function getLiveUsersFromDb() {
+  try {
+    const { connectDB } = await import("@/lib/mongodb");
+    const { User } = await import("@/models");
+    await connectDB();
+    const docs = await User.find().select("-passwordHash").sort({ createdAt: -1 }).lean();
+    if (docs && docs.length > 0) {
+      return docs.map((u: Record<string, unknown>) => ({
+        id: String(u._id),
+        name: String(u.name || "User"),
+        email: String(u.email || ""),
+        phone: u.phone ? String(u.phone) : undefined,
+        role: String(u.role || "CUSTOMER"),
+        isActive: Boolean(u.isActive ?? true),
+        createdAt: u.createdAt ? new Date(u.createdAt as string | number | Date).toISOString() : new Date().toISOString(),
+      }));
+    }
+  } catch (err) {
+    console.warn("MongoDB query error in getLiveUsersFromDb:", err);
+  }
+  return [];
+}
+
+export async function getLiveEventRequestsFromDb(): Promise<DemoEventRequest[]> {
+  try {
+    const { connectDB } = await import("@/lib/mongodb");
+    const { EventRequest } = await import("@/models");
+    await connectDB();
+    const docs = await EventRequest.find().sort({ createdAt: -1 }).lean();
+    if (docs && docs.length > 0) {
+      return docs.map((r: Record<string, unknown>) => ({
+        id: String(r._id),
+        requestId: String(r.requestId || String(r._id).slice(-6)),
+        name: String(r.name || "Client"),
+        email: String(r.email || ""),
+        phone: String(r.phone || ""),
+        eventType: String(r.eventType || "Event"),
+        eventDate: String(r.eventDate || ""),
+        location: String(r.location || ""),
+        guestCount: Number(r.guestCount || 0),
+        budget: Number(r.budget || 0),
+        notes: r.notes ? String(r.notes) : "",
+        status: String(r.status || "NEW"),
+        createdAt: r.createdAt ? new Date(r.createdAt as string | number | Date).toISOString() : new Date().toISOString(),
+      }));
+    }
+  } catch (err) {
+    console.warn("MongoDB query error in getLiveEventRequestsFromDb:", err);
+  }
+  return getDemoEventRequests();
+}
+
+export async function getLivePhotographerLeadsFromDb() {
+  try {
+    const { connectDB } = await import("@/lib/mongodb");
+    const { PhotographerLead } = await import("@/models");
+    await connectDB();
+    const docs = await PhotographerLead.find().sort({ createdAt: -1 }).lean();
+    if (docs && docs.length > 0) {
+      return docs.map((l: Record<string, unknown>) => ({
+        id: String(l._id),
+        photographerId: String(l.photographerId),
+        name: String(l.name || "Client"),
+        email: String(l.email || ""),
+        phone: String(l.phone || ""),
+        eventType: String(l.eventType || "Event"),
+        eventDate: String(l.eventDate || ""),
+        location: String(l.location || ""),
+        hoursRequired: Number(l.hoursRequired || 1),
+        budget: l.budget ? Number(l.budget) : undefined,
+        message: String(l.message || ""),
+        status: String(l.status || "NEW"),
+        createdAt: l.createdAt ? new Date(l.createdAt as string | number | Date).toISOString() : new Date().toISOString(),
+      }));
+    }
+  } catch (err) {
+    console.warn("MongoDB query error in getLivePhotographerLeadsFromDb:", err);
+  }
+  return [];
+}
+
+export async function getLiveReviewsFromDb(): Promise<DemoReview[]> {
+  try {
+    const { connectDB } = await import("@/lib/mongodb");
+    const { Review } = await import("@/models");
+    await connectDB();
+    const docs = await Review.find().sort({ createdAt: -1 }).lean();
+    if (docs && docs.length > 0) {
+      return docs.map((r: Record<string, unknown>): DemoReview => ({
+        id: String(r._id),
+        name: String(r.name || "Client"),
+        avatar: r.avatar ? String(r.avatar) : undefined,
+        rating: Number(r.rating || 5),
+        review: String(r.review || ""),
+        eventType: String(r.eventType || "Event"),
+        photographerId: r.photographerId ? String(r.photographerId) : undefined,
+        status: String(r.status || "APPROVED"),
+        featured: Boolean(r.featured),
+        date: r.date ? new Date(r.date as string | number | Date).toISOString() : new Date().toISOString(),
+      }));
+    }
+  } catch (err) {
+    console.warn("MongoDB query error in getLiveReviewsFromDb:", err);
+  }
+  return getDemoReviews();
+}
+
+export async function getLiveAdminStatsFromDb() {
+  try {
+    const { connectDB } = await import("@/lib/mongodb");
+    const { User, Photographer, EventRequest, PhotographerLead, Review } = await import("@/models");
+    await connectDB();
+
+    const [totalUsers, totalPhotographers, totalEventRequests, pendingEventRequests, totalLeads, totalReviews] = await Promise.all([
+      User.countDocuments(),
+      Photographer.countDocuments({ status: "APPROVED" }),
+      EventRequest.countDocuments(),
+      EventRequest.countDocuments({ status: "NEW" }),
+      PhotographerLead.countDocuments(),
+      Review.countDocuments(),
+    ]);
+
+    const recentRequestsDocs = await EventRequest.find().sort({ createdAt: -1 }).limit(5).lean();
+    const recentRequests = recentRequestsDocs.map((r: Record<string, unknown>) => ({
+      id: String(r._id),
+      requestId: String(r.requestId || String(r._id).slice(-6)),
+      name: String(r.name || "Client"),
+      eventType: String(r.eventType || "Event"),
+      status: String(r.status || "NEW"),
+    }));
+
+    const recentPhotographersDocs = await Photographer.find().sort({ createdAt: -1 }).limit(5).lean();
+    const recentPhotographers = recentPhotographersDocs.map((p: Record<string, unknown>) => ({
+      id: String(p._id),
+      name: String(p.name),
+      location: String(p.location),
+      subscriptionPlan: String(p.subscriptionPlan || "FREE"),
+      status: String(p.status || "APPROVED"),
+      verified: Boolean(p.verified),
+    }));
+
+    return {
+      totalUsers,
+      totalPhotographers,
+      totalEventRequests,
+      pendingEventRequests,
+      totalLeads,
+      totalReviews,
+      recentRequests,
+      recentPhotographers,
+    };
+  } catch (err) {
+    console.warn("MongoDB query error in getLiveAdminStatsFromDb:", err);
+  }
+
+  return {
+    totalUsers: 0,
+    totalPhotographers: 0,
+    totalEventRequests: 0,
+    pendingEventRequests: 0,
+    totalLeads: 0,
+    totalReviews: 0,
+    recentRequests: [],
+    recentPhotographers: [],
+  };
+}
+
 export const SITE_DEFAULTS = {
   name: "ShapeMyMoment",
   tagline: "You enjoy the moment. We handle everything else.",
