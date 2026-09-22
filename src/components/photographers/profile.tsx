@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Image from "next/image";
 import {
-  BadgeCheck,
   Heart,
   MapPin,
   Star,
@@ -15,6 +14,7 @@ import {
   CheckCircle2,
   XCircle,
   MessageCircle,
+  X,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -95,26 +95,29 @@ function PublicAvailabilityCalendar({ bookedDates = [], name }: { bookedDates?: 
 
 export function PhotographerProfile({
   photographer: p,
-  reviews,
+  reviews: initialReviews,
 }: {
   photographer: DemoPhotographer;
   reviews: DemoReview[];
 }) {
+  const [reviewsList, setReviewsList] = useState<DemoReview[]>(initialReviews);
   const [shortlisted, setShortlisted] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+  // Review Form State
+  const [showReviewForm, setShowReviewForm] = useState(false);
+  const [revName, setRevName] = useState("");
+  const [revRating, setRevRating] = useState(5);
+  const [revEventType, setRevEventType] = useState(EVENT_TYPES[0] || "Wedding");
+  const [revText, setRevText] = useState("");
+  const [revPhotoUrl, setRevPhotoUrl] = useState("");
+  const [revPhotos, setRevPhotos] = useState<string[]>([]);
+  const [submittingReview, setSubmittingReview] = useState(false);
+
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [form, setForm] = useState<{
-    eventType: string;
-    eventDate: string;
-    location: string;
-    hoursRequired: string;
-    budget: string;
-    message: string;
-    name: string;
-    phone: string;
-    email: string;
-  }>({
+  const [form, setForm] = useState({
     eventType: p.eventTypes[0] || "Birthday",
     eventDate: "",
     location: "",
@@ -126,33 +129,71 @@ export function PhotographerProfile({
     email: "",
   });
 
-  const calculatedHourlyRate = p.hourlyRate || Math.round((p.startingPrice || 10000) / 4);
+  const handleAddPhotoUrl = () => {
+    if (!revPhotoUrl) return;
+    setRevPhotos((prev) => [...prev, revPhotoUrl]);
+    setRevPhotoUrl("");
+    toast.success("Photo attached!");
+  };
 
-  const defaultIncludes = p.includes || [
-    "High-resolution edited digital photos & files",
-    "Professional lighting & camera equipment",
-    "Color correction & artistic retouching",
-    "Full digital cloud album link",
-    "Pre-event consultation & timeline planning",
-  ];
+  const handleReviewSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!revName || !revText) {
+      toast.error("Please enter your name and review text.");
+      return;
+    }
 
-  const defaultExcludes = p.excludes || [
-    "Travel & outstation accommodation beyond 100km radius",
-    "Printed physical photo albums (available as add-on)",
-    "Additional overtime hours beyond agreed booking schedule",
-  ];
+    setSubmittingReview(true);
+    try {
+      const res = await fetch("/api/reviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: revName,
+          rating: revRating,
+          eventType: revEventType,
+          review: revText,
+          images: revPhotos,
+          photographerId: p.id,
+        }),
+      });
 
-  const defaultGuarantees = p.guarantees || [
-    "ShapeMyMoment 100% On-Time Service Delivery Guarantee",
-    "Direct Concierge Booking & Price Protection (Zero hidden fees)",
-    "Verified Partner Checkmark & Quality Audit",
-    "Secure Payment Escrow Protection",
-  ];
+      const json = await res.json();
+      if (!json.success) throw new Error(json.error || "Failed to submit review");
+
+      toast.success("Thank you! Your review has been submitted.");
+      const newRev: DemoReview = {
+        id: json.data?.id || `rev-${Date.now()}`,
+        name: revName,
+        rating: revRating,
+        eventType: revEventType,
+        review: revText,
+        images: revPhotos,
+        status: "APPROVED",
+        featured: false,
+        date: new Date().toISOString().split("T")[0],
+      };
+      setReviewsList((prev) => [newRev, ...prev]);
+      setShowReviewForm(false);
+      setRevName("");
+      setRevText("");
+      setRevPhotos([]);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Failed to submit review");
+    } finally {
+      setSubmittingReview(false);
+    }
+  };
+
+  const currentReviewCount = reviewsList.length;
+  const avgRating = currentReviewCount > 0
+    ? (reviewsList.reduce((acc, r) => acc + Number(r.rating || 0), 0) / currentReviewCount).toFixed(1)
+    : (p.rating > 0 ? p.rating.toFixed(1) : "1.0");
 
   const shortlist = () => {
     setShortlisted((v) => !v);
     toast.success(
-      shortlisted ? "Removed from shortlist." : "Photographer added to shortlist."
+      shortlisted ? "Removed from shortlist." : "Added to shortlist."
     );
   };
 
@@ -221,68 +262,76 @@ export function PhotographerProfile({
                 <div className="flex-1">
                   <div className="flex flex-wrap items-center gap-2">
                     <h1 className="text-2xl font-bold sm:text-3xl">{p.name}</h1>
-                    {p.verified && (
-                      <Badge variant="success" className="gap-1">
-                        <BadgeCheck className="h-3.5 w-3.5" /> Verified
-                      </Badge>
-                    )}
-                    {p.featured && <Badge variant="gold">Featured</Badge>}
-                    {p.subscriptionPlan === "PREMIUM" && (
-                      <Badge variant="default">Premium</Badge>
-                    )}
+                    <Badge className="bg-emerald-600 text-white font-bold gap-1 shadow-2xs">
+                      🤝 Partnered with ShapeMyMoment
+                    </Badge>
                   </div>
-                  <p className="mt-2 flex items-center gap-1 text-muted-foreground text-sm">
-                    <MapPin className="h-4 w-4" /> {p.location}
-                  </p>
+                  {p.location && (
+                    <p className="mt-2 flex items-center gap-1 text-muted-foreground text-sm">
+                      <MapPin className="h-4 w-4" /> {p.location}
+                    </p>
+                  )}
                   <div className="mt-2 flex flex-wrap items-center gap-3 text-sm">
                     <span className="flex items-center gap-1 font-semibold text-primary">
                       <Star className="h-4 w-4 fill-current text-amber-500" />{" "}
-                      {Number(p.reviewCount) > 0 ? p.rating.toFixed(1) : "1.0"}{" "}
-                      {Number(p.reviewCount) > 0 ? `(${p.reviewCount})` : "(New Partner)"}
+                      {avgRating}{" "}
+                      {currentReviewCount > 0 ? `(${currentReviewCount})` : "(New Partner)"}
                     </span>
-                    <span className="flex items-center gap-1 text-muted-foreground">
-                      <Clock className="h-4 w-4" /> {p.yearsOfExperience}+ years
-                    </span>
-                    <span className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-xs font-bold text-emerald-600">
-                      Hourly: {formatCurrency(calculatedHourlyRate)} / hr
-                    </span>
+                    {p.yearsOfExperience > 0 && (
+                      <span className="flex items-center gap-1 text-muted-foreground">
+                        <Clock className="h-4 w-4" /> {p.yearsOfExperience}+ years
+                      </span>
+                    )}
+                    {p.hourlyRate ? (
+                      <span className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-xs font-bold text-emerald-600">
+                        Hourly: {formatCurrency(p.hourlyRate)} / hr
+                      </span>
+                    ) : null}
                   </div>
                 </div>
               </div>
 
               <section>
                 <h2 className="text-lg font-semibold">About</h2>
-                <p className="mt-2 leading-relaxed text-muted-foreground text-sm">{p.bio}</p>
-              </section>
-
-              <section>
-                <h2 className="text-lg font-semibold">Experience</h2>
                 <p className="mt-2 leading-relaxed text-muted-foreground text-sm">
-                  {p.experience}
+                  {p.bio || `Creative partner profile for ${p.name} on ShapeMyMoment South India Network.`}
                 </p>
               </section>
 
+              {p.experience && (
+                <section>
+                  <h2 className="text-lg font-semibold">Experience</h2>
+                  <p className="mt-2 leading-relaxed text-muted-foreground text-sm">
+                    {p.experience}
+                  </p>
+                </section>
+              )}
+
               <section className="grid gap-6 sm:grid-cols-2">
-                <div>
-                  <h2 className="text-lg font-semibold">Specializations</h2>
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {p.specializations.map((s) => (
-                      <Badge key={s} variant="outline">
-                        {s}
-                      </Badge>
-                    ))}
+                {p.specializations && p.specializations.length > 0 && (
+                  <div>
+                    <h2 className="text-lg font-semibold">Specializations</h2>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {p.specializations.map((s) => (
+                        <Badge key={s} variant="outline">
+                          {s}
+                        </Badge>
+                      ))}
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <h2 className="text-lg font-semibold">Event types</h2>
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {p.eventTypes.map((s) => (
-                      <Badge key={s} variant="pink">
-                        {s}
-                      </Badge>
-                    ))}
+                )}
+                {p.eventTypes && p.eventTypes.length > 0 && (
+                  <div>
+                    <h2 className="text-lg font-semibold">Event types</h2>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {p.eventTypes.map((s) => (
+                        <Badge key={s} variant="pink">
+                          {s}
+                        </Badge>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
               </section>
 
               {/* Public Availability Calendar */}
@@ -297,43 +346,17 @@ export function PhotographerProfile({
                   <h3 className="font-bold text-sm text-foreground">ShapeMyMoment Partner Guarantees</h3>
                 </div>
                 <div className="grid gap-2.5 sm:grid-cols-2 text-xs">
-                  {defaultGuarantees.map((guarantee, i) => (
+                  {[
+                    "ShapeMyMoment 100% On-Time Service Delivery Guarantee",
+                    "Direct Concierge Booking & Price Protection (Zero hidden fees)",
+                    "Partner Network Quality Audit & Coordination",
+                    "Secure Escrow Protection & Support",
+                  ].map((guarantee, i) => (
                     <div key={i} className="flex items-start gap-2 rounded-xl border border-emerald-500/20 bg-background p-3">
                       <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
                       <span className="font-bold text-foreground">{guarantee}</span>
                     </div>
                   ))}
-                </div>
-              </section>
-
-              {/* Includes & Excludes */}
-              <section className="grid gap-4 sm:grid-cols-2 text-xs">
-                <div className="rounded-2xl border border-emerald-500/20 bg-card p-4 space-y-3">
-                  <h3 className="font-bold text-sm text-foreground flex items-center gap-1.5 text-emerald-600">
-                    <CheckCircle2 className="h-4 w-4" /> What&apos;s Included
-                  </h3>
-                  <ul className="space-y-2 text-muted-foreground">
-                    {defaultIncludes.map((item, idx) => (
-                      <li key={idx} className="flex items-start gap-2">
-                        <span className="text-emerald-600 font-bold">✓</span>
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="rounded-2xl border border-rose-500/20 bg-card p-4 space-y-3">
-                  <h3 className="font-bold text-sm text-foreground flex items-center gap-1.5 text-rose-500">
-                    <XCircle className="h-4 w-4" /> What&apos;s Excluded
-                  </h3>
-                  <ul className="space-y-2 text-muted-foreground">
-                    {defaultExcludes.map((item, idx) => (
-                      <li key={idx} className="flex items-start gap-2">
-                        <span className="text-rose-500 font-bold">✕</span>
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
                 </div>
               </section>
 
@@ -374,7 +397,8 @@ export function PhotographerProfile({
                               src={imgUrl}
                               alt={caption}
                               fill
-                              className="object-cover transition hover:scale-[1.02]"
+                              className="object-cover transition hover:scale-[1.02] cursor-pointer"
+                              onClick={() => setSelectedImage(imgUrl)}
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
                             <div className="relative z-10 space-y-2">
@@ -398,75 +422,164 @@ export function PhotographerProfile({
                 </section>
               )}
 
-              {p.packages && p.packages.length > 0 && (
-                <section>
-                  <h2 className="text-lg font-semibold">Packages</h2>
-                  <div className="mt-4 grid gap-4">
-                    {p.packages.map((pkg) => (
-                      <div
-                        key={pkg.name}
-                        className="rounded-xl border border-border bg-muted/40 p-4"
-                      >
-                        <div className="flex items-start justify-between gap-3">
-                          <div>
-                            <h3 className="font-semibold">{pkg.name}</h3>
-                            <p className="mt-1 text-sm text-muted-foreground">
-                              {pkg.description}
-                            </p>
-                          </div>
-                          <p className="shrink-0 font-bold text-primary">
-                            {formatCurrency(pkg.price)}
-                          </p>
-                        </div>
-                        <p className="mt-2 text-xs text-muted-foreground">
-                          {pkg.hours ? `${pkg.hours} hours · ` : ""}{pkg.includes?.join(" · ")}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </section>
-              )}
-
-              <section className="grid gap-6 sm:grid-cols-2">
-                <div>
-                  <h2 className="text-lg font-semibold">Service locations</h2>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    {p.serviceLocations.join(", ")}
-                  </p>
+              {/* Reviews Section */}
+              <section className="space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border pb-3">
+                  <h2 className="text-lg font-bold">Reviews &amp; Customer Feedbacks</h2>
+                  <Button
+                    onClick={() => setShowReviewForm((v) => !v)}
+                    size="sm"
+                    className="bg-primary text-white font-bold text-xs gap-1.5 shrink-0"
+                  >
+                    ★ {showReviewForm ? "Close Review Form" : "Write a Review & Add Photos"}
+                  </Button>
                 </div>
-                {p.languages && p.languages.length > 0 && (
-                  <div>
-                    <h2 className="flex items-center gap-2 text-lg font-semibold">
-                      <Languages className="h-5 w-5" /> Languages
-                    </h2>
-                    <p className="mt-2 text-sm text-muted-foreground">
-                      {p.languages.join(", ")}
-                    </p>
-                  </div>
-                )}
-              </section>
 
-              <section>
-                <h2 className="text-lg font-semibold">Reviews</h2>
-                {reviews.length === 0 ? (
-                  <p className="mt-3 text-sm text-muted-foreground">No reviews yet.</p>
+                {/* Review Form */}
+                {showReviewForm && (
+                  <form onSubmit={handleReviewSubmit} className="rounded-2xl border border-primary/30 bg-primary/5 p-5 space-y-4 shadow-sm text-xs">
+                    <h3 className="font-extrabold text-sm text-foreground">Write a Review for {p.name}</h3>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div>
+                        <Label className="font-bold">Your Name *</Label>
+                        <Input
+                          className="text-xs mt-1"
+                          placeholder="e.g. Ananya Nair"
+                          value={revName}
+                          onChange={(e) => setRevName(e.target.value)}
+                          required
+                        />
+                      </div>
+
+                      <div>
+                        <Label className="font-bold">Event Type *</Label>
+                        <select
+                          className="w-full h-10 rounded-xl border border-border bg-background px-3 text-xs font-semibold mt-1"
+                          value={revEventType}
+                          onChange={(e) => setRevEventType(e.target.value as any)}
+                        >
+                          {EVENT_TYPES.map((t) => (
+                            <option key={t} value={t}>{t}</option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div>
+                      <Label className="font-bold">Star Rating *</Label>
+                      <div className="flex items-center gap-1 mt-1">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <button
+                            type="button"
+                            key={star}
+                            onClick={() => setRevRating(star)}
+                            className="p-1 cursor-pointer transition hover:scale-125"
+                          >
+                            <Star
+                              className={`h-5 w-5 ${
+                                star <= revRating
+                                  ? "fill-amber-400 text-amber-400"
+                                  : "text-muted-foreground/40"
+                              }`}
+                            />
+                          </button>
+                        ))}
+                        <span className="ml-2 font-bold text-amber-600 dark:text-amber-400">
+                          {revRating} Star{revRating > 1 ? "s" : ""}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div>
+                      <Label className="font-bold">Your Review *</Label>
+                      <Textarea
+                        rows={3}
+                        className="text-xs mt-1"
+                        placeholder="Share your experience..."
+                        value={revText}
+                        onChange={(e) => setRevText(e.target.value)}
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <Label className="font-bold">Attach Event Photos (Image URLs)</Label>
+                      <div className="flex items-center gap-2 mt-1">
+                        <Input
+                          className="text-xs"
+                          placeholder="Image URL..."
+                          value={revPhotoUrl}
+                          onChange={(e) => setRevPhotoUrl(e.target.value)}
+                        />
+                        <Button type="button" size="sm" variant="secondary" onClick={handleAddPhotoUrl} className="text-xs font-bold shrink-0">
+                          + Attach
+                        </Button>
+                      </div>
+                      {revPhotos.length > 0 && (
+                        <div className="flex flex-wrap gap-2 mt-2">
+                          {revPhotos.map((url, i) => (
+                            <div key={i} className="relative h-12 w-12 rounded-lg border border-border overflow-hidden">
+                              <Image src={url} alt={`Attach ${i}`} fill className="object-cover" />
+                              <button
+                                type="button"
+                                onClick={() => setRevPhotos(prev => prev.filter((_, idx) => idx !== i))}
+                                className="absolute top-0.5 right-0.5 bg-black/70 text-white rounded-full p-0.5"
+                              >
+                                <X className="h-3 w-3" />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="flex justify-end gap-2 pt-1">
+                      <Button type="button" variant="outline" size="sm" onClick={() => setShowReviewForm(false)}>
+                        Cancel
+                      </Button>
+                      <Button type="submit" size="sm" disabled={submittingReview} className="bg-primary text-white font-bold">
+                        {submittingReview ? "Submitting..." : "Submit Review"}
+                      </Button>
+                    </div>
+                  </form>
+                )}
+
+                {reviewsList.length === 0 ? (
+                  <p className="mt-3 text-sm text-muted-foreground text-center py-4">No customer reviews yet.</p>
                 ) : (
                   <div className="mt-4 space-y-4">
-                    {reviews.map((r) => (
+                    {reviewsList.map((r) => (
                       <article
                         key={r.id}
-                        className="rounded-xl border border-border p-4"
+                        className="rounded-xl border border-border p-4 space-y-2 bg-card"
                       >
                         <div className="flex items-center justify-between">
-                          <p className="font-semibold">{r.name}</p>
-                          <p className="text-sm text-primary">
-                            {"★".repeat(r.rating)}
-                          </p>
+                          <p className="font-bold text-sm text-foreground">{r.name}</p>
+                          <div className="flex items-center gap-1 text-amber-500 text-xs font-bold">
+                            <Star className="h-3.5 w-3.5 fill-amber-400" /> {r.rating}
+                          </div>
                         </div>
-                        <p className="mt-1 text-xs text-muted-foreground">
-                          {r.eventType} · {r.date}
+
+                        <p className="text-xs text-muted-foreground leading-relaxed">&ldquo;{r.review}&rdquo;</p>
+
+                        {r.images && r.images.length > 0 && (
+                          <div className="flex flex-wrap gap-2 pt-1">
+                            {r.images.map((imgUrl, i) => (
+                              <div
+                                key={i}
+                                className="relative h-14 w-14 rounded-lg border border-border overflow-hidden cursor-pointer hover:opacity-90"
+                                onClick={() => setSelectedImage(imgUrl)}
+                              >
+                                <Image src={imgUrl} alt={`Review photo ${i + 1}`} fill className="object-cover" />
+                              </div>
+                            ))}
+                          </div>
+                        )}
+
+                        <p className="text-[10px] text-muted-foreground/70 font-semibold uppercase">
+                          {r.eventType} · {r.date ? String(r.date).split("T")[0] : "Recent"}
                         </p>
-                        <p className="mt-2 text-sm text-muted-foreground">{r.review}</p>
                       </article>
                     ))}
                   </div>
@@ -478,27 +591,33 @@ export function PhotographerProfile({
           <aside className="h-fit rounded-2xl border border-border bg-card p-5 shadow-md lg:sticky lg:top-24 space-y-4">
             <div>
               <p className="text-xs text-muted-foreground uppercase font-bold">Starting Package Rate</p>
-              <p className="text-3xl font-extrabold text-foreground">
-                {formatCurrency(p.startingPrice)}
+              <p className="text-2xl font-extrabold text-foreground">
+                {p.startingPrice > 0 ? formatCurrency(p.startingPrice) : "Custom Partner Rates"}
               </p>
-              <p className="text-xs text-emerald-600 font-bold mt-1">
-                Hourly Rate: {formatCurrency(calculatedHourlyRate)} / hr
-              </p>
+              {p.hourlyRate ? (
+                <p className="text-xs text-emerald-600 font-bold mt-1">
+                  Hourly Rate: {formatCurrency(p.hourlyRate)} / hr
+                </p>
+              ) : null}
             </div>
 
-            <div className="grid gap-2">
-              <Button className="w-full font-bold" onClick={() => setShowForm(true)}>
-                Request Booking
+            {/* Responsive Green Button (No Text Overflow) */}
+            <a
+              href={getWhatsAppUrl(`Hi! I would like to connect via ShapeMyMoment to inquire about booking ${p.name} (${p.category}).`)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block w-full"
+            >
+              <Button className="w-full max-w-full bg-emerald-600 hover:bg-emerald-700 text-white gap-2 shadow-md font-extrabold text-xs sm:text-sm py-3 px-3.5 h-auto leading-snug text-center whitespace-normal rounded-2xl flex items-center justify-center">
+                <MessageCircle className="h-4 w-4 shrink-0" />
+                <span>Connect via ShapeMyMoment (+91 80899 09386)</span>
               </Button>
-              <a
-                href={getWhatsAppUrl(`Hi! I would like to inquire about booking ${p.name} (${p.category}) on ShapeMyMoment.`)}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Button variant="outline" className="w-full gap-2 text-xs font-bold border-emerald-500/30 text-emerald-600">
-                  <MessageCircle className="h-4 w-4" /> WhatsApp Inquiry
-                </Button>
-              </a>
+            </a>
+
+            <div className="grid gap-2">
+              <Button className="w-full font-bold text-xs" onClick={() => setShowForm(true)}>
+                Request Direct Quotation
+              </Button>
               <Button
                 variant="ghost"
                 className="w-full text-xs"
@@ -602,6 +721,27 @@ export function PhotographerProfile({
           </aside>
         </div>
       </div>
+
+      {/* Lightbox Modal */}
+      {selectedImage && (
+        <div
+          onClick={() => setSelectedImage(null)}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative max-h-[90vh] max-w-[90vw] overflow-hidden rounded-3xl bg-black/90 border border-white/20 p-4 flex flex-col items-center justify-center space-y-3"
+          >
+            <Image
+              src={selectedImage}
+              alt="Enlarged Portfolio"
+              width={1200}
+              height={800}
+              className="object-contain max-h-[75vh] w-auto rounded-2xl"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

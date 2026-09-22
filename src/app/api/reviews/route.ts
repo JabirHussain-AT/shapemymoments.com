@@ -32,24 +32,44 @@ export async function POST(request: NextRequest) {
   try {
     const data = reviewSchema.parse(await request.json());
 
-    try {
-      await connectDB();
-      const doc = await Review.create({
-        ...data,
-        status: "PENDING",
-        date: new Date(),
-      });
-      await Notification.create({
-        type: "REVIEW_SUBMITTED",
-        title: "New review submitted",
-        message: `${data.name} left a ${data.rating}-star review`,
-        role: "ADMIN",
-        link: "/admin/reviews",
-      });
-      return created({ id: String(doc._id) }, "Review submitted for moderation");
-    } catch {
-      return created({ id: `demo-${Date.now()}` }, "Review submitted (demo mode)");
+    await connectDB();
+    const doc = await Review.create({
+      ...data,
+      status: "APPROVED",
+      date: new Date(),
+    });
+
+    if (data.photographerId) {
+      const { Photographer } = await import("@/models");
+      const isObjectId = Boolean(data.photographerId.match(/^[0-9a-fA-F]{24}$/));
+      const query = isObjectId ? { _id: data.photographerId } : { slug: data.photographerId };
+      const partner = await Photographer.findOne(query);
+
+      if (partner) {
+        const allReviews = await Review.find({
+          photographerId: String(partner._id),
+          status: "APPROVED",
+        }).lean();
+
+        const count = allReviews.length;
+        const avg = count > 0 ? allReviews.reduce((sum, r) => sum + Number(r.rating || 0), 0) / count : 0;
+
+        await Photographer.findByIdAndUpdate(partner._id, {
+          rating: Number(avg.toFixed(1)),
+          reviewCount: count,
+        });
+      }
     }
+
+    await Notification.create({
+      type: "REVIEW_SUBMITTED",
+      title: "New review submitted",
+      message: `${data.name} left a ${data.rating}-star review`,
+      role: "ADMIN",
+      link: "/admin/reviews",
+    });
+
+    return created({ id: String(doc._id) }, "Thank you! Your review has been submitted successfully.");
   } catch (error) {
     return handleApiError(error);
   }

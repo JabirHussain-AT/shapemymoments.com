@@ -1,26 +1,8 @@
 import { AdminShell } from "@/components/admin/admin-shell";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { getLiveCreativesFromDb } from "@/lib/data";
+import { AdminPhotographersClient } from "@/components/admin/admin-photographers-client";
 
 export const metadata = { title: "Creatives & Partners | Admin Panel", robots: { index: false } };
-
-function getCategoryBadge(category: string) {
-  const c = (category || "").toLowerCase();
-  if (c.includes("henna") || c.includes("mehendi")) {
-    return <Badge className="bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/30 gap-1 font-bold">🌿 Henna Artist</Badge>;
-  }
-  if (c.includes("makeup") || c.includes("style") || c.includes("beauty")) {
-    return <Badge className="bg-purple-500/15 text-purple-700 dark:text-purple-300 border-purple-500/30 gap-1 font-bold">💄 Makeup Artist</Badge>;
-  }
-  if (c.includes("hamper") || c.includes("gift")) {
-    return <Badge className="bg-amber-500/15 text-amber-700 dark:text-amber-300 border-amber-500/30 gap-1 font-bold">🎁 Hamper Maker</Badge>;
-  }
-  if (c.includes("cake") || c.includes("baker") || c.includes("dessert")) {
-    return <Badge className="bg-pink-500/15 text-pink-700 dark:text-pink-300 border-pink-500/30 gap-1 font-bold">🎂 Cake Baker</Badge>;
-  }
-  return <Badge className="bg-blue-500/15 text-blue-700 dark:text-blue-300 border-blue-500/30 gap-1 font-bold">📷 Photographer</Badge>;
-}
 
 export default async function AdminPhotographersPage() {
   const creatives = await getLiveCreativesFromDb();
@@ -61,69 +43,7 @@ export default async function AdminPhotographersPage() {
         </div>
       </div>
 
-      <div className="overflow-x-auto rounded-2xl border border-border bg-card">
-        {creatives.length === 0 ? (
-          <div className="p-12 text-center text-sm text-muted-foreground">
-            No creative partners found. Partner registrations and profiles will appear here once onboarded.
-          </div>
-        ) : (
-          <table className="w-full min-w-[800px] text-left text-sm">
-            <thead className="border-b border-border bg-muted/50 text-xs uppercase text-muted-foreground">
-              <tr>
-                <th className="px-4 py-3 font-bold">Creative Partner</th>
-                <th className="px-4 py-3 font-bold">Category</th>
-                <th className="px-4 py-3 font-bold">Location</th>
-                <th className="px-4 py-3 font-bold">Contact Phone (Admin Only)</th>
-                <th className="px-4 py-3 font-bold">Plan</th>
-                <th className="px-4 py-3 font-bold">Status</th>
-                <th className="px-4 py-3 font-bold">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {creatives.map((p) => (
-                <tr key={p.id} className="border-b border-border hover:bg-muted/20 transition">
-                  <td className="px-4 py-4">
-                    <p className="font-extrabold text-foreground">{p.name}</p>
-                    <p className="text-xs text-muted-foreground font-medium">
-                      ★ {p.rating} · {p.yearsOfExperience} yrs exp
-                    </p>
-                  </td>
-                  <td className="px-4 py-4">
-                    {getCategoryBadge(p.category)}
-                  </td>
-                  <td className="px-4 py-4 font-medium">{p.location}</td>
-                  <td className="px-4 py-4 font-mono text-xs">
-                    {(p as unknown as { phone?: string }).phone || "+91 80899 09386"}
-                  </td>
-                  <td className="px-4 py-4">
-                    <Badge variant="outline" className="font-bold">{p.subscriptionPlan}</Badge>
-                  </td>
-                  <td className="px-4 py-4">
-                    <div className="flex flex-wrap gap-1">
-                      <Badge variant="success" className="font-bold">{p.status}</Badge>
-                      {p.verified && <Badge variant="default" className="font-bold">Verified</Badge>}
-                      {p.featured && <Badge variant="gold" className="font-bold">Featured</Badge>}
-                    </div>
-                  </td>
-                  <td className="px-4 py-4">
-                    <div className="flex flex-wrap gap-1.5">
-                      <Button size="sm" variant="outline" className="h-7 text-xs font-semibold">
-                        Edit
-                      </Button>
-                      <Button size="sm" variant="secondary" className="h-7 text-xs font-semibold">
-                        Feature
-                      </Button>
-                      <Button size="sm" variant="ghost" className="h-7 text-xs text-rose-500 hover:text-rose-600 font-semibold">
-                        Suspend
-                      </Button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </div>
+      <AdminPhotographersClient creatives={creatives} />
     </AdminShell>
   );
 }

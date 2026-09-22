@@ -21,6 +21,8 @@ export interface IPhotographer {
   userId?: mongoose.Types.ObjectId;
   slug: string;
   name: string;
+  phone?: string;
+  category?: string;
   profilePhoto: string;
   coverImage: string;
   location: string;
@@ -65,6 +67,8 @@ const PhotographerSchema = new Schema<IPhotographer>(
     userId: { type: Schema.Types.ObjectId, ref: "User", index: true },
     slug: { type: String, required: true, unique: true, index: true },
     name: { type: String, required: true },
+    phone: { type: String },
+    category: { type: String, default: "Photographers" },
     profilePhoto: { type: String, required: true },
     coverImage: { type: String, required: true },
     location: { type: String, required: true, index: true },

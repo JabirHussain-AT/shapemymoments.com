@@ -19,24 +19,25 @@ async function getCreative(slug: string): Promise<DemoCreative | null> {
         id: String(p._id),
         slug: String(p.slug),
         name: String(p.name),
+        phone: p.phone ? String(p.phone) : "",
         category: String(p.category || "Photographers"),
         profilePhoto: String(p.profilePhoto || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&q=80"),
         coverImage: String(p.coverImage || "https://images.unsplash.com/photo-1519741497674-611481863552?w=1400&q=80"),
-        location: String(p.location || "Wayanad, Kerala"),
-        bio: String(p.bio || "Creative partner profile with ShapeMyMoment."),
-        experience: String(p.experience || `${p.yearsOfExperience || 1} years experience`),
-        yearsOfExperience: Number(p.yearsOfExperience || 1),
+        location: String(p.location || ""),
+        bio: String(p.bio || ""),
+        experience: String(p.experience || (p.yearsOfExperience ? `${p.yearsOfExperience} years experience` : "")),
+        yearsOfExperience: Number(p.yearsOfExperience || 0),
         specializations: Array.isArray(p.specializations) ? (p.specializations as string[]) : [],
-        eventTypes: Array.isArray(p.eventTypes) ? (p.eventTypes as string[]) : ["Wedding", "Birthday"],
-        startingPrice: Number(p.startingPrice || 10000),
-        rating: Number(p.rating || 4.9),
+        eventTypes: Array.isArray(p.eventTypes) ? (p.eventTypes as string[]) : [],
+        startingPrice: Number(p.startingPrice || 0),
+        rating: Number(p.rating || 0),
         reviewCount: Number(p.reviewCount || 0),
         verified: Boolean(p.verified),
         featured: Boolean(p.featured),
         status: String(p.status || "APPROVED"),
-        serviceLocations: Array.isArray(p.serviceLocations) ? (p.serviceLocations as string[]) : [String(p.location || "Wayanad")],
+        serviceLocations: Array.isArray(p.serviceLocations) ? (p.serviceLocations as string[]) : [String(p.location || "")],
         availability: String(p.availability || "Available"),
-        languages: Array.isArray(p.languages) ? (p.languages as string[]) : ["English", "Malayalam"],
+        languages: Array.isArray(p.languages) ? (p.languages as string[]) : [],
         portfolio: Array.isArray(p.portfolio)
           ? (p.portfolio as Record<string, string>[])
               .map((item) => ({
@@ -50,31 +51,10 @@ async function getCreative(slug: string): Promise<DemoCreative | null> {
           ? (p.packages as { name: string; price: number; description?: string; hours?: string; includes?: string[] }[])
           : [],
         bookedDates: Array.isArray(p.bookedDates) ? (p.bookedDates as string[]) : [],
-        hourlyRate: Number(p.hourlyRate || Math.round((Number(p.startingPrice) || 10000) / 4)),
-        includes: Array.isArray(p.includes)
-          ? (p.includes as string[])
-          : [
-              "High-resolution edited digital photos & files",
-              "Professional lighting & camera equipment",
-              "Color correction & artistic retouching",
-              "Full digital cloud album link",
-              "Pre-event consultation & timeline planning",
-            ],
-        excludes: Array.isArray(p.excludes)
-          ? (p.excludes as string[])
-          : [
-              "Travel & outstation accommodation beyond 100km radius",
-              "Printed physical albums (available as add-on)",
-              "Additional overtime hours beyond agreed schedule",
-            ],
-        guarantees: Array.isArray(p.guarantees)
-          ? (p.guarantees as string[])
-          : [
-              "ShapeMyMoment 100% On-Time Service Delivery Guarantee",
-              "Direct Concierge Booking & Price Protection (Zero hidden fees)",
-              "Verified Partner Checkmark & Quality Audit",
-              "Secure Payment Escrow Protection",
-            ],
+        hourlyRate: Number(p.hourlyRate || 0),
+        includes: Array.isArray(p.includes) ? (p.includes as string[]) : [],
+        excludes: Array.isArray(p.excludes) ? (p.excludes as string[]) : [],
+        guarantees: Array.isArray(p.guarantees) ? (p.guarantees as string[]) : [],
         socialLinks: (p.socialLinks as Record<string, string>) || {},
         subscriptionPlan: String(p.subscriptionPlan || "FREE"),
       };
