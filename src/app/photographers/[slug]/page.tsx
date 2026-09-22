@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PhotographerProfile } from "@/components/photographers/profile";
-import { getDemoPhotographer, getDemoReviews, type DemoPhotographer, type DemoReview } from "@/lib/data";
+import { type DemoPhotographer, type DemoReview } from "@/lib/data";
 import { absoluteUrl } from "@/lib/utils";
 import { connectDB } from "@/lib/mongodb";
 import { Photographer, Review } from "@/models";

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { CreativeProfileView } from "@/components/creatives/profile-view";
-import { getDemoCreative, getDemoReviews, type DemoCreative } from "@/lib/data";
+import { type DemoCreative } from "@/lib/data";
 import { absoluteUrl } from "@/lib/utils";
 import { connectDB } from "@/lib/mongodb";
 import { Photographer, Review } from "@/models";

@@ -3,7 +3,6 @@ import { connectDB } from "@/lib/mongodb";
 import { Review, Notification } from "@/models";
 import { reviewSchema, reviewModerationSchema } from "@/lib/validations";
 import { created, fail, handleApiError, ok } from "@/lib/api";
-import { getDemoReviews } from "@/lib/data";
 import { requireSession } from "@/lib/auth";
 
 export async function GET(request: NextRequest) {

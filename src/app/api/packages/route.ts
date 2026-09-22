@@ -3,7 +3,6 @@ import { connectDB } from "@/lib/mongodb";
 import { EventPackage } from "@/models";
 import { packageSchema } from "@/lib/validations";
 import { created, fail, handleApiError, ok } from "@/lib/api";
-import { getDemoPackages } from "@/lib/data";
 import { slugify } from "@/lib/utils";
 import { requireSession } from "@/lib/auth";
 

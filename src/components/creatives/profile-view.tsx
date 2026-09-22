@@ -12,16 +12,13 @@ import {
   MessageCircle,
   Share2,
   CheckCircle2,
-  XCircle,
   Sparkles,
-  ChevronRight,
   CalendarDays,
   ShieldCheck,
   Clock,
   ShieldAlert,
   X,
   AlertTriangle,
-  Upload,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -631,7 +628,7 @@ export function CreativeProfileView({
                   <select
                     className="w-full h-10 rounded-xl border border-border bg-background px-3 text-xs font-semibold mt-1"
                     value={revEventType}
-                    onChange={(e) => setRevEventType(e.target.value as any)}
+                    onChange={(e) => setRevEventType(e.target.value as typeof revEventType)}
                   >
                     {EVENT_TYPES.map((t) => (
                       <option key={t} value={t}>{t}</option>

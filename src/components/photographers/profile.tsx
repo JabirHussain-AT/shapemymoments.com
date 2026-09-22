@@ -7,12 +7,10 @@ import {
   MapPin,
   Star,
   Clock,
-  Languages,
   Camera,
   CalendarDays,
   ShieldCheck,
   CheckCircle2,
-  XCircle,
   MessageCircle,
   X,
 } from "lucide-react";
@@ -457,7 +455,7 @@ export function PhotographerProfile({
                         <select
                           className="w-full h-10 rounded-xl border border-border bg-background px-3 text-xs font-semibold mt-1"
                           value={revEventType}
-                          onChange={(e) => setRevEventType(e.target.value as any)}
+                          onChange={(e) => setRevEventType(e.target.value as typeof revEventType)}
                         >
                           {EVENT_TYPES.map((t) => (
                             <option key={t} value={t}>{t}</option>
