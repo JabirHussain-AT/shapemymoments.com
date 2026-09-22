@@ -7,6 +7,7 @@ export interface IReview {
   avatar?: string;
   rating: number;
   review: string;
+  images?: string[];
   eventType: EventType;
   photographerId?: mongoose.Types.ObjectId;
   packageId?: mongoose.Types.ObjectId;
@@ -23,6 +24,7 @@ const ReviewSchema = new Schema<IReview>(
     avatar: String,
     rating: { type: Number, required: true, min: 1, max: 5 },
     review: { type: String, required: true },
+    images: [{ type: String }],
     eventType: { type: String, required: true },
     photographerId: {
       type: Schema.Types.ObjectId,

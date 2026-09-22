@@ -4,7 +4,6 @@ import { EventRequest, Notification } from "@/models";
 import { eventRequestSchema } from "@/lib/validations";
 import { created, handleApiError, ok } from "@/lib/api";
 import { generateRequestId } from "@/lib/utils";
-import { getDemoEventRequests } from "@/lib/data";
 
 export async function GET(request: NextRequest) {
   try {

@@ -3,7 +3,6 @@ import { connectDB } from "@/lib/mongodb";
 import { Photographer } from "@/models";
 import { photographerFilterSchema } from "@/lib/validations";
 import { handleApiError, ok } from "@/lib/api";
-import { getDemoPhotographers } from "@/lib/data";
 
 export async function GET(request: NextRequest) {
   try {

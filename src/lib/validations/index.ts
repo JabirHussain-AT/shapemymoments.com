@@ -75,10 +75,11 @@ export const photographerLeadSchema = z.object({
 
 export const reviewSchema = z.object({
   name: z.string().min(2).max(80),
-  avatar: z.string().url().optional(),
+  avatar: z.string().url().optional().or(z.literal("")),
   rating: z.coerce.number().min(1).max(5),
-  review: z.string().min(10).max(2000),
-  eventType: z.enum(EVENT_TYPES),
+  review: z.string().min(5).max(2000),
+  images: z.array(z.string()).optional(),
+  eventType: z.string().min(1),
   photographerId: z.string().optional(),
   packageId: z.string().optional(),
 });
