@@ -21,16 +21,8 @@ export async function GET(request: NextRequest) {
       const items = await Review.find(query).sort({ createdAt: -1 }).lean();
       return ok(items);
     } catch {
-      // fallback
+      return ok([]);
     }
-
-    return ok(
-      getDemoReviews({
-        photographerId: photographerId || undefined,
-        packageId: packageId || undefined,
-        featured: featured === "true",
-      })
-    );
   } catch (error) {
     return handleApiError(error);
   }

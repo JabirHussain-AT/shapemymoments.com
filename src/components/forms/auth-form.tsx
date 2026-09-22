@@ -144,11 +144,6 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
               Sign In to Creative Portal →
             </Link>
           </div>
-          <div className="rounded-xl bg-muted p-3 text-muted-foreground">
-            <p className="font-semibold text-foreground">Demo accounts</p>
-            <p className="mt-1">Admin: admin@shapemymoment.com / admin12345</p>
-            <p>Customer: demo@shapemymoment.com / demo12345</p>
-          </div>
         </div>
       )}
     </form>

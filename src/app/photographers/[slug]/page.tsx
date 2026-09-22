@@ -82,7 +82,7 @@ async function getPhotographer(slug: string): Promise<DemoPhotographer | null> {
   } catch (err) {
     console.error("Failed to query MongoDB photographer:", err);
   }
-  return getDemoPhotographer(slug);
+  return null;
 }
 
 async function getReviews(photographerId: string) {
@@ -106,7 +106,7 @@ async function getReviews(photographerId: string) {
   } catch (err) {
     console.error("Failed to query MongoDB reviews:", err);
   }
-  return getDemoReviews({ photographerId });
+  return [];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

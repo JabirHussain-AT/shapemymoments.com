@@ -50,10 +50,9 @@ export async function GET(request: NextRequest) {
 
       return ok({ items, total, page: filters.page, limit: filters.limit });
     } catch {
-      const items = getDemoPhotographers(filters);
       return ok({
-        items,
-        total: items.length,
+        items: [],
+        total: 0,
         page: filters.page,
         limit: filters.limit,
       });
