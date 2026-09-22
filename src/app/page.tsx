@@ -11,8 +11,8 @@ import {
 import { CreativeShowcase } from "@/components/home/creative-showcase";
 import {
   getDemoEventTypes,
-  getDemoPackages,
-  getDemoReviews,
+  getLivePackagesFromDb,
+  getLiveReviewsFromDb,
   getLiveCreativesFromDb,
 } from "@/lib/data";
 import { absoluteUrl } from "@/lib/utils";
@@ -29,9 +29,9 @@ export const metadata: Metadata = {
 
 export default async function HomePage() {
   const eventTypes = getDemoEventTypes();
-  const packages = getDemoPackages();
+  const packages = await getLivePackagesFromDb();
   const creatives = await getLiveCreativesFromDb();
-  const reviews = getDemoReviews({ featured: true });
+  const reviews = await getLiveReviewsFromDb();
 
   return (
     <>

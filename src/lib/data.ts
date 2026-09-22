@@ -384,7 +384,34 @@ export async function getLiveCreativesFromDb(): Promise<DemoCreative[]> {
   } catch (err) {
     console.warn("MongoDB query error in getLiveCreativesFromDb:", err);
   }
-  return getDemoCreatives();
+  return [];
+}
+
+export async function getLivePackagesFromDb(): Promise<DemoPackage[]> {
+  try {
+    const { connectDB } = await import("@/lib/mongodb");
+    const { EventPackage } = await import("@/models");
+    await connectDB();
+    const docs = await EventPackage.find({ active: true }).sort({ createdAt: -1 }).lean();
+    if (docs && docs.length > 0) {
+      return docs.map((p: Record<string, unknown>) => ({
+        id: String(p._id),
+        name: String(p.name || ""),
+        slug: String(p.slug || ""),
+        description: String(p.description || ""),
+        startingPrice: Number(p.startingPrice || 0),
+        eventTypes: Array.isArray(p.eventTypes) ? (p.eventTypes as string[]) : [],
+        services: Array.isArray(p.services) ? (p.services as string[]) : [],
+        images: Array.isArray(p.images) ? (p.images as string[]) : [],
+        highlights: Array.isArray(p.highlights) ? (p.highlights as string[]) : [],
+        featured: Boolean(p.featured),
+        active: Boolean(p.active ?? true),
+      }));
+    }
+  } catch (err) {
+    console.warn("MongoDB query error in getLivePackagesFromDb:", err);
+  }
+  return [];
 }
 
 export async function getLiveUsersFromDb() {
@@ -436,7 +463,7 @@ export async function getLiveEventRequestsFromDb(): Promise<DemoEventRequest[]> 
   } catch (err) {
     console.warn("MongoDB query error in getLiveEventRequestsFromDb:", err);
   }
-  return getDemoEventRequests();
+  return [];
 }
 
 export async function getLivePhotographerLeadsFromDb() {
@@ -491,7 +518,7 @@ export async function getLiveReviewsFromDb(): Promise<DemoReview[]> {
   } catch (err) {
     console.warn("MongoDB query error in getLiveReviewsFromDb:", err);
   }
-  return getDemoReviews();
+  return [];
 }
 
 export async function getLiveAdminStatsFromDb() {

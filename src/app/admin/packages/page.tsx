@@ -1,13 +1,13 @@
 import { AdminShell } from "@/components/admin/admin-shell";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { getDemoPackages } from "@/lib/data";
+import { getLivePackagesFromDb } from "@/lib/data";
 import { formatCurrency } from "@/lib/utils";
 
 export const metadata = { title: "Packages", robots: { index: false } };
 
-export default function AdminPackagesPage() {
-  const packages = getDemoPackages();
+export default async function AdminPackagesPage() {
+  const packages = await getLivePackagesFromDb();
 
   return (
     <AdminShell title="Packages">

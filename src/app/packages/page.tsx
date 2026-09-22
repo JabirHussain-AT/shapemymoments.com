@@ -4,7 +4,7 @@ import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { getDemoPackages, getDemoReviews } from "@/lib/data";
+import { getLivePackagesFromDb, getLiveReviewsFromDb } from "@/lib/data";
 import { absoluteUrl, formatCurrency } from "@/lib/utils";
 import { FadeIn } from "@/components/animations/motion";
 
@@ -15,9 +15,9 @@ export const metadata: Metadata = {
   alternates: { canonical: absoluteUrl("/packages") },
 };
 
-export default function PackagesPage() {
-  const packages = getDemoPackages();
-  const reviews = getDemoReviews({ featured: true }).slice(0, 3);
+export default async function PackagesPage() {
+  const packages = await getLivePackagesFromDb();
+  const reviews = (await getLiveReviewsFromDb()).slice(0, 3);
 
   return (
     <div className="section-padding pt-10">

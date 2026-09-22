@@ -82,7 +82,7 @@ async function getCreative(slug: string): Promise<DemoCreative | null> {
   } catch (err) {
     console.error("Failed to query MongoDB creative:", err);
   }
-  return getDemoCreative(slug);
+  return null;
 }
 
 async function getReviews(creativeId: string) {
@@ -106,7 +106,7 @@ async function getReviews(creativeId: string) {
   } catch (err) {
     console.error("Failed to query MongoDB reviews:", err);
   }
-  return getDemoReviews({ photographerId: creativeId });
+  return [];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

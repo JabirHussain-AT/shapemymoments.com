@@ -14,9 +14,8 @@ export async function GET() {
       const items = await EventPackage.find({ active: true }).sort({ startingPrice: 1 }).lean();
       return ok(items);
     } catch {
-      // fallback
+      return ok([]);
     }
-    return ok(getDemoPackages());
   } catch (error) {
     return handleApiError(error);
   }

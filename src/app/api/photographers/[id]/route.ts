@@ -19,9 +19,7 @@ export async function GET(
       if (!item) return fail("Photographer not found", 404);
       return ok(item);
     } catch {
-      const demo = getDemoPhotographer(id);
-      if (!demo) return fail("Photographer not found", 404);
-      return ok(demo);
+      return fail("Photographer not found", 404);
     }
   } catch (error) {
     return handleApiError(error);

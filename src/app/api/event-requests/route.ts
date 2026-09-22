@@ -16,10 +16,7 @@ export async function GET(request: NextRequest) {
       const items = await EventRequest.find(query).sort({ createdAt: -1 }).limit(100).lean();
       return ok(items);
     } catch {
-      const demo = getDemoEventRequests().filter((r) =>
-        status ? r.status === status : true
-      );
-      return ok(demo);
+      return ok([]);
     }
   } catch (error) {
     return handleApiError(error);
