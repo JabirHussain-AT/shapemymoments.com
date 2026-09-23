@@ -75,7 +75,7 @@ export function CreativeShowcase({ creatives }: { creatives: DemoCreative[] }) {
   }, [creatives, activeTab, selectedLocation, searchQuery]);
 
   return (
-    <section id="creatives-section" className="section-padding bg-muted/30">
+    <section id="creatives-section" className="py-8 sm:py-16 lg:py-24 bg-muted/30">
       <div className="container-page space-y-8">
         {/* Section Header */}
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
@@ -311,7 +311,7 @@ export function CreativeShowcase({ creatives }: { creatives: DemoCreative[] }) {
                           </Button>
                         </a>
 
-                        <Link href={`/creatives/${creative.slug}`}>
+                        <Link href={`/creatives/${creative.slug}`} prefetch={true}>
                           <Button size="sm" variant="outline" className="w-full h-9 px-2 text-xs font-bold gap-1">
                             Portfolio <ArrowUpRight className="h-3.5 w-3.5" />
                           </Button>

@@ -48,7 +48,7 @@ export function HeroSection() {
   };
 
   return (
-    <section className="relative overflow-hidden section-padding pt-10 sm:pt-14">
+    <section className="relative overflow-hidden pt-6 pb-6 sm:pt-14 sm:pb-16">
       <ConfettiBurst trigger={confetti} />
       <CelebrationAmbient />
       <div className="container-page relative grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">

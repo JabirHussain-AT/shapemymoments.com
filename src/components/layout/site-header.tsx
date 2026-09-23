@@ -64,7 +64,7 @@ export function SiteHeader() {
             : "bg-transparent"
         )}
       >
-        <div className="container-page flex h-16 items-center justify-between gap-3 lg:h-[4.25rem]">
+        <div className="container-page flex h-14 sm:h-16 items-center justify-between gap-2 sm:gap-3 lg:h-[4.25rem]">
           <Logo />
 
           <nav className="hidden items-center gap-1 xl:flex" aria-label="Main navigation">
@@ -117,7 +117,7 @@ export function SiteHeader() {
             </Link>
           </div>
 
-          <div className="flex items-center gap-2 xl:hidden">
+          <div className="flex items-center gap-1.5 sm:gap-2 xl:hidden shrink-0">
             <ThemeToggle />
             <button
               type="button"
