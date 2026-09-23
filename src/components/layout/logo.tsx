@@ -166,18 +166,18 @@ export function Logo({ className, variant = "default", showSubtitle = true }: Lo
     <Link
       href="/"
       className={cn(
-        "group flex items-center gap-3 pr-4 border-r border-border/60 transition",
+        "group flex items-center gap-2 sm:gap-3 pr-2 sm:pr-4 border-r-0 xl:border-r border-border/60 transition shrink-0",
         className
       )}
       aria-label="ShapeMyMoment Home"
     >
-      <LogoIcon className="h-10 w-10" />
-      <div className="flex flex-col">
-        <span className="text-lg font-black tracking-tight text-foreground sm:text-xl leading-none">
+      <LogoIcon className="h-9 w-9 sm:h-10 sm:w-10 shrink-0" />
+      <div className="flex flex-col justify-center">
+        <span className="text-base font-black tracking-tight text-foreground sm:text-xl leading-none">
           Shape<span className="text-primary font-black">My</span>Moment
         </span>
         {showSubtitle && (
-          <span className="text-[9px] uppercase tracking-[0.18em] font-extrabold text-muted-foreground/80 mt-0.5">
+          <span className="text-[8px] sm:text-[9px] uppercase tracking-[0.14em] sm:tracking-[0.18em] font-extrabold text-muted-foreground/80 mt-0.5 whitespace-nowrap">
             South India Network
           </span>
         )}
