@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Search, BadgeCheck, MapPin, Star, MessageCircle, Sparkles, Compass, ArrowUpRight } from "lucide-react";
@@ -44,6 +44,7 @@ export function PhotographerDirectory({
 }: {
   initial: DemoPhotographer[];
 }) {
+  const [liveList, setLiveList] = useState<DemoPhotographer[]>(initial);
   const [category, setCategory] = useState("all");
   const [q, setQ] = useState("");
   const [location, setLocation] = useState("");
@@ -54,8 +55,55 @@ export function PhotographerDirectory({
   const [availability, setAvailability] = useState("");
   const [sort, setSort] = useState("recommended");
 
+  useEffect(() => {
+    setLiveList(initial);
+  }, [initial]);
+
+  const refreshLive = useCallback(async () => {
+    try {
+      const res = await fetch("/api/creatives", { cache: "no-store" });
+      const json = await res.json();
+      if (json.success && Array.isArray(json.data)) {
+        setLiveList(json.data);
+      }
+    } catch (e) {
+      console.warn("Failed to refresh live photographers:", e);
+    }
+  }, []);
+
+  useEffect(() => {
+    let bc: BroadcastChannel | null = null;
+    try {
+      bc = new BroadcastChannel("smm_partner_channel");
+      bc.onmessage = (event) => {
+        if (event.data?.type === "CREATIVE_UPDATED") {
+          refreshLive();
+        }
+      };
+    } catch {}
+
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === "smm_creative_updated") {
+        refreshLive();
+      }
+    };
+
+    const onFocus = () => {
+      refreshLive();
+    };
+
+    window.addEventListener("storage", onStorage);
+    window.addEventListener("focus", onFocus);
+
+    return () => {
+      if (bc) bc.close();
+      window.removeEventListener("storage", onStorage);
+      window.removeEventListener("focus", onFocus);
+    };
+  }, [refreshLive]);
+
   const results = useMemo(() => {
-    return getDemoPhotographers(initial, {
+    return getDemoPhotographers(liveList, {
       category: category !== "all" ? category : undefined,
       q: q || undefined,
       location: location || undefined,
@@ -66,7 +114,7 @@ export function PhotographerDirectory({
       availability: availability || undefined,
       sort,
     });
-  }, [initial, category, q, location, eventType, minExperience, maxPrice, minRating, availability, sort]);
+  }, [liveList, category, q, location, eventType, minExperience, maxPrice, minRating, availability, sort]);
 
   return (
     <div className="space-y-8">

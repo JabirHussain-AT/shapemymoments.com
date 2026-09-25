@@ -383,6 +383,16 @@ export default function CreativeDashboardPage() {
       const json = await res.json();
       if (!json.success) throw new Error(json.error);
 
+      if (typeof window !== "undefined") {
+        localStorage.setItem("smm_creative_updated", Date.now().toString());
+        try {
+          const bc = new BroadcastChannel("smm_partner_channel");
+          bc.postMessage({ type: "CREATIVE_UPDATED", time: Date.now() });
+          bc.close();
+        } catch {}
+      }
+      router.refresh();
+
       if (!silent) {
         setConfetti(true);
         setTimeout(() => setConfetti(false), 2000);
