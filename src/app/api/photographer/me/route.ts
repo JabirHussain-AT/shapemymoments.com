@@ -1,4 +1,5 @@
 import { NextRequest } from "next/server";
+import { revalidatePath } from "next/cache";
 import { connectDB } from "@/lib/mongodb";
 import { User, Photographer, Review } from "@/models";
 import { requireSession, verifyPassword, hashPassword } from "@/lib/auth";
@@ -190,6 +191,18 @@ export async function PATCH(request: NextRequest) {
 
     if (Object.keys(userUpdates).length > 0) {
       await User.findByIdAndUpdate(session.id, userUpdates);
+    }
+
+    try {
+      revalidatePath("/", "page");
+      revalidatePath("/photographers", "page");
+      revalidatePath("/creatives", "page");
+      if (updatedPhotographer?.slug) {
+        revalidatePath(`/creatives/${updatedPhotographer.slug}`, "page");
+        revalidatePath(`/photographers/${updatedPhotographer.slug}`, "page");
+      }
+    } catch (e) {
+      console.warn("revalidatePath error:", e);
     }
 
     return ok(

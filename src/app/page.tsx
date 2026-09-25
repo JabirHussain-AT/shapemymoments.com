@@ -27,6 +27,9 @@ export const metadata: Metadata = {
   alternates: { canonical: absoluteUrl("/") },
 };
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function HomePage() {
   const eventTypes = getDemoEventTypes();
   const packages = await getLivePackagesFromDb();

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -57,12 +57,63 @@ const ALL_MAJOR_LOCATIONS = [
 ];
 
 export function CreativeShowcase({ creatives }: { creatives: DemoCreative[] }) {
+  const [liveCreatives, setLiveCreatives] = useState<DemoCreative[]>(creatives);
   const [activeTab, setActiveTab] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedLocation, setSelectedLocation] = useState("All South India");
 
+  // Keep synced if parent props change
+  useEffect(() => {
+    setLiveCreatives(creatives);
+  }, [creatives]);
+
+  // Real-time fetcher
+  const refreshCreatives = useCallback(async () => {
+    try {
+      const res = await fetch("/api/creatives", { cache: "no-store" });
+      const json = await res.json();
+      if (json.success && Array.isArray(json.data)) {
+        setLiveCreatives(json.data);
+      }
+    } catch (e) {
+      console.warn("Failed to refresh live creatives:", e);
+    }
+  }, []);
+
+  // Listen for real-time updates from partner dashboard
+  useEffect(() => {
+    let bc: BroadcastChannel | null = null;
+    try {
+      bc = new BroadcastChannel("smm_partner_channel");
+      bc.onmessage = (event) => {
+        if (event.data?.type === "CREATIVE_UPDATED") {
+          refreshCreatives();
+        }
+      };
+    } catch {}
+
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === "smm_creative_updated") {
+        refreshCreatives();
+      }
+    };
+
+    const onFocus = () => {
+      refreshCreatives();
+    };
+
+    window.addEventListener("storage", onStorage);
+    window.addEventListener("focus", onFocus);
+
+    return () => {
+      if (bc) bc.close();
+      window.removeEventListener("storage", onStorage);
+      window.removeEventListener("focus", onFocus);
+    };
+  }, [refreshCreatives]);
+
   const filtered = useMemo(() => {
-    const result = filterCreativesList(creatives, {
+    const result = filterCreativesList(liveCreatives, {
       category: activeTab,
       q: searchQuery || undefined,
       location: selectedLocation || undefined,
@@ -72,7 +123,7 @@ export function CreativeShowcase({ creatives }: { creatives: DemoCreative[] }) {
       return result.slice(0, 6);
     }
     return result;
-  }, [creatives, activeTab, selectedLocation, searchQuery]);
+  }, [liveCreatives, activeTab, selectedLocation, searchQuery]);
 
   return (
     <section id="creatives-section" className="py-8 sm:py-16 lg:py-24 bg-muted/30">
@@ -288,9 +339,19 @@ export function CreativeShowcase({ creatives }: { creatives: DemoCreative[] }) {
                             {formatCurrency(creative.startingPrice)}
                           </p>
                         </div>
-                        <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-                          🟢 Available
-                        </span>
+                        {creative.availability === "Booked" ? (
+                          <span className="text-[10px] font-bold text-rose-600 bg-rose-50 dark:bg-rose-950/40 px-2 py-0.5 rounded-full border border-rose-200 dark:border-rose-800">
+                            🔴 Booked
+                          </span>
+                        ) : creative.availability === "Limited" ? (
+                          <span className="text-[10px] font-bold text-amber-600 bg-amber-50 dark:bg-amber-950/40 px-2 py-0.5 rounded-full border border-amber-200 dark:border-amber-800">
+                            🟡 Limited
+                          </span>
+                        ) : (
+                          <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800">
+                            🟢 Available
+                          </span>
+                        )}
                       </div>
 
                       {/* Action Buttons: Direct WhatsApp Chat & Portfolio */}

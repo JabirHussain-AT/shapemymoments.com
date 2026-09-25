@@ -6,6 +6,9 @@ import { absoluteUrl } from "@/lib/utils";
 import { connectDB } from "@/lib/mongodb";
 import { Photographer, Review } from "@/models";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 type Props = { params: Promise<{ slug: string }> };
 
 async function getPhotographer(slug: string): Promise<DemoPhotographer | null> {
