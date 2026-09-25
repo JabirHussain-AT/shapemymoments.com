@@ -95,12 +95,12 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
             <div>
               <Label>I am a</Label>
               <select
-                className="flex h-11 w-full rounded-xl border border-border bg-white px-4 text-sm"
+                className="flex h-11 w-full rounded-xl border border-border bg-background text-foreground px-4 text-sm"
                 value={form.role}
                 onChange={(e) => setForm({ ...form, role: e.target.value })}
               >
                 <option value="CUSTOMER">Customer</option>
-                <option value="PHOTOGRAPHER">Photographer</option>
+                <option value="PHOTOGRAPHER">Photographer / Partner</option>
               </select>
             </div>
             <div>

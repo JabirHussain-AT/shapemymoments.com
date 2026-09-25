@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Instagram, Facebook, Youtube } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/layout/logo";
@@ -36,6 +39,15 @@ const footerLinks = [
 ];
 
 export function SiteFooter() {
+  const pathname = usePathname();
+  const isDashboard =
+    pathname.startsWith("/admin") ||
+    pathname.startsWith("/dashboard") ||
+    pathname.startsWith("/photographer") ||
+    pathname.startsWith("/creative/dashboard");
+
+  if (isDashboard) return null;
+
   return (
     <footer className="mt-8 border-t border-border bg-[#15111d] text-[#faf8f5] dark:bg-[#09070d]">
       <div className="container-page border-b border-white/10 py-12">

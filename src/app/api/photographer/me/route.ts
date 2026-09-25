@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import { User, Photographer, Review } from "@/models";
-import { requireSession } from "@/lib/auth";
+import { requireSession, verifyPassword, hashPassword } from "@/lib/auth";
 import { fail, handleApiError, ok } from "@/lib/api";
 
 export async function GET() {
@@ -9,7 +9,14 @@ export async function GET() {
     const session = await requireSession(["PHOTOGRAPHER", "ADMIN", "SUPER_ADMIN"]);
     await connectDB();
 
-    const user = (await User.findById(session.id).select("-passwordHash").lean()) as { _id: unknown; name?: string; avatar?: string } | null;
+    const user = (await User.findById(session.id).select("-passwordHash").lean()) as {
+      _id: unknown;
+      name?: string;
+      email?: string;
+      phone?: string;
+      avatar?: string;
+      role?: string;
+    } | null;
     if (!user) return fail("User account not found", 404);
 
     const userName = String(user.name || "Partner");
@@ -55,7 +62,14 @@ export async function GET() {
     const reviews = await Review.find({ photographerId: photographer._id }).sort({ createdAt: -1 }).lean();
 
     return ok({
-      user,
+      user: {
+        id: String(user._id),
+        name: user.name,
+        email: user.email,
+        phone: user.phone || "",
+        avatar: user.avatar,
+        role: user.role,
+      },
       photographer,
       reviews: reviews || [],
       supportEmail: "help@shapemymoment.com",
@@ -76,6 +90,9 @@ export async function PATCH(request: NextRequest) {
 
     const {
       name,
+      phone,
+      currentPassword,
+      newPassword,
       profilePhoto,
       coverImage,
       location,
@@ -98,6 +115,26 @@ export async function PATCH(request: NextRequest) {
       guarantees,
       dateNotes,
     } = body;
+
+    // Handle password change if requested
+    if (newPassword) {
+      if (!currentPassword) {
+        return fail("Please enter your current password to set a new password", 400);
+      }
+      if (newPassword.length < 8) {
+        return fail("New password must be at least 8 characters long", 400);
+      }
+      const userRecord = await User.findById(session.id).select("+passwordHash");
+      if (!userRecord || !userRecord.passwordHash) {
+        return fail("User record not found", 404);
+      }
+      const isMatch = await verifyPassword(currentPassword, userRecord.passwordHash);
+      if (!isMatch) {
+        return fail("Current password is incorrect", 400);
+      }
+      userRecord.passwordHash = await hashPassword(newPassword);
+      await userRecord.save();
+    }
 
     const updateFields: Record<string, unknown> = {};
     if (name !== undefined) updateFields.name = name;
@@ -145,8 +182,14 @@ export async function PATCH(request: NextRequest) {
       { new: true, runValidators: true }
     );
 
-    if (name !== undefined) {
-      await User.findByIdAndUpdate(session.id, { name });
+    // Sync user collection fields
+    const userUpdates: Record<string, unknown> = {};
+    if (name !== undefined) userUpdates.name = name;
+    if (phone !== undefined) userUpdates.phone = phone;
+    if (profilePhoto !== undefined) userUpdates.avatar = profilePhoto;
+
+    if (Object.keys(userUpdates).length > 0) {
+      await User.findByIdAndUpdate(session.id, userUpdates);
     }
 
     return ok(

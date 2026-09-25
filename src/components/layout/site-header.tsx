@@ -32,7 +32,8 @@ export function SiteHeader() {
   const isDashboard =
     pathname.startsWith("/admin") ||
     pathname.startsWith("/dashboard") ||
-    pathname.startsWith("/photographer");
+    pathname.startsWith("/photographer") ||
+    pathname.startsWith("/creative/dashboard");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);

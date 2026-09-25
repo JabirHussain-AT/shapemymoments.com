@@ -1,11 +1,21 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { MessageCircle } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 import { getWhatsAppUrl } from "@/lib/utils";
 
 export function WhatsAppFloat() {
+  const pathname = usePathname();
   const reduce = useReducedMotion();
+
+  const isDashboard =
+    pathname.startsWith("/admin") ||
+    pathname.startsWith("/dashboard") ||
+    pathname.startsWith("/photographer") ||
+    pathname.startsWith("/creative/dashboard");
+
+  if (isDashboard) return null;
 
   return (
     <motion.a
